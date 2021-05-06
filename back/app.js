@@ -1,15 +1,14 @@
 const express = require('express');
+const user_routes = require('./routes/user');
+const dotenv = require('dotenv').config();
+const mysql = require('mysql');
+const { database } = require('./models/connexion.js');
 const path = require('path');
 
 const app = express();
 
 // Connect database ****************************************************************************
-const sequelize = require('./utils/database.js');
-sequelize.sync({force: true});
-
-// Connect .env ****************************************************************************
-const dotenv = require('dotenv');
-dotenv.config({ path: './.env' });
+//database.sync({force: true});
 
 // Set Headers for the API ****************************************************************************
 app.use((req, res, next) => {
@@ -18,30 +17,28 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
-
+app.use('./images', express.static(path.join(__dirname, 'images')));
 // Connect to MySQL ****************************************************************************
-const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
-});
+// const db = mysql.createConnection({
+//     host: process.env.DATABASE_HOST,
+//     user: process.env.DATABASE_USER,
+//     password: process.env.DATABASE_PASSWORD,
+//     database: process.env.DATABASE
+// });
 
-db.connect((error) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('MySQL Connected...');
-    }
-});
+// db.connect((error) => {
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         console.log('MySQL Connected...');
+//     }
+// });
 
-
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Connect Routes
-const user_routes = require('./routes/user');
-app.use('/api', user_routes);
+app.use('/auth', user_routes);
+// app.use('/dashboard', msg_routes);
 
 module.exports = app;

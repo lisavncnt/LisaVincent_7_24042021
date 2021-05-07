@@ -1,6 +1,7 @@
 const { User } = require('../models/index');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const router = require('../routes/user');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -67,7 +68,7 @@ exports.signin = (req, res, next) => {
               user_id: user.id,
               is_admin: user.is_admin,
               token: jwt.sign(
-                  { userId: user._id },
+                  { userId: user.id },
                   'RANDOM_TOKEN_SECRET',
                   { expiresIn: '24h' }
               )
@@ -76,4 +77,22 @@ exports.signin = (req, res, next) => {
           .catch(error => res.status(500).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
+};
+
+exports.getUser = (req, res, next) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(
+        (user) => {
+            res.status(200).json(user);
+        })
+    .catch(
+        (error) => {
+            res.status(404).json({
+                error: error
+            });
+        });
 };

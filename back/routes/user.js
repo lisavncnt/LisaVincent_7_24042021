@@ -5,5 +5,6 @@ const { database } = require('../models/connexion');
 
 router.post('/signup', user_ctrl.signup);
 router.post('/signin', user_ctrl.signin);
+router.get('/profil/:id', user_ctrl.getUser);
 
 module.exports = router;

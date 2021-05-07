@@ -12,9 +12,9 @@ const User = database.define('User', {
         required: true,
         unique: true
     },
-    password: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    biography: DataTypes.STRING,
+    password: { type: DataTypes.STRING, required: true },
+    image_url: { type: DataTypes.STRING },
+    biography: { type: DataTypes.STRING },
     is_admin: {
         type:DataTypes.BOOLEAN,
         defaultValue:0

@@ -12,11 +12,3 @@ database.authenticate()
     .catch(err => console.log("erreur d'authentification: " + err));
 
 module.exports = {Sequelize, DataTypes,database};
-
-// const sequelize = new Sequelize('groupomania_db', 'root', 'T5dC59Rhd', {
-//     host: 'localhost',
-//     dialect: 'mysql'
-// });
-
-
-// module.exports = sequelize;

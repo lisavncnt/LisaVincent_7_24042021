@@ -1,5 +1,5 @@
 'use strict';
-const {Sequelize,DataTypes, database} = require('./connexion');
+const {Sequelize, DataTypes, database} = require('./connexion');
 
 const User = database.define('User', {
     pseudo: {
@@ -14,7 +14,6 @@ const User = database.define('User', {
     },
     password: { type: DataTypes.STRING, required: true },
     image_url: { type: DataTypes.STRING },
-    biography: { type: DataTypes.STRING },
     is_admin: {
         type:DataTypes.BOOLEAN,
         defaultValue:0
@@ -25,6 +24,7 @@ const User = database.define('User', {
     underscored: true,
     paranoid: false
 });
+
 
 module.exports = User;
 

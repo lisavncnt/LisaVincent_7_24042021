@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid');
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
@@ -7,7 +8,7 @@ module.exports = {
           autoIncrement: false,
           primaryKey: true,
           type: Sequelize.UUID,
-          defaultValue: Sequelize.UUIDV4
+          defaultValue: Sequelize.literal('uuid_generate_v4()')
         },
         pseudo: {
           allowNull: false,
@@ -27,10 +28,6 @@ module.exports = {
           allowNull: true,
           type: Sequelize.STRING
         },
-        biography: {
-          allowNull: true,
-          type: Sequelize.TEXT
-        },
         is_admin: {
           allowNull: false,
           type: Sequelize.BOOLEAN,
@@ -44,7 +41,8 @@ module.exports = {
         }
       });
     },
-    down: async (queryInterface, Sequelize) => {
+    down: async (queryInterface) => {
       await queryInterface.dropTable('Users');
     }
   };
+ 

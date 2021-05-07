@@ -8,9 +8,6 @@ exports.signup = (req, res, next) => {
         .then(hash => {
             User.create({
                 image_url: req.body.image_url,
-                complete_name: req.body.complete_name,
-                biography: req.body.biography,
-                city: req.body.city,
                 pseudo: req.body.pseudo,
                 email: req.body.email,
                 is_admin: req.body.is_admin,
@@ -21,33 +18,6 @@ exports.signup = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
-
-// exports.signin = (req,res, next) => {
-//     console.log('function begin');
-    // User.findOne({ 
-    //     where: {
-    //         email: req.body.email
-    //     }
-    // })
-//     .then(user => {
-//         console.log('email find, try to auth');
-//         if(user.length < 1) {
-//             return res.status(401).json({
-//                 message: 'Auth failed'
-//             });
-//         }
-//         bcrypt.compare(req.body.password, user.password, (err, res) => {
-            
-            
-//         });
-//     })
-//     .catch(err => {
-//         console.log(err);
-//         res.status(500).json({
-//             message: 'Cannot find User'
-//         });
-//     });
-// };
 
 exports.signin = (req, res, next) => {
     User.findOne({ 
@@ -95,4 +65,34 @@ exports.getUser = (req, res, next) => {
                 error: error
             });
         });
+};
+
+exports.modifyUser = async (req, res, next) => {
+    User.destroy({
+        where: {
+            id:req.params.id
+        }
+    });
+    bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+            User.create({
+                image_url: req.body.image_url,
+                pseudo: req.body.pseudo,
+                email: req.body.email,
+                is_admin: req.body.is_admin,
+                password: hash
+            })
+            .then(() => res.status(200).json({message: 'user update'}))
+            .catch(err => res.json({err}));
+        })
+};
+
+exports.deleteUser = async (req, res, next) => {
+    await User.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(() => res.status(201).json({ message: 'User deleted !' }))
+    .catch(error => res.status(400).json({ error }));
 };

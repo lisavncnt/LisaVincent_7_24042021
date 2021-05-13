@@ -1,0 +1,16 @@
+<div class="jumbotron">
+    <h1 style="text-align: center;">Se connecter</h1>
+</div>
+
+<form [formGroup]="signinForm">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" formControlName="email">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" formControlName="password">
+  </div>
+  <button class="btn btn-lg btn-success" [disabled]="signinForm.invalid" (click)="onSignin()">Signin !</button>
+  <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>

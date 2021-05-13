@@ -1,8 +1,7 @@
 const User = require('../models/user');
 const Post = require('../models/post');
-const {token, user_id} = require('../middleware/auth');
 Post.belongsTo(User, {foreignKey: 'user_id'});
-User.hasMany(Post);
+User.hasMany(Post, {foreignKey: 'post_id'});
 
 exports.createPost = (req, res) => {
     const body = req.body;

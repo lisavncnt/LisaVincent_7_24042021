@@ -7,8 +7,9 @@ const Post = database.define('posts', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    // pseudo: { type: DataTypes.STRING, },
-    user_id: { type: DataTypes.UUID, allowNull: false },
+    user_id: { 
+        type: DataTypes.UUID, allowNull: false 
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -1,8 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-// const { Post } = require('../models');
-// User.hasMany(Post, {foreignKey: 'post_id'});
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
@@ -38,13 +36,11 @@ exports.signin = (req, res) => {
             res.status(200).json({
                 userId: user.id,
                 token: jwt.sign(
-                    payload,
-                    process.env.ACCESS_TOKEN_SECRET, {
-                        algorithm: 'HS256',
-                        expiresIn: process.env.ACCESS_TOKEN_LIFE
-                    }
+                    { userId: user.id },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
                 )
-              });
+            });
           })
           res.cookie("jwt", accessToken, {secure: true, httpOnly: true})
           res.send()

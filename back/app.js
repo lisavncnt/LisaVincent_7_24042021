@@ -5,7 +5,6 @@ require('dotenv').config();
 const { database } = require('./models/connexion.js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const {verify} = require('./middleware/auth');
 
 const app = express();
 
@@ -16,12 +15,13 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+
 app.use('./images', express.static(path.join(__dirname, 'images')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.get('/comments', verify, routeHandler);
 
 app.use('/api', user_routes);
 app.use('/dashboard', post_routes);

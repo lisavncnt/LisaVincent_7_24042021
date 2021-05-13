@@ -1,12 +1,13 @@
 const express = require('express');
 const user_routes = require('./routes/user');
-const dotenv = require('dotenv').config();
+const post_routes = require('./routes/post');
+require('dotenv').config();
 const { database } = require('./models/connexion.js');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const {verify} = require('./middleware/auth');
 
 const app = express();
-
-// database.sync({force: true});
 
 // Set Headers for the API ****************************************************************************
 app.use((req, res, next) => {
@@ -19,8 +20,12 @@ app.use('./images', express.static(path.join(__dirname, 'images')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+app.get('/comments', verify, routeHandler);
 
-app.use('/auth', user_routes);
-// app.use('/dashboard', msg_routes);
+app.use('/api', user_routes);
+app.use('/dashboard', post_routes);
+
+// database.sync({force: true});
 
 module.exports = app;

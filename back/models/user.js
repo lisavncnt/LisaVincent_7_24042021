@@ -1,12 +1,20 @@
 'use strict';
 const {Sequelize, DataTypes, database} = require('./connexion');
+const {Post} = require('./index');
 
-const User = database.define('User', {
+
+const User = database.define('users', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
     pseudo: {
         type: DataTypes.STRING,
         required: true,
         unique: true
     },
+    // post_id: {type: DataTypes.UUID},
     email: {
         type: DataTypes.STRING,
         required: true,
@@ -17,34 +25,46 @@ const User = database.define('User', {
     is_admin: {
         type:DataTypes.BOOLEAN,
         defaultValue:0
-    }
+    },
 }, {
     Sequelize,
     modelName: 'User',
     underscored: true,
     paranoid: false
 });
-
-
+// User.associate = function(models) {
+//   User.hasMany(models.Post, {
+//       foreignKey: 'post_id',
+//       as: 'post'
+//   });
+//   Post.belongsTo(models.User, {
+//       foreignKey:'user_id',
+//       as: 'user'
+//   });
+// };
+// User.associate = function(models) {
+//     User.hasMany(models.Comment, {
+//         foreignKey: 'comment_id',
+//         as: 'comment'
+//     });
+//     Comment.belongsTo(models.User, {
+//         foreignKey: 'user_id',
+//         as: 'user'
+//     });
+// };
+// User.hasMany(Post);
+// User.hasMany(Comment);
+    
 module.exports = User;
 
-// const { Sequelize, UUID, UUIDV4 } = require('sequelize');
-// const sequelize = require('../utils/database');
-
-// const User = sequelize.define('users', {
-//     id: {
-//         type: Sequelize.UUID,
-//         defaultValue: Sequelize.UUIDV4,
-//         allowNull: false,
-//         primaryKey: true,
-//     },
-//     imageUrl: { type: Sequelize.STRING },
-//     complete_name: { type: Sequelize.STRING, allowNull: true, unique: true},
-//     birthday: { type: Sequelize.DATE },
-//     city: { type: Sequelize.STRING },
-//     pseudo: { type: Sequelize.STRING, allowNull: false, unique: true },
-//     email: { type: Sequelize.STRING, allowNull: false, unique: true },
-//     password: { type: Sequelize.STRING },
-//     createdAt: { type: Sequelize.DATE },
-//     updatedAt: { type: Sequelize.DATE },
-// });
+// post_id: {
+    //     type: DataTypes.UUID,
+    //     defaultValue: DataTypes.UUIDV4,
+    //     foreignKey: Post.id,
+    //     as: "post_id",
+    // },
+    // comment_id: {
+    //     type: DataTypes.STRING,
+    //     foreignKey: Comment.id,
+    //     as: "comment_id"
+    // },

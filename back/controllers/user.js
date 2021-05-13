@@ -1,9 +1,10 @@
-const { User } = require('../models/index');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const router = require('../routes/user');
+// const { Post } = require('../models');
+// User.hasMany(Post, {foreignKey: 'post_id'});
 
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             User.create({
@@ -19,7 +20,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.signin = (req, res, next) => {
+exports.signin = (req, res) => {
     User.findOne({ 
         where: {
             email: req.body.email
@@ -35,21 +36,24 @@ exports.signin = (req, res, next) => {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             res.status(200).json({
-              user_id: user.id,
-              is_admin: user.is_admin,
-              token: jwt.sign(
-                  { userId: user.id },
-                  'RANDOM_TOKEN_SECRET',
-                  { expiresIn: '24h' }
-              )
-            });
+                userId: user.id,
+                token: jwt.sign(
+                    payload,
+                    process.env.ACCESS_TOKEN_SECRET, {
+                        algorithm: 'HS256',
+                        expiresIn: process.env.ACCESS_TOKEN_LIFE
+                    }
+                )
+              });
           })
-          .catch(error => res.status(500).json({ error }));
+          res.cookie("jwt", accessToken, {secure: true, httpOnly: true})
+          res.send()
+          .catch(error => res.status(400).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
 };
 
-exports.getUser = (req, res, next) => {
+exports.getUser = (req, res) => {
     User.findOne({
         where: {
             id: req.params.id
@@ -67,7 +71,7 @@ exports.getUser = (req, res, next) => {
         });
 };
 
-exports.modifyUser = async (req, res, next) => {
+exports.modifyUser = async (req, res) => {
     User.destroy({
         where: {
             id:req.params.id

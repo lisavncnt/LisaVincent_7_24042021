@@ -33,3 +33,7 @@
 .nav-link:hover {
     font-weight: bolder;
 }
+
+.fa-user-alt {
+    background-color: white;
+}

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const post_ctrl = require('../controllers/post');
-const {verify} = require('../middleware/auth');
+// const {verify} = require('../middleware/auth');
 
-router.post('/add', verify, post_ctrl.createPost);
+router.post('/add',  post_ctrl.createPost);
 router.get('/', post_ctrl.getAllPosts);
 router.get('/post/:id', post_ctrl.getPost);
 router.put('/post/:id', post_ctrl.updatePost);

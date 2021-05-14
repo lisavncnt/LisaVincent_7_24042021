@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  isAuth$ = new BehaviorSubject<boolean>(false);
+  isAuth: boolean = false;
   private authToken: string;
   private user_id: string;
 
@@ -31,10 +31,12 @@ export class AuthService {
   }
 
   getToken() {
+    sessionStorage.setItem('token', this.authToken)
     return this.authToken;
   }
 
   getUserId() {
+    sessionStorage.setItem('user_id', this.user_id);
     return this.user_id;
   }
 
@@ -46,7 +48,7 @@ export class AuthService {
         (response: {user_id: string, token: string}) => {
           this.user_id = response.user_id;
           this.authToken = response.token;
-          this.isAuth$.next(true);
+          this.isAuth = true;
           resolve(response);
         },
         (error) => {
@@ -59,7 +61,10 @@ export class AuthService {
   signout() {
     this.authToken = null;
     this.user_id = null;
-    this.isAuth$.next(false);
+    this.isAuth = false;
     this.router.navigate(['signin']);
   }
+
 }
+
+

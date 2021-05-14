@@ -21,7 +21,7 @@ app.use('./images', express.static(path.join(__dirname, 'images')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use('/api', user_routes);
 app.use('/dashboard', post_routes);

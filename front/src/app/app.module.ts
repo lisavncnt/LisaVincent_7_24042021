@@ -11,10 +11,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { FooterComponent } from './footer/footer.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { ProfilComponent } from './profil/profil.component';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const appRoutes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
   {path: 'auth/signin', component: SigninComponent},
+  {path: 'dashboard', canActivate: [AuthGuardService], component: PostListComponent},
+  {path: 'profil', canActivate: [AuthGuardService], component: ProfilComponent},
+
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+  {path: '**', redirectTo: 'dashboard'},
 ];
 
 @NgModule({
@@ -23,14 +31,16 @@ const appRoutes: Routes = [
     HeaderComponent,
     SignupComponent,
     SigninComponent,
-    FooterComponent
+    FooterComponent,
+    PostListComponent,
+    ProfilComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [AuthService, AuthGuardService],
   bootstrap: [AppComponent]

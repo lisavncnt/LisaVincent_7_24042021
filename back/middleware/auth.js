@@ -1,24 +1,39 @@
 const jwt = require('jsonwebtoken');
 
-exports.verify = (req, res, next) => {
+module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    console.log(token);
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    console.log(decodedToken);
-    const userId = decodedToken.userId;
-    console.log(userId);
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
+    const token = req.headers.authorization.split(' ')[1];//On extrait le token de la requête
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);//On décrypte le token grâce à la clé secrète
+    const user_id = decodedToken.user_id;
+    if (req.body.user_id && req.body.user_id !== user_id) {
+      throw 'User ID non valable !';//Renvoie une erreur si l'id décodé de la requête ne correspond pas l'id de l'utilisateur
     } else {
-      next();
+      next();//Sinon, l'authentification est réussie et la suite du code peut s'exécuter
     }
-  } catch {
-    res.status(401).json({
-      error: new Error('Invalid request!')
-    });
+  } catch (error) {
+    res.status(401).json({ error: error | 'Requête non authentifiée !'});
   }
 };
+
+
+
+
+
+// const jwt = require('jsonwebtoken');
+
+// exports.verify = (req, res, next) => {
+//     const token = req.headers.authorization.split(' ')[1];
+//     console.log(token);
+//     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+//     console.log(decodedToken);
+//     const userId = decodedToken.userId;
+//     console.log(userId);
+//     if (req.body.userId && req.body.userId !== userId) {
+//       throw 'Invalid user ID';
+//     } else {
+//       next();
+//     }
+// };
 
 // exports.verify = function(req, res, next){
 //     let accessToken= req.cookies.jwt;

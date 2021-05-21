@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-signup',
@@ -38,7 +37,7 @@ export class SignupComponent implements OnInit {
         
         this.auth.signin(email, password).then(
           () => {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard/messages']);
           }
         ).catch(
           (error) => {

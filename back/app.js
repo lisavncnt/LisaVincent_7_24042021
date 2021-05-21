@@ -1,10 +1,10 @@
 const express = require('express');
 const user_routes = require('./routes/user');
 const post_routes = require('./routes/post');
+const img_routes = require('./routes/img');
 require('dotenv').config();
 const { database } = require('./models/connexion.js');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -21,11 +21,10 @@ app.use('./images', express.static(path.join(__dirname, 'images')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(cookieParser());
 
-app.use('/api', user_routes);
-app.use('/dashboard', post_routes);
-
+app.use('/', user_routes);
+app.use('/dashboard/messages', post_routes);
+app.use('/dashboard/images', img_routes);
 // database.sync({force: true});
 
 module.exports = app;

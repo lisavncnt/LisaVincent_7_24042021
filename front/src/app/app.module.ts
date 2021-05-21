@@ -13,16 +13,25 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { FooterComponent } from './footer/footer.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { ProfilComponent } from './profil/profil.component';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PostFormComponent } from './post-list/post-form/post-form.component';
+import { SinglePostComponent } from './post-list/single-post/single-post.component';
+import { ImgListComponent } from './img-list/img-list.component';
+import { ImgFormComponent } from './img-list//img-form/img-form.component';
+import { SingleImgComponent } from './img-list/single-img/single-img.component';
 
 const appRoutes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
   {path: 'auth/signin', component: SigninComponent},
-  {path: 'dashboard', canActivate: [AuthGuardService], component: PostListComponent},
-  {path: 'profil', canActivate: [AuthGuardService], component: ProfilComponent},
+  {path: 'dashboard/messages', canActivate: [AuthGuardService], component: PostListComponent},
+  {path: 'dashboard/messages/add', canActivate:[AuthGuardService], component: PostFormComponent},
+  {path: 'dashboard/messages/:id', canActivate:[AuthGuardService], component: SinglePostComponent},
+  {path: 'dashboard/images', canActivate: [AuthGuardService], component: ImgListComponent},
+  {path: 'dashboard/images/add', canActivate:[AuthGuardService], component: ImgFormComponent},
+  {path: 'dashboard/images/:id', canActivate:[AuthGuardService], component:SinglePostComponent},
+  {path: 'user/:id', component: ProfilComponent},
 
-  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: '**', redirectTo: 'dashboard'},
+  {path: '', redirectTo: 'dashboard/messages', pathMatch: 'full'},
+  {path: '**', redirectTo: 'dashboard/messages'},
 ];
 
 @NgModule({
@@ -33,7 +42,12 @@ const appRoutes: Routes = [
     SigninComponent,
     FooterComponent,
     PostListComponent,
-    ProfilComponent
+    ProfilComponent,
+    PostFormComponent,
+    SinglePostComponent,
+    ImgListComponent,
+    ImgFormComponent,
+    SingleImgComponent
   ],
   imports: [
     BrowserModule,

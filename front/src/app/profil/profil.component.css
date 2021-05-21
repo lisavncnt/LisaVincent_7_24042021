@@ -12,3 +12,9 @@
     background-size: cover;
     background-repeat: no-repeat
 }
+
+.img-post {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

@@ -12,21 +12,24 @@
             <nav class="navbar fixed-top navbar-dark bg-dark">
                 <ul class="nav">
                     <li class="nav-item" routerLinkActive="active">
-                        <a class="nav-link" routerLink="dashboard">Dashboard</a>
+                        <a class="nav-link" routerLink="dashboard/messages">Messages</a>
                     </li>
                     <li class="nav-item" routerLinkActive="active">
-                        <a class="nav-link" routerLink="profil" (click)="getProfil()">Profil</a>
+                        <a class="nav-link" routerLink="dashboard/images">Photos</a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a class="nav-link" routerLink="user" (click)="onClickUser()">Profil</a>
                     </li>
                 </ul>
                 
                 <ul class="nav navbar-right">
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth === false">
+                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
                         <a routerLink="auth/signup" class="nav-link">Signup</a>
                     </li>
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth === false">
+                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
                         <a routerLink="auth/signin" class="nav-link">Signin</a>
                     </li>
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth === true">
+                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == true">
                         <a class="nav-link" (click)="onSignout()">Signout</a>
                     </li>
                 </ul>

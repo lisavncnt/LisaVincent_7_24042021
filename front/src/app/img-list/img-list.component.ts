@@ -20,6 +20,7 @@ export class ImgListComponent implements OnInit {
   errorMsg: string;
   Image: Img;
   id = sessionStorage.getItem('user_id');
+  likes = 0;
 
 
   constructor(private image: ImagesService,
@@ -60,4 +61,7 @@ export class ImgListComponent implements OnInit {
     this.user.getUserById(this.id);
   }
 
+  addLike() {
+    this.likes++;
+  }
 }

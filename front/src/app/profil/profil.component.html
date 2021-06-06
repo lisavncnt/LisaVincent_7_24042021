@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="container" *ngIf="!loading">
-  <img [src]="imageInput" alt="">
+  <img [src]="user.image_url" alt="">
   <label class="image-upload-container btn btn-bwm">
     <span>Select Image</span>
     <input #imageInput
@@ -11,18 +11,15 @@
 
   <div class="info">
     <p>Pseudo :</p>
-    <h1 class="pseudo">{{ user?.pseudo }}</h1><br>
+    <h1 class="pseudo">{{ user.pseudo }}</h1><br>
 
     <p>Email :</p>
-    <p class="email">{{ user?.email }}</p><br>
-
-    <p>Password :</p>
-    <p>{{ user?.password }}</p>
+    <p class="email">{{ user.email }}</p><br>
 
     <div class="control-buttons">
-      <button mat-raised-b (click)="onBack()">Return to my dashboard messages</button>
-      <button mat-raised-button color="success" (click)="onModify()" *ngIf="user_id === user.id">Modify my profile</button>
-      <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="user_id === user.id">Delete all my posts and my profile</button>
+      <button class="btn btn-success" (click)="onBack()">Return to my dashboard messages</button>
+      <button class="btn btn-primary" (click)="onModify()" *ngIf="user_id === user.id">Modify my profile</button>
+      <button class="btn btn-danger" (click)="onDelete()" *ngIf="user_id === user.id">Delete all my posts and my profile</button>
     </div>
   </div>
 </div>

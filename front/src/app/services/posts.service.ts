@@ -13,7 +13,8 @@ export class PostsService {
 
   posts$ = new Subject<Post[]>();
   isloggin = this.auth.isLoggin();
-  id: string;
+  id = sessionStorage.getItem('post_id');
+  user_id = sessionStorage.getItem('user_id')
   user: User;
 
   constructor(private http: HttpClient,
@@ -22,7 +23,7 @@ export class PostsService {
 
   getPosts() {
       this.http.get('http://localhost:3000/dashboard/messages').subscribe(
-      (posts: []) => {
+      (posts: Post[]) => {
         this.posts$.next(posts);
       },
       (error) => {
@@ -34,8 +35,9 @@ export class PostsService {
 
   getPostById(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/dashboard/messages/' + id).subscribe(
+      this.http.get('http://localhost:3000/dashboard/message/' + id).subscribe(
         (post: Post) => {
+
           resolve(post);
         },
         (error) => {
@@ -45,12 +47,12 @@ export class PostsService {
     });
   }
 
-  createPost(title: string, content: string, _user_id: string) {
+  createPost(title: string, content: string, user_id: string) {
     return new Promise((resolve, reject) => {
       this.http.post('http://localhost:3000/dashboard/messages/add', {
         title: title,
         content:content,
-        user_id: sessionStorage.getItem('user_id'),
+        user_id: user_id,
       }).subscribe(
         (response: {message: string}) => {
           resolve(response);
@@ -64,7 +66,7 @@ export class PostsService {
 
   modifyPost(id: string, post: Post) {
     return new Promise((resolve, reject) => {
-        this.http.put('http://localhost:3000/dashboard/messages/' + id, post).subscribe(
+        this.http.put('http://localhost:3000/dashboard/message/' + id, post).subscribe(
           (response: {message: string }) => {
             resolve(response);
           },
@@ -74,7 +76,7 @@ export class PostsService {
         );
         const formData = new FormData();
         formData.append('post', JSON.stringify(post));
-        this.http.put('http://localhost:3000/dashboard/messages/' + id, formData).subscribe(
+        this.http.put('http://localhost:3000/dashboard/message/' + id, formData).subscribe(
           (response: {message: string}) => {
             resolve(response);
           },
@@ -87,7 +89,7 @@ export class PostsService {
 
   deletePost(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/dashboard/messages' + id).subscribe(
+      this.http.delete('http://localhost:3000/dashboard/message' + id).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -100,7 +102,7 @@ export class PostsService {
 
   likePost(id: string, like: boolean) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/messages/' + id + '/like',
+      this.http.post('http://localhost:3000/dashboard/message/' + id + '/like',
       {
         user_id: sessionStorage.getItem('user_id'),
         like: like ? 1 : 0
@@ -118,7 +120,7 @@ export class PostsService {
 
   dislikePost(id: string, dislike: boolean) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/messages' + id + '/like',
+      this.http.post('http://localhost:3000/dashboard/message/' + id + '/like',
       {
         user_id: sessionStorage.getItem('user_id'),
         like: dislike ? -1 : 0

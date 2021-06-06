@@ -17,6 +17,7 @@ export class SinglePostComponent implements OnInit {
   likes: boolean;
   loading: boolean;
   errorMsg: string;
+  post_id = sessionStorage.getItem('post_id');
 
 
   constructor(private service: PostsService,
@@ -29,9 +30,12 @@ export class SinglePostComponent implements OnInit {
     this.loading = true;
     this.route.params.subscribe(
       (params) => {
-        this.service.getPostById(params.id).then(
+        console.log(params.id);
+
+        this.service.getPostById(this.post_id).then(
           (post: Post) => {
             this.post = post;
+            console.log(post);
             this.loading = false;
           }
         );

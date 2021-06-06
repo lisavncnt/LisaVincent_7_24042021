@@ -17,17 +17,18 @@ export class CommentService {
   id = sessionStorage.getItem('user_id');
   user: User;
   post: Post;
+  post_id = sessionStorage.getItem('post_id');
 
   constructor(private http: HttpClient,
     private auth: AuthService,
     private profil: ProfilService) { }
 
-    createComment(content:string, user_id: string, post_id: string) {
+    createComment(content:string, _user_id: string, post_id: string) {
       if (this.auth.isAuth$) {
         return new Promise((resolve, reject) => {
           this.http.post('http://localhost:3000/dashboard/comments', {
           content: content,
-          user_id: this.user.id,
+          user_id: this.id,
           post_id: this.post.id,
         }).subscribe(
           (response: {message: string}) => {
@@ -45,7 +46,7 @@ export class CommentService {
       if (this.auth.isAuth$) {
         this.http.get('http://localhost:3000/dashboard/comments').subscribe(
         (comments: Comment[]) => {
-          this.comments$.next(comments);
+          this.comments$.next(comments || []);
         },
         (error) => {
           this.comments$.next([]);

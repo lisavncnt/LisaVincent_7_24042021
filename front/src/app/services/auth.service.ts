@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscriber } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { ProfilService } from './profil.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,29 @@ export class AuthService {
 
   createUser(pseudo: string, email: string, password: string) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/signup',
+      this.http.post('http://localhost:3000/auth/signup',
       {pseudo: pseudo, email: email, password: password})
       .subscribe(
         (response: {message: string }) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  modifyUser(user: User, image_url: File) {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      let body = user;
+      formData.append('pseudo', body.pseudo);
+      formData.append('email', body.email);
+      formData.append('password', body.password);
+      formData.append('image_url', image_url);
+      this.http.post('http;//localhost:3000/auth/signup', formData).subscribe(
+        (response: {message: string}) => {
           resolve(response);
         },
         (error) => {

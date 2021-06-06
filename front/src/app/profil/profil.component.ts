@@ -54,8 +54,7 @@ export class ProfilComponent {
   }
 
   onModify() {
-    this.profil.modifyUser(this.user.id, this.user, this.user.image_url);
-    this.router.navigate(['user/:id', this.user_id]);
+    this.router.navigate(['modify/user/', this.user_id]);
   }
 
   onDelete() {

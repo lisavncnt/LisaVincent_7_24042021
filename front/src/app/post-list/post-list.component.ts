@@ -28,6 +28,7 @@ export class PostListComponent implements OnInit {
   id: string;
   content: string;
   user_id: string;
+  post_id = (sessionStorage.getItem('post_id'));
 
   constructor(private post: PostsService,
               private router: Router,
@@ -43,7 +44,6 @@ export class PostListComponent implements OnInit {
       (posts) => {
         console.log(Object.values(posts));
         this.posts = posts;
-        console.log(posts);
 
         this.loading = false;
         this.errorMsg = null;
@@ -67,25 +67,25 @@ export class PostListComponent implements OnInit {
   }
 
   onModify() {
-    this.router.navigate(['messages', this.post]);
+    let post_id = this.post.getPostById(this.post_id);
+    this.router.navigate(['message/', this.post_id]);
   }
 
   onDelete() {
-    let post_id = this.post.getPostById(this.id);
-    this.router.navigate(['messages/', post_id]);
+    let post_id = this.post.getPostById(this.post_id);
+    this.router.navigate(['message/', this.post_id]);
     this.post.deletePost(this.id);
     window.location.reload();
   }
 
   onViewPost() {
-    let post_id = this.post.getPostById(this.id);
-    this.router.navigate(['messages/', post_id]);
+    this.router.navigate(['message/', this.post_id]);
   }
 
   onAddComment() {
     const content = this.commentForm.get('content').value;
     const user_id = sessionStorage.getItem('user_id');
-    const post_id = this.post?.id;
+    const post_id = this.post_id;
     this.comment.createComment(content, user_id, post_id)
     .then(
       (response: {message: string}) => {

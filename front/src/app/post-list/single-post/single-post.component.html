@@ -1,1 +1,21 @@
-<p>single-post works!</p>
+<div class="card-container" *ngIf="!loading">
+  <div class="card-header">
+    <img [src]="post.user.image_url" >
+      <h5 class="text-center"> by {{post.user.pseudo}}</h5>
+
+      <div class="btn-right">
+        <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
+        <button class="btn btn-success btn-sm" *ngIf="id === post.user_id" (click)="onModify()">Modify post</button>
+        <button class="btn btn-danger btn-sm" *ngIf="id === post.user_id"(click)="onDelete()">Delete post</button>
+      </div>
+
+  </div>
+
+    <div class="card-body">
+      <h5 class="card-title">{{ post.title }}</h5>
+      <p class="card-text">{{ post.content }}</p>
+      <div class="text-muted">
+        <p class="text-left text-primary">{{ post.createdAt | date: 'short' }}</p>
+        <p class="text-right text-primary" style="cursor: pointer;">Likes {{post.likes}}</p>
+      </div>
+</div>

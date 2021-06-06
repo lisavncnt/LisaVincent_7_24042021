@@ -21,6 +21,7 @@ import { SingleImgComponent } from './img-list/single-img/single-img.component';
 import { ProfilService } from './services/profil.service';
 import { PostsService } from './services/posts.service';
 import { ImagesService } from './services/images.service';
+import { ProfilFormComponent } from './profil/profil-form/profil-form.component';
 
 const appRoutes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
@@ -28,13 +29,14 @@ const appRoutes: Routes = [
 
   {path: 'dashboard/messages', canActivate: [AuthGuardService], component: PostListComponent},
   {path: 'dashboard/messages/add', canActivate:[AuthGuardService], component: PostFormComponent},
-  {path: 'dashboard/messages/:id', canActivate:[AuthGuardService], component: SinglePostComponent},
+  {path: 'dashboard/message/:id', canActivate:[AuthGuardService], component: SinglePostComponent},
 
   {path: 'dashboard/images', canActivate: [AuthGuardService], component: ImgListComponent},
   {path: 'dashboard/images/add', canActivate:[AuthGuardService], component: ImgFormComponent},
-  {path: 'dashboard/images/:id', canActivate:[AuthGuardService], component:SingleImgComponent},
+  {path: 'dashboard/image/:id', canActivate:[AuthGuardService], component:SingleImgComponent},
 
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
+  {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},
 
   {path: '', redirectTo: 'dashboard/messages', pathMatch: 'full'},
   {path: '**', redirectTo: 'dashboard/messages'},
@@ -53,7 +55,8 @@ const appRoutes: Routes = [
     SinglePostComponent,
     ImgListComponent,
     ImgFormComponent,
-    SingleImgComponent
+    SingleImgComponent,
+    ProfilFormComponent
   ],
   imports: [
     BrowserModule,

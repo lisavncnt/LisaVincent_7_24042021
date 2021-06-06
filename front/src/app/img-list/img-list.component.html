@@ -5,30 +5,34 @@
 <div class="card-container">
   <div class="card text-left" *ngFor="let image of images">
     <div class="card-header">
-      <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1-mini.jpg" >
-      <h5 class="text-center">{{user?.pseudo}}</h5>
+      <img [src]="image.user.image_url" class="rounded">
+      <h5 class="text-center">{{image.user.pseudo}}</h5>
       <div class="btn-right">
         <a routerLink="dashboard/messages" (click)="onViewImage()">View post</a>
-        <button class="btn btn-success btn-sm" *ngIf="id === image?.user_id" (click)="onModify()">Modify post</button>
-        <button class="btn btn-danger btn-sm" *ngIf="id === image?.user_id"(click)="onDelete()">Delete post</button>
+        <!-- <button class="btn btn-success btn-sm" *ngIf="id === image?.user_id" (click)="onModify()">Modify post</button> -->
+        <!-- <button class="btn btn-danger btn-sm" *ngIf="id === image?.user_id"(click)="onDelete()">Delete post</button> -->
       </div>
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ image?.title }}</h5>
-      <img [src]="image?.image_url" alt="" class="card-img">
+      <h5 class="card-title">{{ image.title }}</h5>
       <div class="text-muted">
-        <p class="text-left text-primary">{{ image?.createdAt | date: 'short' }}</p>
-        <p class="text-right text-primary" style="cursor: pointer;">Likes {{image?.likes}}</p>
+        <p class="text-left text-primary">{{ image.createdAt | date: 'short' }}</p>
+        <p class="text-right text-primary" style="cursor: pointer;">Likes: {{likes}}</p>
       </div>
     </div>
 
-    <div class="card-footer text-muted">
+    <div class="card-footer">
       <p>This is a comment</p>
       <p>This is another comment</p>
     </div>
+    <div class="card-footer text-muted" *ngFor="let comment of comments">
+      <img [src]="comment.user.content" alt="">
+      <p class="form-control">"{{comment.content}}" __ {{ comment.user.pseudo }}</p>
+    </div>
+
     <form [formGroup]="commentForm">
       <div class="card-footer text-muted">
-        <input type="text" name="comment" placeholder="Add a comment" formControlName="comment">
+        <input type="text" name="content" placeholder="Add a comment" formControlName="content">
         <button class="btn btn-success" type="submit" (click)="onAddComment()">Add a comment</button>
       </div>
     </form>

@@ -15,6 +15,7 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ image.title }}</h5>
+      <img [src]="image.image_url" alt="">
       <div class="text-muted">
         <p class="text-left text-primary">{{ image.createdAt | date: 'short' }}</p>
         <p class="text-right text-primary" style="cursor: pointer;">Likes: {{likes}}</p>

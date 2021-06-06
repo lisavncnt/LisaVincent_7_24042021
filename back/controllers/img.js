@@ -1,7 +1,7 @@
 const fs = require('fs');
 const User = require('../models/user');
 const Img = require('../models/img');
-Img.belongsTo(User, {foreignKey: 'user_id'});
+Img.belongsTo(User);
 
 exports.createImg = (req, res) => {
     const body = req.body;
@@ -15,7 +15,13 @@ exports.createImg = (req, res) => {
 };
 
 exports.getAllImg = (req, res) => {
-    Img.findAll({})
+    Img.findAll({
+        include: [
+            { 
+                model: User
+            }
+        ]
+    })
     .then((imgs) => res.status(200).json(imgs))
     .catch(error => res.status(400).json({error}));
 };
@@ -24,7 +30,12 @@ exports.getImg = (req, res) => {
     Img.findOne({
         where: {
             id: req.params.id
-        }
+        },
+        include: [
+            {
+                model: User
+            }
+        ]
     })
     .then((img) => res.status(200).json(img))
     .catch(error => res.status(400).json({error}))

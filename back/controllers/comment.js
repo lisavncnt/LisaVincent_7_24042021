@@ -3,28 +3,29 @@ const Post = require('../models/post');
 const Img = require('../models/img');
 const Comment = require('../models/comment');
 
-Comment.hasOne(Post, { foreignKey: 'post_id'});
+Comment.belongsTo(User, {foreignKey: 'user_id'});
+Comment.belongsTo(Post, { foreignKey: 'post_id'});
 
 exports.createComment = (req, res) => {
     const body = req.body;
     console.log(req.body);
         Comment.create({
-            ...body,
-            include: [
-                {
-                    model: Post
-                }
-            ]
+            ...body
         })
         .then(() => res.status(200).json({ message: "Comment created !"}))
         .catch(error => res.status(400).json({error}));
 };
 
+// ERROR: CONTRAINTS <------------------------------ error here
 exports.getAllComments = (req, res, next) => {
-        Comment.findAll({
-        })
-        .then((comments) => res.status(200).json(comments))
-        .catch(error => res.status(400).json({error}));
+    Comment.findAll({
+        include: [{
+            model: User,
+            model: Post
+        }]
+    })
+    .then((comments) => res.status(200).json(comments))
+    .catch(error => res.status(400).json({error}));
 };
 
 exports.getComment = (req, res, next) => {

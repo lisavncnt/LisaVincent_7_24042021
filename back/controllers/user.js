@@ -5,8 +5,8 @@ const Img = require('../models/img');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-User.hasMany(Post, {foreignKey: 'post_id'});
-User.hasMany(Img, {foreignKey: 'image_id'});
+User.hasMany(Post, {onDelete: "cascade"});
+User.hasMany(Img, {onDelete: "cascade"});
 
 
 exports.signup = (req, res) => {
@@ -31,8 +31,8 @@ exports.signup = (req, res) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.signin = async (req, res, next) => {
-    await User.findOne({ 
+exports.signin = (req, res, next) => {
+    User.findOne({ 
       where: {
           email: req.body.email
       }
@@ -81,7 +81,7 @@ exports.getAllProfils = (req, res) => {
   .catch(error => res.status(400).json(error));
 };
 
-exports.modifyUser = async (req, res, next) => {
+exports.modifyUser = (req, res, next) => {
   const id = req.params.id;
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -92,6 +92,8 @@ exports.modifyUser = async (req, res, next) => {
       where: {id: req.params.id}
     }).then(
       user => {
+        //bcrypt.hash
+
         if (req.file) {
           if (user.image_url !== null) {
             const fileName = user.image_url.split('/images/')[1]
@@ -108,7 +110,10 @@ exports.modifyUser = async (req, res, next) => {
             id: req.params.id
           }
         }).then(
-          (user) => {res.status(200).json(user), console.log(user)}
+          (user) => {
+            res.status(200).json(user), 
+            console.log(user)
+          }
         ).catch(
           error => res.status(400).json({error})
         )
@@ -116,6 +121,39 @@ exports.modifyUser = async (req, res, next) => {
     ).catch(
       error => res.status(404).json({error})
     )
+  }
+};
+
+exports.modifyPassword = (req, res, next) => {
+  const id = req.params.id;
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const userId = decodedToken.user_id;
+
+  if(id === userId) {
+    User.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(
+      (user) => {
+        bcrypt.hash(user.password, 10)
+        .then(
+          (hash => {
+            user.update({
+              password: hash,
+              id: req.params.id
+            }).then(
+              () => res.status(200).json({error})
+            ).catch(
+              (error) => res.status(400).json({error})
+            );
+          })
+        ).catch(
+          (error) => res.status(400).json({ error })
+        )
+      }
+    );
   }
 };
 

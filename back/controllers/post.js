@@ -1,8 +1,12 @@
-const User = require('../models/user');
-const Post = require('../models/post');
-const Comment = require('../models/comment');
+const { User, Post, Comment } = require('../models/index');
+// const Comment = require('../models/comment');
 
-Post.belongsTo(User, {foreignKey: 'user_id', references: User.id, onUpdate: "no action", onDelete: "no action"});
+// this is probably false or write bad
+    Post.belongsTo(User);
+    Post.hasMany(Comment, {
+        onDelete: "cascade"
+    })
+
 
 const jwt = require('jsonwebtoken');
 // const user_id = sessionStorage.getItem('user_id');
@@ -12,7 +16,9 @@ exports.createPost = (req, res) => {
     Post.create({
         ...body
     }).then(
-        () => res.status(200).json({ message: "Post created !"})
+        (post) => {
+            res.status(200).json({ message: "Post created !"})
+        }
     ).catch(
         error => res.status(400).json({error})
     );
@@ -22,13 +28,14 @@ exports.getAllPosts = (req, res) => {
     Post.findAll({
         include: [
             {
-                model: User
+                model: User,
+                // model: Comment
             }
         ]
     })
     .then((posts) => res.status(200).json(posts))
     .catch(error => res.status(400).json({error}));
-};
+}; 
 
 exports.getPost = (req, res) => {
     Post.findOne({
@@ -37,7 +44,8 @@ exports.getPost = (req, res) => {
         },
         include: [
             {
-                model: User
+                model: User,
+                // model: Comment
             }
         ]
     })
@@ -45,31 +53,28 @@ exports.getPost = (req, res) => {
     .catch(error => res.status(404).json({error: error}));
 };
 
-exports.updatePost = async (req, res) => {
-    const id = sessionStorage.getItem('user_id');
+exports.updatePost = (req, res) => {
+    // const id = sessionStorage.getItem('user_id');
     const post_id = req.params.id;
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const userId = decodedToken.user_id;
 
-    if(id === userId) {
-        Post.findOne({ where: {id: post_id },
-            include: [
-                {
-                    model: User
-                }
-            ]})
-        .then(post => {
-            console.log(...req.body);
-            post.update( {...req.body, id : post_id})
-            .then(() => res.status(200).json({ message: 'Votre post a bien été modifié !'}))
-            .catch(error => res.status(400).json({error}));
-        }).catch(
-            error => res.status(500).json({ error })
-        )
-    } else {
-        return res.status(401).json({ error: "Vous n'avez pas l'autorisation nécessaire !" })
-    }
+    // if(id === userId) {
+        // console.log("id" + id);
+        console.log("userId" + userId);
+        Post.findOne({ where: {id: post_id }})
+            .then(post => {
+                // console.log(...req.body);
+                post.update( {...req.body, id : post_id})
+                .then(() => res.status(200).json({ message: 'Votre post a bien été modifié !'}))
+                .catch(error => res.status(400).json({error}));
+            }).catch(
+                error => res.status(500).json({ error })
+            )
+    // } else {
+    //     return res.status(418).json({ error: "Vous n'avez pas l'autorisation nécessaire !" })
+    // }
 };
 
 exports.deletePost = async (req, res) => {

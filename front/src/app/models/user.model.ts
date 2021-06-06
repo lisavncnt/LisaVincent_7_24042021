@@ -1,23 +1,11 @@
 export class User {
-    public static fromJson(json: Object): User {
-        return new User(
-            json['id'],
-            json['pseudo'],
-            json['email'],
-            json['password'],
-            json['likes'],
-            json['is_admin'],
-            new Date(json['created_at']),
-            new Date(json['updated_at'])
-        );
-    }
-
-    constructor(public id: string,
-                public pseudo: string,
-                public email: string,
-                public password: string,
-                public likes: number,
-                public is_admin: number,
-                public created_at: Date,
-                public updated_at: Date) {}
+  id: string;
+  pseudo: string;
+  email: string;
+  password: string;
+  image_url: string;
+  totalLiked: number;
+  is_admin: number;
+  created_at: Date;
+  updated_at: Date;
 }

@@ -2,22 +2,19 @@
     Add a Post
 </div>
 
-<form [formGroup]="postForm">
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<form [formGroup]="postForm" *ngIf="!loading">
   <div class="form-group">
     <label for="title">Title :</label>
-    <input type="title" class="form-control" id="title" formControlName="title">
+    <input type="text" class="form-control" id="title" formControlName="title">
   </div>
   <div class="form-group">
     <label for="content">Your message :</label>
-    <input type="content" class="form-control" id="content" formControlName="content">
+    <input type="text" class="form-control" id="content" formControlName="content">
   </div>
-    
-  <button class="btn btn-lg btn-success" [disabled]="postForm.invalid" (click)="onCreate()">Add my new post</button>
+
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="postForm.invalid">Add my message</button>
+
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 </form>
-
-
-<div class="form-group">
-  <label for="exampleFormControlFile1">Example file input</label>
-  <input type="file" class="form-control-file" id="exampleFormControlFile1">
-</div>

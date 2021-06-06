@@ -8,7 +8,8 @@ const Post = database.define('posts', {
         primaryKey: true
     },
     user_id: { 
-        type: DataTypes.UUID, allowNull: false 
+        type: DataTypes.UUID, 
+        allowNull: false 
     },
     title: {
         type: DataTypes.STRING,
@@ -19,10 +20,6 @@ const Post = database.define('posts', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
-    likes: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
     },
 }, {
     Sequelize,

@@ -1,9 +1,11 @@
 const {Sequelize,DataTypes} = require('sequelize');
 
 // Connexion to db
-const database = new Sequelize(`mysql://groupomania_admin:2txJG6a5N@127.0.0.1/groupomania_db`, {
-    logging: false,
-});
+const database = new Sequelize('groupomania_db', 'groupomania_admin', '2txJG6?a5N5S!ZhvZwe', {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: false
+  });
 // intégrer base de donnée de façon sécurisée
 
     

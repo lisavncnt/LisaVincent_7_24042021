@@ -1,26 +1,25 @@
 .card {
-    margin: 15px;
-    -webkit-box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96); 
+    margin: 35px 0;
+    -webkit-box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
             box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
 }
 
-.text-muted{
-    display: flex;
-    justify-content: space-between;
-}
-.text-muted p {
+.card-footer p {
     padding : 5px;
-    margin: 0;
+    border-bottom: 1px solid #BDBDBD;
+    margin: 5px;
 }
 
 .card-header{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     border-bottom: 1px solid #BDBDBD;
 }
 
 .card-header h5{
     margin: 25px 25px 0 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
 }
 
 .card-footer {
@@ -33,4 +32,8 @@ label {
 }
 input {
     width: 75%;
+}
+
+.btn {
+    margin: 10px
 }

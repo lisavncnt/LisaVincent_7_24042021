@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
 
@@ -14,7 +14,7 @@ export class SigninComponent implements OnInit {
   isAuth: boolean;
   errorMsg: string;
   token: string;
-  user_id: string;
+  user_id = sessionStorage.getItem('user_id');
 
   constructor(private formBuilder: FormBuilder,
               private auth: AuthService,
@@ -29,19 +29,19 @@ export class SigninComponent implements OnInit {
   }
 
   onSignin() {
-    this.auth.isAuth = true;
+    this.auth.isAuth$.next(true);
     const email = this.signinForm.get('email').value;
     const password = this.signinForm.get('password').value;
     this.auth.signin(email, password).then(
       () => {
         this.token = this.auth.getToken();
-        this.user_id = this.auth.getUserId();
-        this.auth.isAuth = true;
-        this.router.navigate(['/dashboard']);
+        this.user_id;
+        this.auth.isAuth$.next(true);
+        this.router.navigate(['/dashboard', 'messages']);
       }
     ).catch(
       (error) => {
-        this.auth.isAuth = false;
+        this.auth.isAuth$.next(false);
         this.errorMsg = error.message;
       }
     );

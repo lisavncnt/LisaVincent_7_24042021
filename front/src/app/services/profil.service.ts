@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ProfilService {
   user_id = sessionStorage.getItem('user_id');
   users$ = new Subject<User[]>();
 
-  constructor(private http :HttpClient, 
+  constructor(private http :HttpClient,
               private auth: AuthService) { }
 
   getUsers() {
@@ -66,6 +66,15 @@ export class ProfilService {
       );
     });
   }
-};
+
+  public uploadImage(image_url: File): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('image_url', image_url);
+
+   return this.http.post('http://localhost:3000/user', formData);
+  }
+}
+
 
 

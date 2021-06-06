@@ -8,12 +8,12 @@ export class AuthGuardService implements CanActivate {
 
   constructor(private router: Router, private auth: AuthService) {};
 
-  canActivate(route: ActivatedRouteSnapshot, 
+  canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Promise<boolean> | boolean {
-                
+
     return new Promise(
       (resolve, reject) => {
-        if (this.auth.isAuth == true && sessionStorage.getItem('token')) {
+        if (this.auth.isAuth$ && sessionStorage.getItem('token')) {
           resolve(true);
         } else {
           this.router.navigate(['/auth', 'signin']);
@@ -21,5 +21,5 @@ export class AuthGuardService implements CanActivate {
         }
     });
   }
-  
+
 }

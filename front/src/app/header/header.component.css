@@ -35,6 +35,9 @@
     font-weight: bolder;
 }
 
-.fa-user-alt {
-    background-color: white;
+
+.fa, .fas, .far{
+  margin-right: 8px;
 }
+
+

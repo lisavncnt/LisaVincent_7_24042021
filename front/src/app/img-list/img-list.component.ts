@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Img } from '../models/Img.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { group } from '@angular/animations';
+import { ProfilService } from '../services/profil.service';
 
 @Component({
   selector: 'app-img-list',
@@ -18,11 +18,14 @@ export class ImgListComponent implements OnInit {
   images: Img[];
   loading: boolean;
   errorMsg: string;
+  Image: Img;
+  id = sessionStorage.getItem('user_id');
 
 
   constructor(private image: ImagesService,
               private router: Router,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private user: ProfilService) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -51,6 +54,10 @@ export class ImgListComponent implements OnInit {
 
   onClickImage(id: string) {
     this.router.navigate(['images', id]);
+  }
+
+  getUserParams() {
+    this.user.getUserById(this.id);
   }
 
 }

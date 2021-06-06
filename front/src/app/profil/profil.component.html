@@ -1,23 +1,28 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="container" *ngIf="!loading">
-  <img [src]="user?.imageUrl" alt="">
+  <img [src]="imageInput" alt="">
+  <label class="image-upload-container btn btn-bwm">
+    <span>Select Image</span>
+    <input #imageInput
+           type="file"
+           accept="image/*"
+           (change)="processFile(imageInput)">
+  </label>
+
   <div class="info">
-    <h1 class="pseudo">{{ user?.pseudo }}</h1>
-    <p class="email">{{ user?.email }}</p>
-    
-    <div class="like-buttons" *ngIf="!likePending">
-      <div class="likes">
-        <i [ngClass]="{ 'fas liked': liked, 'far': !liked, 'disabled': disliked }" class="like fa-thumbs-up fa-lg" (click)="onLike()"></i>
-        <span>{{ user.likes }}</span>
-      </div>
-    </div>
-    <div class="like-pending" *ngIf="likePending">
-      <mat-spinner class="white-spinner"></mat-spinner>
-    </div>
+    <p>Pseudo :</p>
+    <h1 class="pseudo">{{ user?.pseudo }}</h1><br>
+
+    <p>Email :</p>
+    <p class="email">{{ user?.email }}</p><br>
+
+    <p>Password :</p>
+    <p>{{ user?.password }}</p>
+
     <div class="control-buttons">
-      <button mat-raised-button (click)="onBack()">BACK</button>
-      <button mat-raised-button color="primary" (click)="onModify()" *ngIf="userId === sauce.userId">MODIFY</button>
-      <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="userId === sauce.userId">DELETE</button>
+      <button mat-raised-b (click)="onBack()">Return to my dashboard messages</button>
+      <button mat-raised-button color="success" (click)="onModify()" *ngIf="user_id === user.id">Modify my profile</button>
+      <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="user_id === user.id">Delete all my posts and my profile</button>
     </div>
   </div>
 </div>

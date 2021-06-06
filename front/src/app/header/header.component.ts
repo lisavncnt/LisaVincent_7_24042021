@@ -13,11 +13,11 @@ export class HeaderComponent implements OnInit {
   isAuth: boolean;
   id = sessionStorage.getItem('user_id');
   authToken = sessionStorage.getItem('token');
-  constructor(private auth: AuthService, 
+  constructor(private auth: AuthService,
               private router: Router,
               private user: ProfilService,
               private post: PostsService) { }
-  
+
   ngOnInit(): void {
     this.getAuth();
   }
@@ -29,8 +29,10 @@ export class HeaderComponent implements OnInit {
   onSignout() {
     this.auth.signout;
     sessionStorage.clear();
+    window.location.reload();
+    this.router.navigate(['auth/', 'signin']);
   }
-  
+
   getAuth() {
     if (this.authToken) {
       console.log(this.authToken);
@@ -40,7 +42,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  onClickUser(id: string) {
+  onClickUser() {
     this.user.getUserById(this.id);
     this.router.navigate(['user', this.id]);
   }

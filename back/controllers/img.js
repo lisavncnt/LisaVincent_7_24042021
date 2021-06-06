@@ -1,16 +1,14 @@
 const fs = require('fs');
-const filename = require('../middleware/multer-config');
 const User = require('../models/user');
 const Img = require('../models/img');
 Img.belongsTo(User, {foreignKey: 'user_id'});
-User.hasMany(Img, {foreignKey: 'img_id'});
 
 exports.createImg = (req, res) => {
     const body = req.body;
     Img.create({
         ...body,
         image_url: 
-        `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     })
     .then(() => res.status(200).json({ message: 'Post image created !'}))
     .catch(error => res.status(400).json({error}));
@@ -18,7 +16,7 @@ exports.createImg = (req, res) => {
 
 exports.getAllImg = (req, res) => {
     Img.findAll({})
-    .then((imgs) => res.status(200).json({imgs}))
+    .then((imgs) => res.status(200).json(imgs))
     .catch(error => res.status(400).json({error}));
 };
 
@@ -28,7 +26,7 @@ exports.getImg = (req, res) => {
             id: req.params.id
         }
     })
-    .then((img) => res.status(200).json({img}))
+    .then((img) => res.status(200).json(img))
     .catch(error => res.status(400).json({error}))
 };
 
@@ -36,7 +34,7 @@ exports.updateImg = async (req, res) => {
     const id = JSON.parse(req.params.id)
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const userId = decodedToken.userId;
+    const userId = decodedToken.user_id;
     if(id === userId) {
         Img.findOne({ where: { id: id } })
             .then(img => {

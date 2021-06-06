@@ -1,3 +1,37 @@
 <div class="card-footer">
     <button class="btn btn-lg btn-primary" routerLink='add'>Add a new post</button>
 </div>
+
+<div class="card-container">
+  <div class="card text-left" *ngFor="let image of images">
+    <div class="card-header">
+      <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1-mini.jpg" >
+      <h5 class="text-center">{{user?.pseudo}}</h5>
+      <div class="btn-right">
+        <a routerLink="dashboard/messages" (click)="onViewImage()">View post</a>
+        <button class="btn btn-success btn-sm" *ngIf="id === image?.user_id" (click)="onModify()">Modify post</button>
+        <button class="btn btn-danger btn-sm" *ngIf="id === image?.user_id"(click)="onDelete()">Delete post</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ image?.title }}</h5>
+      <img [src]="image?.image_url" alt="" class="card-img">
+      <div class="text-muted">
+        <p class="text-left text-primary">{{ image?.createdAt | date: 'short' }}</p>
+        <p class="text-right text-primary" style="cursor: pointer;">Likes {{image?.likes}}</p>
+      </div>
+    </div>
+
+    <div class="card-footer text-muted">
+      <p>This is a comment</p>
+      <p>This is another comment</p>
+    </div>
+    <form [formGroup]="commentForm">
+      <div class="card-footer text-muted">
+        <input type="text" name="comment" placeholder="Add a comment" formControlName="comment">
+        <button class="btn btn-success" type="submit" (click)="onAddComment()">Add a comment</button>
+      </div>
+    </form>
+  </div>
+</div>
+

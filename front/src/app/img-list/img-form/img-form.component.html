@@ -1,20 +1,18 @@
-<div class="jumbotron text-center">
-    Add an Image
-</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
 
-<form [formGroup]="imageForm">
+
+<form [formGroup]="imageForm" *ngIf="!loading">
   <div class="form-group">
-    <label for="title">Title :</label>
-    <input type="title" class="form-control" id="title" formControlName="title">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" formControlName="title">
   </div>
+
   <div class="form-group">
-    <label for="exampleFormControlFile1">Choisissez votre image :</label>
-    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    <input type="file" accept="images/*" #imageInput (change)="onFileAdded($event)">
+    <button mat-raised-button color="primary" (click)="imageInput.click()">add my image</button>
+    <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
   </div>
-    
-  <button class="btn btn-lg btn-success" [disabled]="postForm.invalid" (click)="onCreate()">Add my new image</button>
-  <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="imageForm.invalid">SUBMIT</button>
+
 </form>
-
-
-

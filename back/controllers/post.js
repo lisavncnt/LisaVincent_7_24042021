@@ -1,8 +1,13 @@
 const { User, Post, Comment } = require('../models/index');
 // const Comment = require('../models/comment');
+// const User = require('../models/user');
+// const Post = require('../models/post');
 
-// this is probably false or write bad
-    Post.belongsTo(User);
+
+//ah dac/pt ça le pb ? si tu la rajoute dans le sql ? on peut tester ? yes
+
+    Post.hasOne(User);
+    // Post.belongsTo(User);
     Post.hasMany(Comment, {
         onDelete: "cascade"
     })
@@ -29,11 +34,14 @@ exports.getAllPosts = (req, res) => {
         include: [
             {
                 model: User,
-                // model: Comment
+                model: Comment
             }
         ]
     })
-    .then((posts) => res.status(200).json(posts))
+    .then((posts) => {
+        console.log(posts);
+        res.status(200).json(posts)
+    })
     .catch(error => res.status(400).json({error}));
 }; 
 
@@ -45,7 +53,7 @@ exports.getPost = (req, res) => {
         include: [
             {
                 model: User,
-                // model: Comment
+                model: Comment
             }
         ]
     })

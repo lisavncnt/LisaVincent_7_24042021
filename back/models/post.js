@@ -21,6 +21,11 @@ const Post = database.define('posts', {
         allowNull: false,
         unique: true
     },
+    likes: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
 }, {
     Sequelize,
     modelName: 'Post',

@@ -96,7 +96,7 @@ export class ProfilFormComponent implements OnInit {
         (response: { message: string}) => {
           console.log(response.message);
           this.loading = false;
-          this.router.navigate(['/dashboard/messages']);
+          this.router.navigate(['/user/' + this.user.id]);
         }
       ).catch(
         (error) => {

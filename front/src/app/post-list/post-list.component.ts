@@ -42,6 +42,8 @@ export class PostListComponent implements OnInit {
     this.loading = true;
     this.postSub = this.post.posts$.subscribe(
       (posts) => {
+
+        //CA cest bon
         console.log(Object.values(posts));
         this.posts = posts;
 
@@ -53,6 +55,7 @@ export class PostListComponent implements OnInit {
         this.loading = false;
       }
     );
+
     this.post.getPosts();
 
     this.id = sessionStorage.getItem('user_id');

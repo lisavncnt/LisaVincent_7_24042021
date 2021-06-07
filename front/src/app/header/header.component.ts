@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  groupomaniaLogo: any = "../../../assets/logo.png";
   isAuth: boolean;
   id = sessionStorage.getItem('user_id');
   authToken = sessionStorage.getItem('token');

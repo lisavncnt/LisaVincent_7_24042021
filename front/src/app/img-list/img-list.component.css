@@ -1,18 +1,50 @@
-.card-img {
+.img_user img {
+  margin: 15px 5px 0;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
-  height: 80%;
-  padding: 10px;
+  border-radius: 50%;
+}
+
+.pseudo {
+  text-transform: uppercase;
+  color: #1f2f48;
+}
+
+.card-img {
+  border-bottom: 2px solid rgba(209,86,94,.4);
+  border-top: 2px solid rgba(209,86,94,.4);
+  height: max-content;
+  display: inline-block;
+  padding: 15px;
 }
 
 .card-header {
-  width: 880px;
-  height: auto;
+  display: flex;
+  border-bottom: 1px solid #BDBDBD;
 }
 
-.rounded {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.card-header h4{
+  margin: 25px 25px 0 25px;
+}
+
+.card-title h4{
+  margin: 18px;
+
+}
+.user_info {
+  width: 80%;
+}
+
+.image-post {
+  object-fit: cover;
+  width: 100%;
+}
+
+.likes {
+  color: #1f2f48;
+  margin: 25px 5px 0 0;
+  cursor: pointer;
 }
 
 .card {
@@ -27,17 +59,9 @@
   margin: 5px;
 }
 
-.card-header{
-  display: flex;
-  justify-content: space-between;
-  width: auto;
-  border-bottom: 1px solid #BDBDBD;
-}
-
-.card-header h5{
-  margin: 25px 25px 0 25px;
-  text-transform: uppercase;
-  letter-spacing: 0.5rem;
+.card-title {
+  color: #1f2f48;
+  text-align: center;
 }
 
 .card-footer {
@@ -56,6 +80,23 @@ input {
   margin: 10px
 }
 
+.btn-add {
+  background-color: rgba(209,86,94,.2);
+  color: #1f2f48;
+  opacity: 0.7;
+  width: max-content;
+}
+.btn-add:hover {
+  background-color: rgba(209,86,94,.6);
+  color: #1f2f48;
+}
+
+.likes {
+  color: #1f2f48;
+  margin: 25px 5px 0 0;
+  cursor: pointer;
+}
+
 .card-container {
   display: flex;
   flex-direction: row;
@@ -64,7 +105,7 @@ input {
 }
 
 .card {
-  width: 95%;
+  width: 100%;
   height: auto;
 }
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,  HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -22,6 +22,7 @@ import { ProfilService } from './services/profil.service';
 import { PostsService } from './services/posts.service';
 import { ImagesService } from './services/images.service';
 import { ProfilFormComponent } from './profil/profil-form/profil-form.component';
+import { AuthInterceptor } from './interceptors/auth-interceptors';
 
 const appRoutes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
@@ -38,8 +39,8 @@ const appRoutes: Routes = [
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
   {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},
 
-  {path: '', redirectTo: 'dashboard/messages', pathMatch: 'full'},
-  {path: '**', redirectTo: 'dashboard/messages'},
+  {path: '', redirectTo: 'auth/signin', pathMatch: 'full'},
+  {path: '**', redirectTo: 'auth/signins'},
 ];
 
 @NgModule({
@@ -65,7 +66,12 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [AuthService, AuthGuardService, ProfilService, PostsService, ImagesService],
+  providers: [AuthService, AuthGuardService, ProfilService, PostsService, ImagesService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

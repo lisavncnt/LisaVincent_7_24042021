@@ -42,8 +42,9 @@ export class ProfilService {
   modifyUser(id: string, user: User, image: string | File) {
     return new Promise((resolve, reject) => {
       if (typeof image === 'string') {
-        this.http.put('http://localhost:3000/user/' + id, user).subscribe(
+        this.http.put('http://localhost:3000/modify/user/' + id, user).subscribe(
           (response: {message: string }) => {
+            console.log('user update work');
             resolve(response);
           },
           (error) => {

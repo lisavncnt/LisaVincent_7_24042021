@@ -32,28 +32,35 @@ exports.getComment = (req, res, next) => {
     Comment.findOne({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            model: User,
+            model: Post
+        }]
     })
     .then((comment) => res.status(200).json(comment))
     .catch(error => res.status(404).json({ error: error }));
 };
 
 
-exports.modifyComment = async (req, res, next) => {
-    Comment.destroy({
+exports.modifyComment = (req, res, next) => {
+    Comment.findOne({
         where: {
             id: req.params.id
         }
-    })
-    .then(
-        await Comment.create({
-            content: req.body.content
-        })
-        .then((comment) => res.status(200).json(comment))
-        .catch(error => res.status(400).json({ error: error }))
-    )
-    .catch(
-        error => res.status(500).json({ error: error })
+    }).then(
+        (comment) => {
+            Comment.update({
+                ...req.body,
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then((comment) => res.status(200).json(comment))
+            .catch(error => res.status(400).json({ error: error }))
+        }
+    ).catch(
+        (error) => res.status(500).json({error: error})
     );
 };
 

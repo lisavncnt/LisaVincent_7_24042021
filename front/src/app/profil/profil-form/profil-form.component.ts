@@ -57,7 +57,6 @@ export class ProfilFormComponent implements OnInit {
     this.userForm = this.fb.group({
       pseudo: [null, Validators.required],
       email: [null, Validators.required],
-      password: [null, Validators.required],
       image_url: [null, Validators.required],
     });
   };
@@ -66,7 +65,6 @@ export class ProfilFormComponent implements OnInit {
     this.userForm = this.fb.group({
       pseudo: [null, Validators.required],
       email: [null, Validators.required],
-      password: [null, Validators.required],
       image_url: [null, Validators.required],
     });
     this.imagePreview = this.user.image_url;
@@ -90,7 +88,6 @@ export class ProfilFormComponent implements OnInit {
     const newUser = new User();
     newUser.pseudo = this.userForm.get('pseudo').value;
     newUser.email = this.userForm.get('email').value;
-    newUser.password = this.userForm.get('password').value;
 
       this.profil.modifyUser(this.user.id, this.user ,this.userForm.get('image_url').value).then(
         (response: { message: string}) => {

@@ -11,7 +11,6 @@ const path = require('path');
 
 const app = express();
 
-// Set Headers for the API ****************************************************************************
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -35,6 +34,5 @@ app.use(function (err, req, res, next) {
     console.log('This is the invalid field ->', err.field)
     next(err)
   })
-  
 
 module.exports = app;

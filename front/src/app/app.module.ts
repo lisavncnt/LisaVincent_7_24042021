@@ -22,6 +22,7 @@ import { ProfilService } from './services/profil.service';
 import { PostsService } from './services/posts.service';
 import { ImagesService } from './services/images.service';
 import { ProfilFormComponent } from './profil/profil-form/profil-form.component';
+import { PasswordFormComponent } from './profil/profil-form/password-form.component';
 import { AuthInterceptor } from './interceptors/auth-interceptors';
 
 const appRoutes: Routes = [
@@ -38,9 +39,10 @@ const appRoutes: Routes = [
 
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
   {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},
+  {path: 'modify/password/:id', canActivate: [AuthGuardService], component: PasswordFormComponent},
 
   {path: '', redirectTo: 'auth/signin', pathMatch: 'full'},
-  {path: '**', redirectTo: 'auth/signins'},
+  {path: '**', redirectTo: 'auth/signin'},
 ];
 
 @NgModule({

@@ -17,11 +17,11 @@
         <h4 class="text-center">by <span class="pseudo">{{post.user.pseudo}} </span></h4>
         <p class="text-center">{{ post.createdAt | date: 'short' }}</p>
       </div>
-      <!-- <div class="btn-right">
+      <div class="btn-right">
         <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
         <button class="btn btn-success btn-sm" *ngIf="id === post.user_id" (click)="onModify()">Modify post</button>
         <button class="btn btn-danger btn-sm" *ngIf="id === post.user_id"(click)="onDelete()">Delete post</button>
-      </div> -->
+      </div>
 
     </div>
 

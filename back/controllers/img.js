@@ -1,12 +1,20 @@
 const fs = require('fs');
 const User = require('../models/user');
 const Img = require('../models/img');
-Img.belongsTo(User);
+const Comment = require('../models/comment');
+
+Img.belongsTo(User, {
+    foreignKey: 'img_id'
+});
+Img.hasMany(Comment, {
+    as: 'comment',
+    foreignKey: 'comment_id',
+    onDelete: "cascade"
+});
 
 exports.createImg = (req, res) => {
-    const body = req.body;
     Img.create({
-        ...body,
+        ...req.body,
         image_url: 
         `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     })
@@ -41,7 +49,7 @@ exports.getImg = (req, res) => {
     .catch(error => res.status(400).json({error}))
 };
 
-exports.updateImg = async (req, res) => {
+exports.updateImg = (req, res) => {
     const id = JSON.parse(req.params.id)
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -50,10 +58,10 @@ exports.updateImg = async (req, res) => {
         Img.findOne({ where: { id: id } })
             .then(img => {
                 if (req.file) {
-                if (img.image !== null){
-                    const fileName = img.image.split('/images/')[1]
-                    fs.unlink(`images/${fileName}`, (err => {
-                if (err) console.log(err);
+                    if (img.image !== null){
+                        const fileName = img.image.split('/images/')[1]
+                        fs.unlink(`images/${fileName}`, (err => {
+                            if (err) console.log(err);
                 else {
                   console.log("Image supprimée: " + fileName);
                 }
@@ -71,8 +79,8 @@ exports.updateImg = async (req, res) => {
   }
 };
 
-exports.deleteImg = async (req, res) => {
-    await Img.find({
+exports.deleteImg = (req, res) => {
+    Img.find({
         where: {
             id: req.params.id
         }

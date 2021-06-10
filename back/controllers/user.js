@@ -5,8 +5,16 @@ const Img = require('../models/img');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-User.hasMany(Post, {onDelete: "cascade"});
-User.hasMany(Img, {onDelete: "cascade"});
+User.hasMany(Post, {
+  as: 'post',
+  foreignKey: 'post_id',
+  onDelete: "cascade"
+});
+User.hasMany(Img, {
+  as: 'img',
+  foreignKey: 'img_id',
+  onDelete: "cascade"
+});
 
 
 exports.signup = (req, res) => {
@@ -17,12 +25,7 @@ exports.signup = (req, res) => {
                 pseudo: req.body.pseudo,
                 email: req.body.email,
                 is_admin: req.body.is_admin,
-                likes: 0,
-                dislikes: 0,
-                usersLiked: [],
-                usersDisliked: [],
-                post_id:[],
-                image_id: [],
+                totalLikes: 0,
                 password: hash
             })
             .then(() => res.status(201).json({ message: 'User created !' }))
@@ -31,7 +34,7 @@ exports.signup = (req, res) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.signin = (req, res, next) => {
+exports.signin = (req, res) => {
     User.findOne({ 
       where: {
           email: req.body.email
@@ -81,7 +84,7 @@ exports.getAllProfils = (req, res) => {
   .catch(error => res.status(400).json(error));
 };
 
-exports.modifyUser = (req, res, next) => {
+exports.modifyUser = (req, res) => {
   const id = req.params.id;
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -92,8 +95,6 @@ exports.modifyUser = (req, res, next) => {
       where: {id: req.params.id}
     }).then(
       user => {
-        //bcrypt.hash
-
         if (req.file) {
           if (user.image_url !== null) {
             const fileName = user.image_url.split('/images/')[1]
@@ -104,6 +105,7 @@ exports.modifyUser = (req, res, next) => {
           req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         }
         delete(req.body.is_admin);
+        console.log(req.body);
         user.update({
           ...req.body,
           where: {
@@ -124,7 +126,7 @@ exports.modifyUser = (req, res, next) => {
   }
 };
 
-exports.modifyPassword = (req, res, next) => {
+exports.modifyPassword = (req, res) => {
   const id = req.params.id;
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -157,40 +159,7 @@ exports.modifyPassword = (req, res, next) => {
   }
 };
 
-// exports.modifyUser = async (req, res) => {
-//   const id = req.params.id;
-//   const token = req.headers.authorization.split(' ')[1];
-//   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-//   const userId = decodedToken.user_id;
-
-//   if(id === userId) {
-//     User.update({ where: { id: req.params.id } })
-//       .then(user => {
-//         console.log(user);
-    //     if (req.file) {
-    //       if (user.image_url !== null){
-    //         const fileName = user.image_url.split('/images/')[1]
-    //         fs.unlink(`images/${fileName}`, (err => {
-    //           if (err) console.log(err);
-    //           else {
-    //               console.log("Image supprimée: " + fileName);
-    //           }
-    //         }))
-    //       }
-    //       req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    //     }
-    //   delete(req.body.is_admin);
-    //   user.update( {...req.body, id: req.params.id})
-    //   .then(() => res.status(200).json({ message: 'Votre profil est modifié !' }))
-    //   .catch(error => res.status(400).json({ error }));
-    //   })
-    // .catch(error => res.status(500).json({ error }));
-//   } else {
-//     return res.status(401).json({ error: "vous n'avez pas l'autorisation nécessaire !" });
-//   }
-// };
-
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUser = async (req, res) => {
     await User.destroy({
         where: {
             id: req.params.id

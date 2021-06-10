@@ -29,7 +29,7 @@ const User = database.define('users', {
         type:DataTypes.BOOLEAN,
         defaultValue:0
     },
-    totalLiked: {
+    likes: {
         type: DataTypes.INTEGER,
         required: false,
         allowNull: true,

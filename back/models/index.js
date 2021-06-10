@@ -5,8 +5,6 @@ const Comment = require('./comment');
 
 const { database } = require('./connexion');
 
-// 
-
 async function loadModel() {
   await User.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', null)
   await Post.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', null)

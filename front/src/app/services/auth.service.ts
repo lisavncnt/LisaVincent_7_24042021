@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subscriber } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { ProfilService } from './profil.service';
@@ -17,8 +17,7 @@ export class AuthService {
   user_id: string;
 
   constructor(private http: HttpClient,
-              private router: Router,
-              private profil: ProfilService) { }
+              private router: Router) { }
 
   createUser(pseudo: string, email: string, password: string) {
     return new Promise((resolve, reject) => {

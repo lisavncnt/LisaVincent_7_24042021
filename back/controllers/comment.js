@@ -4,7 +4,7 @@ const Img = require('../models/img');
 const Comment = require('../models/comment');
 
 Comment.belongsTo(User, {foreignKey: 'user_id'});
-Comment.belongsTo(Post, { foreignKey: 'post_id'});
+Comment.belongsTo(Post, {foreignKey: 'id'});
 
 exports.createComment = (req, res) => {
     const body = req.body;
@@ -16,11 +16,9 @@ exports.createComment = (req, res) => {
         .catch(error => res.status(400).json({error}));
 };
 
-// ERROR: CONTRAINTS <------------------------------ error here
 exports.getAllComments = (req, res, next) => {
     Comment.findAll({
         include: [{
-            model: User,
             model: Post
         }]
     })

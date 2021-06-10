@@ -47,8 +47,7 @@ export class ImagesService {
   createImage(image: Img, image_url: File) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
-      let body = image;
-      formData.append('title', body.title);
+      formData.append('title', image.title);
       formData.append('image_url', image_url);
       formData.append('user_id', sessionStorage.getItem('user_id'));
       this.http.post('http://localhost:3000/dashboard/images/add', formData).subscribe(
@@ -112,24 +111,6 @@ export class ImagesService {
       .subscribe(
         (response: {message: string}) => {
           resolve(like);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }
-
-  dislikeImage(id: string, dislike: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/images' + id + '/like',
-      {
-        user_id: sessionStorage.getItem('user_id'),
-        like: dislike ? -1 : 0
-      })
-      .subscribe(
-        (response: {message: string}) => {
-          resolve(dislike);
         },
         (error) => {
           reject(error);

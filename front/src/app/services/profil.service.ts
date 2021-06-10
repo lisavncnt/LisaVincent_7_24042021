@@ -12,8 +12,7 @@ export class ProfilService {
   user_id = sessionStorage.getItem('user_id');
   users$ = new Subject<User[]>();
 
-  constructor(private http :HttpClient,
-              private auth: AuthService) { }
+  constructor(private http :HttpClient,) { }
 
   getUsers() {
     this.http.get('http://localhost:3000/users').subscribe(
@@ -54,6 +53,20 @@ export class ProfilService {
       }
     });
   }
+
+  modifyPassword(id: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.http.put('http://localhost:3000/modify/user/' + id, password).subscribe(
+        (response) => {
+          console.log('password update');
+          resolve(response)
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  };
 
   deleteUser(id: string) {
     return new Promise((resolve, reject) => {

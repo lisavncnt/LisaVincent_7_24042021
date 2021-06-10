@@ -57,6 +57,10 @@ export class ProfilComponent {
     this.router.navigate(['modify/user/', this.user_id]);
   }
 
+  onModifyPassword() {
+    this.router.navigate(['modify/password/', this.user_id]);
+  }
+
   onDelete() {
     this.loading = true;
     this.profil.deleteUser(this.user_id).then(

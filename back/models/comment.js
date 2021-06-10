@@ -7,10 +7,6 @@ const Comment = database.define('comments', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
-    post_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-    },
     content: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -24,7 +20,8 @@ const Comment = database.define('comments', {
     Sequelize,
     modelName: 'Comment',
     underscored: true,
-    paranoid: false
+    paranoid: false,
+    orderBy: [["created_at", "DESC"]]
 });
 
 module.exports = Comment;

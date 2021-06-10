@@ -19,6 +19,7 @@
     <div class="control-buttons">
       <button class="btn btn-success" (click)="onBack()">Return to my dashboard messages</button>
       <button class="btn btn-primary" (click)="onModify()" *ngIf="user_id === user.id">Modify my profile</button>
+      <button class="btn btn-primary" (click)="onModifyPassword()" *ngIf="user_id === user.id">Modify my password</button>
       <button class="btn btn-danger" (click)="onDelete()" *ngIf="user_id === user.id">Delete all my posts and my profile</button>
     </div>
   </div>

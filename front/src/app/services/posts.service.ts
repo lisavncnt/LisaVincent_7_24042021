@@ -18,8 +18,7 @@ export class PostsService {
   user: User;
 
   constructor(private http: HttpClient,
-              private auth: AuthService,
-              private profil: ProfilService) { }
+              private auth: AuthService) { }
 
   getPosts() {
       this.http.get('http://localhost:3000/dashboard/messages').subscribe(
@@ -37,7 +36,6 @@ export class PostsService {
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/dashboard/message/' + id).subscribe(
         (post: Post) => {
-
           resolve(post);
         },
         (error) => {
@@ -118,22 +116,5 @@ export class PostsService {
     });
   }
 
-  dislikePost(id: string, dislike: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/message/' + id + '/like',
-      {
-        user_id: sessionStorage.getItem('user_id'),
-        like: dislike ? -1 : 0
-      })
-      .subscribe(
-        (dislike: {message: string}) => {
-          resolve(dislike);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }
 
 }

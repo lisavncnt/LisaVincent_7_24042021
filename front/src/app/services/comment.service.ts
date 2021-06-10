@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Comment } from '../models/Comment.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -20,10 +20,9 @@ export class CommentService {
   post_id = sessionStorage.getItem('post_id');
 
   constructor(private http: HttpClient,
-    private auth: AuthService,
-    private profil: ProfilService) { }
+    private auth: AuthService) { }
 
-    createComment(content:string, _user_id: string, post_id: string) {
+    createComment(content:string, _user_id: string, _post_id: string) {
       if (this.auth.isAuth$) {
         return new Promise((resolve, reject) => {
           this.http.post('http://localhost:3000/dashboard/comments', {

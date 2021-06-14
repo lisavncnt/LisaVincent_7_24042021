@@ -16,17 +16,18 @@ export class ImagesService {
               private auth: AuthService) { }
 
   getImages() {
-    if (this.auth.isAuth$) {
+    return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/dashboard/images').subscribe(
       (images: Img[]) => {
+        resolve(images);
         this.images$.next(images);
       },
       (error) => {
+        reject(error);
         this.images$.next([]);
         console.error(error);
-      }
-    );
-    }
+      });
+    });
   }
 
   getImagesById(id: string){

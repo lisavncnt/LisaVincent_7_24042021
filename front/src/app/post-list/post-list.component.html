@@ -10,11 +10,11 @@
       <span class="img_user">
 
 
-        <img [src]="post.user.image_url" >
+        <img [src]="post.user.photo" >
 
       </span>
       <div class="user_info">
-        <h4 class="text-center">by <span class="pseudo">{{post.user.pseudo}} </span></h4>
+        <h4 class="text-center">by <span class="pseudo">{{ post.user.pseudo }} </span></h4>
         <p class="text-center">{{ post.createdAt | date: 'short' }}</p>
       </div>
       <div class="btn-right">
@@ -35,7 +35,7 @@
 
     <div class="card-footer text-muted">
       <div *ngFor="let comment of comments">
-        <p class="form-control">{{ post.comments.content }}</p>
+        <p class="form-control">{{ comment.content }}</p>
       </div>
       <!-- <div>
         <input type="text" name="comment" placeholder="Add a comment" [(ngModel)]="comment.content">

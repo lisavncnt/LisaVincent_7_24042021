@@ -3,7 +3,7 @@ export class User {
   pseudo: string;
   email: string;
   password: string;
-  image_url: string;
+  photo: string;
   totalLiked: number;
   is_admin: number;
   created_at: Date;

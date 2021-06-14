@@ -22,12 +22,15 @@ const Post = database.define('posts', {
         allowNull: true,
         defaultValue: 0
     },
+    user_id: {
+        type: DataTypes.UUID
+    }
 }, {
     Sequelize,
     modelName: 'Post',
     underscored: true,
     paranoid: false,
-    orderBy: [["created_at", "DESC"]]
+    orderBy: [["created_at", "DESC"]],
 });
 
 module.exports = Post;

@@ -3,16 +3,14 @@ const User = require('../models/user');
 const Img = require('../models/img');
 const Comment = require('../models/comment');
 
-Img.belongsTo(User, {
-    foreignKey: 'img_id'
-});
+Img.belongsTo(User, { foreignKey: 'user_id', constraints: false});
 Img.hasMany(Comment, {
-    as: 'comment',
-    foreignKey: 'comment_id',
-    onDelete: "cascade"
+    foreignKey: { as: 'id', constraints: false },
+    onDelete: 'CASCADE',
 });
 
 exports.createImg = (req, res) => {
+    console.log(req.body);
     Img.create({
         ...req.body,
         image_url: 
@@ -26,11 +24,15 @@ exports.getAllImg = (req, res) => {
     Img.findAll({
         include: [
             { 
-                model: User
+                model: User,
+                attributes: ['id', 'pseudo', 'photo']
             }
         ]
     })
-    .then((imgs) => res.status(200).json(imgs))
+    .then((imgs) => {
+        res.status(200).json(imgs);
+        console.log(">> Get Images: " + JSON.stringify(imgs));
+    })
     .catch(error => res.status(400).json({error}));
 };
 
@@ -41,7 +43,8 @@ exports.getImg = (req, res) => {
         },
         include: [
             {
-                model: User
+                model: User,
+                attributes: ['id', 'pseudo', 'photo']
             }
         ]
     })

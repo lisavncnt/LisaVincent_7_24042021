@@ -3,8 +3,8 @@ const Post = require('../models/post');
 const Img = require('../models/img');
 const Comment = require('../models/comment');
 
-Comment.belongsTo(User, {foreignKey: 'user_id'});
-Comment.belongsTo(Post, {foreignKey: 'id'});
+Comment.belongsTo(Post);
+Comment.belongsTo(Img);
 
 exports.createComment = (req, res) => {
     const body = req.body;

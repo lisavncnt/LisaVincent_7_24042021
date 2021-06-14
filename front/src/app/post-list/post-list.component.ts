@@ -38,12 +38,10 @@ export class PostListComponent implements OnInit {
               private profil: ProfilService) { }
 
   ngOnInit(): void {
-    this.comment.getComments();
     this.loading = true;
     this.postSub = this.post.posts$.subscribe(
       (posts) => {
 
-        //CA cest bon
         console.log(Object.values(posts));
         this.posts = posts;
 
@@ -69,9 +67,9 @@ export class PostListComponent implements OnInit {
     });
   }
 
-  onModify() {
+  onModify(id) {
     let post_id = this.post.getPostById(this.post_id);
-    this.router.navigate(['message/', this.post_id]);
+    this.router.navigate(['message/', id]);
   }
 
   onDelete() {

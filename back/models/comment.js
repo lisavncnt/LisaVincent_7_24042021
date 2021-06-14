@@ -21,7 +21,6 @@ const Comment = database.define('comments', {
     modelName: 'Comment',
     underscored: true,
     paranoid: false,
-    orderBy: [["created_at", "DESC"]]
 });
 
 module.exports = Comment;

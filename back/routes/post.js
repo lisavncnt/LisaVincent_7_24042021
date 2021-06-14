@@ -6,8 +6,8 @@ const auth_params = require('../middleware/auth-params');
 
 router.post('/messages/add', auth_params, post_ctrl.createPost);
 router.get('/messages/' , auth_params,  post_ctrl.getAllPosts);
-router.get('/message/:id', auth_params,  post_ctrl.getPost);
-router.put('/message/:id',  auth_params, post_ctrl.updatePost);
-router.delete('/message/:id',  auth_params, post_ctrl.deletePost);
+router.get('/messages/:id', auth_params,  post_ctrl.getPost);
+router.put('/messages/:id',  auth_params, post_ctrl.updatePost);
+router.delete('/messages/:id',  auth_params, post_ctrl.deletePost);
 
 module.exports = router;

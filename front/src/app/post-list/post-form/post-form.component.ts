@@ -26,15 +26,9 @@ export class PostFormComponent implements OnInit {
     private profil: ProfilService) { }
 
   ngOnInit(): void {
-    this.user_id = sessionStorage.getItem('user_id');
-    // this.user?.pseudo;
-    // let image = this.user?.image_url;
     this.postForm = this.formBuilder.group({
       title: [null, Validators.required],
       content: [null, Validators.required],
-      user_id: [null],
-      pseudo: [null],
-      // image: [image, Validators.required]
     });
     this.loading = false;
   }
@@ -42,9 +36,8 @@ export class PostFormComponent implements OnInit {
   onSubmit() {
     const title = this.postForm.get('title').value;
     const content = this.postForm.get('content').value;
-    const user_id = sessionStorage.getItem('user_id');
 
-    this.post.createPost(title, content, user_id).then(
+    this.post.createPost(title, content).then(
       (response : {message: string }) => {
         console.log(response.message);
         this.router.navigate(['dashboard/messages']);
@@ -57,7 +50,7 @@ export class PostFormComponent implements OnInit {
 
   onDelete() {
     if (sessionStorage.getItem('token') === this.auth.getToken()) {
-      this.post.deletePost;
+      this.post.deletePost(this.post.id);
       this.router.navigate(['dashboard/messages']);
     }
   }

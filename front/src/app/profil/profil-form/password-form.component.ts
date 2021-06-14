@@ -51,7 +51,7 @@ export class PasswordFormComponent implements OnInit {
     this.userForm = this.fb.group({
       password: [null, Validators.required],
     });
-    this.imagePreview = this.user.image_url;
+    this.imagePreview = this.user.photo;
   };
 
   onSubmit() {

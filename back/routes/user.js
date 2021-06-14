@@ -7,9 +7,10 @@ const auth_params = require('../middleware/auth-params');
 
 router.post('/auth/signup', multer, user_ctrl.signup);
 router.post('/auth/signin', user_ctrl.signin);
-router.get('/user/:id', auth_params, user_ctrl.getUser);
+router.get('/users/:id', auth_params, user_ctrl.getUser);
 router.get('/users', auth_params, multer, user_ctrl.getAllProfils);
-router.put('modify/user/:id', auth_params, multer, user_ctrl.modifyUser);
-router.delete('/user/:id', auth_params,user_ctrl.deleteUser);
+router.put('/modify/users/:id', auth_params, multer, user_ctrl.modifyUser);
+router.put('/modify/password/:id', auth_params, user_ctrl.modifyPassword);
+router.delete('/users/:id', auth_params,user_ctrl.deleteUser);
 
 module.exports = router;

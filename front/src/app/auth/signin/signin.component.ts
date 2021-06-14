@@ -37,7 +37,7 @@ export class SigninComponent implements OnInit {
         this.token = this.auth.getToken();
         this.user_id;
         this.auth.isAuth$.next(true);
-        window.location.reload;
+        window.location.reload();
         this.router.navigate(['/dashboard', 'messages']);
       }
     ).catch(

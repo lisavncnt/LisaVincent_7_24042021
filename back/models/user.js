@@ -21,7 +21,7 @@ const User = database.define('users', {
         type: DataTypes.STRING, 
         required: true 
     },
-    image_url: { 
+    photo: { 
         type: DataTypes.STRING, 
         defaultValue: "https://media.istockphoto.com/vectors/woman-default-avatar-icon-vector-isolated-on-white-vector-id1310731736?b=1&k=6&m=1310731736&s=170667a&w=0&h=z_vIF9VJO9DGW_45isCqfmVFL0FOZUbIxZWKfOucwtU=", 
     },
@@ -34,12 +34,13 @@ const User = database.define('users', {
         required: false,
         allowNull: true,
         defaultValue: 0
-    },
+    }
 }, {
     Sequelize,
     modelName: 'User',
     underscored: true,
-    paranoid: false
+    paranoid: false,
+    
 });
 
 module.exports = User;

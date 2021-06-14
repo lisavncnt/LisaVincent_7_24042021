@@ -1,31 +1,22 @@
-const User = require('../models/user');
-const Post = require('../models/post');
-const Img = require('../models/img');
+const {User, Post, Img, Comment} = require('../models');
+
+User.hasMany(Post, {
+  foreignKey: { as: 'id', constraints: false },
+  onDelete: 'cascade',
+});
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
-User.hasMany(Post, {
-  as: 'post',
-  foreignKey: 'post_id',
-  onDelete: "cascade"
-});
-User.hasMany(Img, {
-  as: 'img',
-  foreignKey: 'img_id',
-  onDelete: "cascade"
-});
-
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             User.create({
-                image_url: req.body.image_url,
+                photo: req.body.photo,
                 pseudo: req.body.pseudo,
                 email: req.body.email,
                 is_admin: req.body.is_admin,
-                totalLikes: 0,
+                likes: 0,
                 password: hash
             })
             .then(() => res.status(201).json({ message: 'User created !' }))
@@ -39,12 +30,12 @@ exports.signin = (req, res) => {
       where: {
           email: req.body.email
       }
-    }).then(user => {
+    }).then((user) => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
         bcrypt.compare(req.body.password, user.password)
-          .then(valid => {
+          .then((valid) => {
             if (!valid) {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
@@ -56,8 +47,8 @@ exports.signin = (req, res) => {
                     process.env.JWT_SECRET_KEY,
                     { expiresIn: '24h' }
                 )});  
-          }).catch(error => res.status(401).json({ error }))
-      }).catch(error => res.status(500).json({ error }));
+          }).catch((error) => res.status(401).json({ error }))
+      }).catch((error) => res.status(500).json({ error }));
 };
 
 exports.getUser = (req, res) => {
@@ -96,13 +87,13 @@ exports.modifyUser = (req, res) => {
     }).then(
       user => {
         if (req.file) {
-          if (user.image_url !== null) {
-            const fileName = user.image_url.split('/images/')[1]
+          if (user.photo !== null) {
+            const fileName = user.photo.split('/images/')[1]
             false.unlink(`images/${fileName}`, (err => {
               if (err) {console.log(err)};
             }))
           }
-          req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+          req.body.photo = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         }
         delete(req.body.is_admin);
         console.log(req.body);
@@ -136,17 +127,17 @@ exports.modifyPassword = (req, res) => {
     User.findOne({
       where: {
         id: req.params.id
-      }
+      },
     }).then(
       (user) => {
         bcrypt.hash(user.password, 10)
         .then(
           (hash => {
+            console.log(user.password);
             user.update({
-              password: hash,
-              id: req.params.id
+              password: hash
             }).then(
-              () => res.status(200).json({error})
+              (user) => res.status(200).json(user)
             ).catch(
               (error) => res.status(400).json({error})
             );
@@ -159,12 +150,12 @@ exports.modifyPassword = (req, res) => {
   }
 };
 
+
+// essayer user.destroy sans user.find
+// supprimer l'image (mais avec user.find)
 exports.deleteUser = async (req, res) => {
-    await User.destroy({
-        where: {
-            id: req.params.id
-        }
-    })
+  const user = await User.findOne({ where: {id: req.params.id }});
+    user.destroy()
     .then(() => res.status(201).json({ message: 'User deleted !' }))
     .catch(error => res.status(400).json({ error }));
 };

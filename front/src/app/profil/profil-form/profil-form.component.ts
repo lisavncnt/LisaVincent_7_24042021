@@ -57,7 +57,7 @@ export class ProfilFormComponent implements OnInit {
     this.userForm = this.fb.group({
       pseudo: [null, Validators.required],
       email: [null, Validators.required],
-      image_url: [null, Validators.required],
+      photo: [null, Validators.required],
     });
   };
 
@@ -65,9 +65,9 @@ export class ProfilFormComponent implements OnInit {
     this.userForm = this.fb.group({
       pseudo: [null, Validators.required],
       email: [null, Validators.required],
-      image_url: [null, Validators.required],
+      photo: [null, Validators.required],
     });
-    this.imagePreview = this.user.image_url;
+    this.imagePreview = this.user.photo;
   };
 
   onSelectFile(event) {
@@ -89,7 +89,7 @@ export class ProfilFormComponent implements OnInit {
     newUser.pseudo = this.userForm.get('pseudo').value;
     newUser.email = this.userForm.get('email').value;
 
-      this.profil.modifyUser(this.user.id, this.user ,this.userForm.get('image_url').value).then(
+      this.profil.modifyUser(this.user.id, this.user ,this.userForm.get('photo').value).then(
         (response: { message: string}) => {
           console.log(response.message);
           this.loading = false;
@@ -107,7 +107,7 @@ export class ProfilFormComponent implements OnInit {
 
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
-    this.userForm.get('image_url').setValue(file);
+    this.userForm.get('photo').setValue(file);
     this.userForm.updateValueAndValidity;
     const reader = new FileReader();
     reader.onload = () => {

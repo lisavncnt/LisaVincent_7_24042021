@@ -34,14 +34,14 @@ export class AuthService {
     });
   }
 
-  modifyUser(user: User, image_url: File) {
+  modifyUser(user: User, photo: File) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       let body = user;
       formData.append('pseudo', body.pseudo);
       formData.append('email', body.email);
       formData.append('password', body.password);
-      formData.append('image_url', image_url);
+      formData.append('photo', photo);
       this.http.post('http;//localhost:3000/auth/signup', formData).subscribe(
         (response: {message: string}) => {
           resolve(response);

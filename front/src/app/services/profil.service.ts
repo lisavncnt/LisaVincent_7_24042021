@@ -27,7 +27,7 @@ export class ProfilService {
   }
   getUserById(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/user/'+ id).subscribe(
+      this.http.get('http://localhost:3000/users/'+ id).subscribe(
         (user: User) => {
           resolve(user);
         },
@@ -41,7 +41,7 @@ export class ProfilService {
   modifyUser(id: string, user: User, image: string | File) {
     return new Promise((resolve, reject) => {
       if (typeof image === 'string') {
-        this.http.put('http://localhost:3000/modify/user/' + id, user).subscribe(
+        this.http.put('http://localhost:3000/modify/users/' + id, user).subscribe(
           (response: {message: string }) => {
             console.log('user update work');
             resolve(response);
@@ -56,7 +56,7 @@ export class ProfilService {
 
   modifyPassword(id: string, password: string) {
     return new Promise((resolve, reject) => {
-      this.http.put('http://localhost:3000/modify/user/' + id, password).subscribe(
+      this.http.put('http://localhost:3000/modify/password/' + id, password).subscribe(
         (response) => {
           console.log('password update');
           resolve(response)
@@ -70,7 +70,7 @@ export class ProfilService {
 
   deleteUser(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/user/' + id).subscribe(
+      this.http.delete('http://localhost:3000/users/' + id).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -81,10 +81,10 @@ export class ProfilService {
     });
   }
 
-  public uploadImage(image_url: File): Observable<any> {
+  public uploadImage(photo: File): Observable<any> {
     const formData = new FormData();
 
-    formData.append('image_url', image_url);
+    formData.append('photo', photo);
 
    return this.http.post('http://localhost:3000/user', formData);
   }

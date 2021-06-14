@@ -5,16 +5,16 @@
 <div class="card-container">
   <div class="card text-left" *ngFor="let image of images">
     <div class="card-header">
-      <span class="img_user"><img [src]="image.user.image_url"></span>
+      <span class="img_user"><img [src]="image.user.photo"></span>
 
       <div class="user_info">
         <h4 class="text-center">by <span class="pseudo">{{image.user.pseudo}}</span></h4>
-        <p class="text-center">{{ image.createdAt | date: 'short' }}</p>
+        <p class="text-center">{{ image.created_at | date: 'short' }}</p>
       </div>
       <div class="btn-right">
         <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
-        <button class="btn btn-sm btn-success btn-sm" *ngIf="id === post.user_id" (click)="onModify()">Modify post</button>
-        <button class="btn btn-sm btn-danger btn-sm" *ngIf="id === post.user_id"(click)="onDelete()">Delete post</button>
+        <button class="btn btn-sm btn-success btn-sm" *ngIf="id === image.user_id" (click)="onModify()">Modify post</button>
+        <button class="btn btn-sm btn-danger btn-sm" *ngIf="id === image.user_id"(click)="onDelete()">Delete post</button>
       </div>
     </div>
     <div class="card-body">
@@ -25,7 +25,7 @@
       </span>
 
       <div class="text-muted">
-        <p class="likes" style="cursor: pointer;">Likes: {{likes}}</p>
+        <p class="likes" style="cursor: pointer;">Likes: {{image.likes}}</p>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
       <p>This is another comment</p>
     </div>
     <div class="card-footer text-muted" *ngFor="let comment of comments">
-      <img [src]="comment.user.content" alt="">
+      <img [src]="image.user.photo" alt="">
       <p class="form-control">{{comment.content}} __ {{ comment.user.pseudo }}</p>
     </div>
 
@@ -46,4 +46,3 @@
     </form>
   </div>
 </div>
-

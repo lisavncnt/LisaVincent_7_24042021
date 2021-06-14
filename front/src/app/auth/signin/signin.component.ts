@@ -22,10 +22,19 @@ export class SigninComponent implements OnInit {
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.signinForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
-    })
+    if (this.auth.getToken()) {
+      this.router.navigate(['dashboard/', 'messages']);
+    } else {
+      // this.signinForm = this.formBuilder.group({
+      //   email: [null, [Validators.required, Validators.email]],
+      //   password: [null, [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
+      // })
+
+      this.signinForm = new FormGroup({
+        email: new FormControl(),
+        password: new FormControl()
+      });
+    }
   }
 
   onSignin() {

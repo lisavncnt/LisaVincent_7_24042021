@@ -21,9 +21,10 @@ const User = database.define('users', {
         type: DataTypes.STRING, 
         required: true 
     },
-    photo: { 
+    image_url: { 
         type: DataTypes.STRING, 
-        defaultValue: "https://media.istockphoto.com/vectors/woman-default-avatar-icon-vector-isolated-on-white-vector-id1310731736?b=1&k=6&m=1310731736&s=170667a&w=0&h=z_vIF9VJO9DGW_45isCqfmVFL0FOZUbIxZWKfOucwtU=", 
+        allowNull: false,
+        unique: true
     },
     is_admin: {
         type:DataTypes.BOOLEAN,

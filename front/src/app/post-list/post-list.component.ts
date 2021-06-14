@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Post } from '../models/Post.model';
 import { User } from '../models/user.model';
 import { CommentService } from '../services/comment.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -79,8 +79,8 @@ export class PostListComponent implements OnInit {
     window.location.reload();
   }
 
-  onViewPost() {
-    this.router.navigate(['message/', this.post_id]);
+  onViewPost(id: string) {
+    this.router.navigate(['messages/', id]);
   }
 
   onAddComment() {

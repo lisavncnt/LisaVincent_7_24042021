@@ -2,7 +2,7 @@
     <h1 style="text-align: center;">Se connecter</h1>
 </div>
 
-<form [formGroup]="signinForm">
+<form *ngIf="signinForm" [formGroup]="signinForm">
   <div class="form-group">
     <label for="email">Email</label>
     <input type="email" class="form-control" id="email" formControlName="email">

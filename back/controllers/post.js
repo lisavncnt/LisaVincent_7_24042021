@@ -20,7 +20,7 @@ exports.createPost = (req, res) => {
     const userId = decodedToken.user_id;
 
     Post.create({
-        ...req.body,
+        ...req.body, 
         user_id: userId 
     }).then(
         (post) => {
@@ -48,9 +48,13 @@ exports.getAllPosts = (req, res) => {
         include: [
             {
                 model: User,
-                attributes: ['id', 'pseudo', 'photo']
+                attributes: ['id', 'pseudo', 'image_url']
+            },
+            {
+                model: Comment
             }
-        ]
+        ],
+        order: [['created_at', 'DESC']]
     })
     .then((posts) => {
         res.status(200).json(posts);
@@ -67,7 +71,7 @@ exports.getPost = (req, res) => {
             id: req.params.id
         },
         include: [
-            { model: User, attributes: ['id', 'pseudo', 'photo'] }
+            { model: User, attributes: ['id', 'pseudo', 'image_url'] }
         ]
     })
     .then((post) => res.status(200).json(post))

@@ -81,10 +81,10 @@ export class ProfilService {
     });
   }
 
-  public uploadImage(photo: File): Observable<any> {
+  public uploadImage(image_url: File): Observable<any> {
     const formData = new FormData();
 
-    formData.append('photo', photo);
+    formData.append('image_url', image_url);
 
    return this.http.post('http://localhost:3000/user', formData);
   }

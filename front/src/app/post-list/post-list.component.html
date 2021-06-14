@@ -3,19 +3,19 @@
 </div>
 
 <div class="card-container">
-  <div class="card text-left" *ngFor="let post of posts" ng-repeat="post in posts | orderBy: 'created_at'">
+  <div class="card text-left" *ngFor="let post of posts">
 
     <div class="card-header">
 
       <span class="img_user">
 
 
-        <img [src]="post.user.photo" >
+        <img [src]="post.user.image_url" >
 
       </span>
       <div class="user_info">
         <h4 class="text-center">by <span class="pseudo">{{ post.user.pseudo }} </span></h4>
-        <p class="text-center">{{ post.createdAt | date: 'short' }}</p>
+        <p class="text-center">{{ post.createdAt | dateAgo }}</p>
       </div>
       <div class="btn-right">
         <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
@@ -33,21 +33,24 @@
       </div>
     </div>
 
-    <div class="card-footer text-muted">
+    <div class="commentaires">
+      <div *ngFor="let comment of comments"></div>
+      <p>{{ comment.content }}</p>
+    </div>
+
+    <!-- <div class="card-footer text-muted">
       <div *ngFor="let comment of comments">
-        <p class="form-control">{{ comment.content }}</p>
+        <p>{{ post.comment.content }}</p>
       </div>
-      <!-- <div>
-        <input type="text" name="comment" placeholder="Add a comment" [(ngModel)]="comment.content">
-        <button class="btn btn-success" type="submit" (click)="onAddComment()">Add a comment</button>
-      </div> -->
+
     </div>
     <form [formGroup]="commentForm">
       <div class="card-footer text-muted form-control">
         <label for="content"></label>
-        <input type="text" name="content" placeholder="Add a comment" formControlName="content">
+        <input type="text" class="form-control" name="content" placeholder="Add a comment" formControlName="content">
         <button class="btn btn-add" type="submit" (click)="onAddComment()">Comment</button>
       </div>
-    </form>
+    </form> -->
+
   </div>
 </div>

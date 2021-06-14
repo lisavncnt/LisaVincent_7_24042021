@@ -25,7 +25,7 @@ exports.getAllImg = (req, res) => {
         include: [
             { 
                 model: User,
-                attributes: ['id', 'pseudo', 'photo']
+                attributes: ['id', 'pseudo', 'image_url']
             }
         ]
     })
@@ -44,7 +44,7 @@ exports.getImg = (req, res) => {
         include: [
             {
                 model: User,
-                attributes: ['id', 'pseudo', 'photo']
+                attributes: ['id', 'pseudo', 'image_url']
             }
         ]
     })

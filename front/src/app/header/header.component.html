@@ -1,35 +1,37 @@
 <div class="jumbotron">
   <div class="container">
     <div class="row">
-            <nav class="navbar navbar-fixed-top">
-                <ul class="nav">
-                    <li class="nav-item" routerLinkActive="active">
-                        <a class="nav-link" routerLink="dashboard/messages"><i class="fas fa-envelope-open-text"></i><span>Messages</span></a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active">
-                        <a class="nav-link" routerLink="dashboard/images"><i class="fas fa-camera-retro"></i><span>Photos</span></a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == true">
-                        <a class="nav-link" routerLink="user" (click)="onClickUser()"><i class="fas fa-portrait"></i><span>Profil</span></a>
-                    </li>
-                </ul>
-
-                <ul class="nav navbar-right">
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
-                        <a routerLink="auth/signup" class="nav-link"><i class="fas fa-user-plus"></i><span>Sign up</span></a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
-                        <a routerLink="auth/signin" class="nav-link"><i class="fas fa-sign-in-alt"></i><span>Sign in</span></a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == true">
-                        <a class="nav-link" (click)="onSignout()"><i class="fas fa-sign-out-alt"></i><span>Sign out</span></a>
-                    </li>
-                </ul>
-            </nav>
+      <div class="logo">
+        <img [src]="groupomaniaLogo" alt="Groupomania logo">
+      </div>
+      <nav class="navbar navbar-fixed-top">
+        <ul class="nav">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="dashboard/messages"><i class="fas fa-envelope-open-text"></i><span>Messages</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="dashboard/images"><i class="fas fa-camera-retro"></i><span>Photos</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == true">
+                <a class="nav-link" routerLink="user" (click)="onClickUser()"><i class="fas fa-portrait"></i><span>Profil</span></a>
+            </li>
+        </ul>
+        <ul class="nav navbar-right">
+            <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
+                <a routerLink="auth/signup" class="nav-link"><i class="fas fa-user-plus"></i><span>Sign up</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == false">
+                <a routerLink="auth/signin" class="nav-link"><i class="fas fa-sign-in-alt"></i><span>Sign in</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="isAuth == true">
+                <a class="nav-link" (click)="onSignout()"><i class="fas fa-sign-out-alt"></i><span>Sign out</span></a>
+            </li>
+        </ul>
+      </nav>
     </div>
+  </div>
 </div>
-<img [src]="groupomaniaLogo" alt="Groupomania logo">
-</div>
+
 
 
 

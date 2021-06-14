@@ -19,12 +19,15 @@ export class AuthService {
   constructor(private http: HttpClient,
               private router: Router) { }
 
-  createUser(pseudo: string, email: string, password: string) {
+  createUser(user: User, image_url: File) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/auth/signup',
-      {pseudo: pseudo, email: email, password: password})
-      .subscribe(
-        (response: {message: string }) => {
+      const formData = new FormData();
+      formData.append('pseudo', user.pseudo);
+      formData.append('image_url', image_url);
+      formData.append('email', user.email);
+      formData.append('password', user.password);
+      this.http.post('http://localhost:3000/auth/signup', formData).subscribe(
+        (response: { message: string}) => {
           resolve(response);
         },
         (error) => {
@@ -34,15 +37,15 @@ export class AuthService {
     });
   }
 
-  modifyUser(user: User, photo: File) {
+  modifyUser(user: User, image_url: File) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       let body = user;
       formData.append('pseudo', body.pseudo);
       formData.append('email', body.email);
       formData.append('password', body.password);
-      formData.append('photo', photo);
-      this.http.post('http;//localhost:3000/auth/signup', formData).subscribe(
+      formData.append('image_url', image_url);
+      this.http.post('http://localhost:3000/auth/signup', formData).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -70,7 +73,7 @@ export class AuthService {
     }
   }
 
-  signin(email: string, password) {
+  signin(email: string, password: string) {
     return new Promise((resolve, reject) => {
       this.http.post('http://localhost:3000/auth/signin',
       {email:email, password:password})

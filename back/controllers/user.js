@@ -12,7 +12,7 @@ exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             User.create({
-                photo: req.body.photo,
+                image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
                 pseudo: req.body.pseudo,
                 email: req.body.email,
                 is_admin: req.body.is_admin,
@@ -87,13 +87,13 @@ exports.modifyUser = (req, res) => {
     }).then(
       user => {
         if (req.file) {
-          if (user.photo !== null) {
-            const fileName = user.photo.split('/images/')[1]
+          if (user.image_url !== null) {
+            const fileName = user.image_url.split('/images/')[1]
             false.unlink(`images/${fileName}`, (err => {
               if (err) {console.log(err)};
             }))
           }
-          req.body.photo = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+          req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         }
         delete(req.body.is_admin);
         console.log(req.body);

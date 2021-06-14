@@ -24,6 +24,8 @@ import { ImagesService } from './services/images.service';
 import { ProfilFormComponent } from './profil/profil-form/profil-form.component';
 import { PasswordFormComponent } from './profil/profil-form/password-form.component';
 import { AuthInterceptor } from './interceptors/auth-interceptors';
+import { CommentComponent } from './comment/comment.component';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 const appRoutes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
@@ -59,7 +61,9 @@ const appRoutes: Routes = [
     ImgListComponent,
     ImgFormComponent,
     SingleImgComponent,
-    ProfilFormComponent
+    ProfilFormComponent,
+    CommentComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,

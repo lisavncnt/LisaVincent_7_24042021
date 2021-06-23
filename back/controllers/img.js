@@ -3,22 +3,47 @@ const User = require('../models/user');
 const Img = require('../models/img');
 const Comment = require('../models/comment');
 
-Img.belongsTo(User, { foreignKey: 'user_id', constraints: false});
+Img.belongsTo(User, { 
+    foreignKey: 'user_id', 
+
+});
 Img.hasMany(Comment, {
     foreignKey: { as: 'id', constraints: false },
-    onDelete: 'CASCADE',
+    onDelete: 'cascade',
 });
 
-exports.createImg = (req, res) => {
-    console.log(req.body);
+const jwt = require('jsonwebtoken');
+
+exports.createImg = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decodedToken.user_id;
+
     Img.create({
         ...req.body,
+        user_id: userId,
         image_url: 
         `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     })
-    .then(() => res.status(200).json({ message: 'Post image created !'}))
-    .catch(error => res.status(400).json({error}));
-};
+    .then((image) => {
+        res.status(200).json(image);
+        User.findOne({
+            where: { id: req.params.id }
+        }).then(
+            (user) => {
+                user.update({
+                    image_id: image.id
+                })
+            }
+        ).catch(
+            (error) => {
+                res.status(404).json({error});
+            }
+        )
+    }).catch(error => res.status(400).json({error}));
+}
+
+
 
 exports.getAllImg = (req, res) => {
     Img.findAll({
@@ -26,12 +51,15 @@ exports.getAllImg = (req, res) => {
             { 
                 model: User,
                 attributes: ['id', 'pseudo', 'image_url']
+            },
+            {
+                model: Comment
             }
-        ]
+        ],
+        order: [['created_at', 'DESC']]
     })
-    .then((imgs) => {
-        res.status(200).json(imgs);
-        console.log(">> Get Images: " + JSON.stringify(imgs));
+    .then((images) => {
+        res.status(200).json(images);
     })
     .catch(error => res.status(400).json({error}));
 };

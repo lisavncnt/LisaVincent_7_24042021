@@ -1,21 +1,28 @@
-<div class="card-container" *ngIf="!loading">
-  <div class="card-header">
-    <img [src]="post.user.image_url" >
-      <h5 class="text-center"> by {{post.user.pseudo}}</h5>
-
-      <div class="btn-right">
-        <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
-        <button class="btn btn-success btn-sm" *ngIf="id === post.user_id" (click)="onModify()">Modify post</button>
-        <button class="btn btn-danger btn-sm" *ngIf="id === post.user_id"(click)="onDelete()">Delete post</button>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <img [src]="post?.user?.image_url" alt="photo de profil">
+        <h1>{{ post?.user?.pseudo }}</h1>
       </div>
-
-  </div>
+      <div>
+        <button class="btn btn-primary" *ngIf="post?.user?.is_admin === true || user_id === post?.user_id" (click)="onModify(post?.id)">Modify post</button>
+        <button class="btn btn-danger" (click)="onDelete()">Delete post and all comments</button>
+      </div>
+    </div>
 
     <div class="card-body">
-      <h5 class="card-title">{{ post.title }}</h5>
-      <p class="card-text">{{ post.content }}</p>
-      <div class="text-muted">
-        <p class="text-left text-primary">{{ post.createdAt | date: 'short' }}</p>
-        <p class="text-right text-primary">Likes {{post.likes}}</p>
-      </div>
+      <h2>{{ post?.title }}</h2>
+      <p>{{ post?.content }}</p>
+    </div>
+
+    <div class="card-footer">
+      <p>{{ post?.createdAt | dateAgo }}</p>
+    </div>
+  </div>
+
+  <div *ngFor="let comment of post?.comments">
+    <h5>Your comment:</h5>
+    <p>{{comment?.content}}</p>
+  </div>
 </div>

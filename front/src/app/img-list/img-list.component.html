@@ -1,4 +1,4 @@
-<div class="card-footer">
+<div>
     <button class="btn btn-lg btn-primary" routerLink='add'>Add a new post</button>
 </div>
 
@@ -8,14 +8,10 @@
       <span class="img_user"><img [src]="image.user.image_url"></span>
 
       <div class="user_info">
-        <h4 class="text-center">by <span class="pseudo">{{image.user.pseudo}}</span></h4>
-        <p class="text-center">{{ image.created_at | date: 'short' }}</p>
+        <h4 class="text-center">by {{image.user.pseudo}}</h4>
+    <p class="text-center">{{ image.createdAt | dateAgo }}</p>
       </div>
-      <div class="btn-right">
-        <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
-        <button class="btn btn-sm btn-success btn-sm" *ngIf="id === image.user_id" (click)="onModify()">Modify post</button>
-        <button class="btn btn-sm btn-danger btn-sm" *ngIf="id === image.user_id"(click)="onDelete()">Delete post</button>
-      </div>
+
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ image.title }}</h5>
@@ -25,13 +21,14 @@
       </span>
 
       <div class="text-muted">
-        <p class="likes" style="cursor: pointer;">Likes: {{image.likes}}</p>
+        <a (click)="onViewImage(image.id)">View Post here</a>
       </div>
     </div>
 
-    <div class="commentaires">
-      <div *ngFor="let comment of comments"></div>
-      <p>{{ comment.content }}</p>
+    <div *ngFor="let comment of post.comments">
+      <div>
+        <p class="card-text">{{comment.content}}</p>
+      </div>
     </div>
 
   </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Img } from '../models/Img.model';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -11,6 +12,9 @@ export class ImagesService {
 
   images$ = new Subject<Img[]>();
   isloggin = this.auth.isLoggin();
+  d = sessionStorage.getItem('post_id');
+  user_id = sessionStorage.getItem('user_id')
+  user: User;
 
   constructor(private http: HttpClient,
               private auth: AuthService) { }
@@ -31,18 +35,16 @@ export class ImagesService {
   }
 
   getImagesById(id: string){
-    if (this.auth.isAuth$) {
-      return new Promise((resolve, reject) => {
-        this.http.get('http://localhost:3000/dashboard/images/' + id).subscribe(
-          (image: Img) => {
-            resolve(image);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
-    }
+    return new Promise((resolve, reject) => {
+      this.http.get('http://localhost:3000/dashboard/images/' + id).subscribe(
+        (image: Img) => {
+          resolve(image);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
   }
 
   createImage(image: Img, image_url: File) {
@@ -77,7 +79,7 @@ export class ImagesService {
         const formData = new FormData();
         formData.append('images', JSON.stringify(image));
         formData.append('image', image_url);
-        this.http.put('http:localhost:3000/dashboard/images' + id, formData).subscribe(
+        this.http.put('http:localhost:3000/dashboard/images/' + id, formData).subscribe(
           (response: { message: string }) => {
             resolve(response);
           },
@@ -110,7 +112,7 @@ export class ImagesService {
         like: like ? 1 : 0
       })
       .subscribe(
-        (response: {message: string}) => {
+        (like: {message: string}) => {
           resolve(like);
         },
         (error) => {

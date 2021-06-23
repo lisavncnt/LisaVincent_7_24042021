@@ -1,8 +1,9 @@
-<div class="jumbotron text-center">
-    Add a Post
+<div class="jumbotron text-center" *ngIf='showTitle() === true'>
+  Add a Post
 </div>
-
-<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="jumbotron text-center" *ngIf='showTitle() === false'>
+  Modify my Post
+</div>
 
 <form [formGroup]="postForm" *ngIf="!loading">
   <div class="form-group">
@@ -14,7 +15,7 @@
     <input type="text" class="form-control" id="content" formControlName="content">
   </div>
 
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="postForm.invalid">Add my message</button>
+  <button class="btn btn-primary" (click)="onSubmit()" [disabled]="postForm.invalid">Submit</button>
 
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
 </form>

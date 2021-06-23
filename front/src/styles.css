@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,700;0,800;1,200&display=swap');
+* {
+    font-family: 'Raleway', sans-serif;
+}
+
+body {
+  background-color: #f2faff;
+}

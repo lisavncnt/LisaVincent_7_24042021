@@ -11,10 +11,9 @@
 
   <div class="form-group">
     <input type="file" accept="images/*" #imageInput (change)="onFileAdded($event)">
-    <button mat-raised-button color="primary" (click)="imageInput.click()">add my image</button>
     <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
   </div>
 
-  <button class="btn btn-lg btn-primary" (click)="onSubmit()" [disabled]="userForm.invalid">SUBMIT</button>
+  <button class="btn btn-lg btn-primary" (click)="onSubmit(user.id)" [disabled]="userForm.invalid">Modify</button>
 
 </form>

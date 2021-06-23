@@ -1,7 +1,10 @@
 export class Comment {
-  constructor(
-    public body: string,
-    public user_id: string,
-    public created_at: Date,
-  ) {}
+  id: string;
+  content: string;
+  user_id: string;
+  post_id: string;
+  image_id: string;
+  user: any;
+  post: any;
+  image: any;
 }

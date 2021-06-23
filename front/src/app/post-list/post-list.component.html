@@ -1,26 +1,15 @@
-<div class="card-footer">
+<div>
   <button class="btn btn-lg btn-primary" routerLink='add'>Add a new post</button>
 </div>
 
 <div class="card-container">
-  <div class="card text-left" *ngFor="let post of posts">
+  <div class="card text-left" *ngFor="let post of posts" id="getPostId()">
 
     <div class="card-header">
-
-      <span class="img_user">
-
-
-        <img [src]="post.user.image_url" >
-
-      </span>
+      <span class="img_user"><img [src]="post.user.image_url" ></span>
       <div class="user_info">
-        <h4 class="text-center">by <span class="pseudo">{{ post.user.pseudo }} </span></h4>
+        <h4 class="text-center">by {{ post.user.pseudo }}</h4>
         <p class="text-center">{{ post.createdAt | dateAgo }}</p>
-      </div>
-      <div class="btn-right">
-        <a routerLink="dashboard/messages/:id" (click)="onViewPost()">View post</a>
-        <button class="btn btn-success btn-sm" *ngIf="id === post.user_id" (click)="onModify()">Modify post</button>
-        <button class="btn btn-danger btn-sm" *ngIf="id === post.user_id"(click)="onDelete()">Delete post</button>
       </div>
 
     </div>
@@ -29,28 +18,21 @@
       <h5 class="card-title">{{ post.title }}</h5>
       <p class="card-text">{{ post.content }}</p>
       <div class="text-muted">
-        <p class="likes">Likes {{post.likes}}</p>
+        <a (click)="onViewPost(post.id)">View Post here</a>
       </div>
     </div>
 
-    <div class="commentaires">
-      <div *ngFor="let comment of comments"></div>
-      <p>{{ comment.content }}</p>
+    <div>
+      <app-comment></app-comment>
     </div>
 
-    <!-- <div class="card-footer text-muted">
-      <div *ngFor="let comment of comments">
-        <p>{{ post.comment.content }}</p>
+    <div *ngFor="let comment of post.comments">
+      <div>
+        <p class="card-text">{{comment.content}}</p>
       </div>
-
+      <div class="card_info">
+      </div>
     </div>
-    <form [formGroup]="commentForm">
-      <div class="card-footer text-muted form-control">
-        <label for="content"></label>
-        <input type="text" class="form-control" name="content" placeholder="Add a comment" formControlName="content">
-        <button class="btn btn-add" type="submit" (click)="onAddComment()">Comment</button>
-      </div>
-    </form> -->
 
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Post } from '../models/Post.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { User } from '../models/user.model';
 
@@ -35,7 +35,6 @@ export class PostsService {
   }
 
   getPostById(id: string) {
-    id = this.user_id;
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/dashboard/messages/' + id).subscribe(
         (post: Post) => {
@@ -66,7 +65,7 @@ export class PostsService {
 
   modifyPost(id: string, post: Post) {
     return new Promise((resolve, reject) => {
-        this.http.put('http://localhost:3000/dashboard/messages/' + id, post).subscribe(
+        this.http.put('http://localhost:3000/dashboard/edit-message/' + id, post).subscribe(
           (response: {message: string }) => {
             resolve(response);
           },
@@ -75,8 +74,10 @@ export class PostsService {
           }
         );
         const formData = new FormData();
-        formData.append('post', JSON.stringify(post));
-        this.http.put('http://localhost:3000/dashboard/messages/' + id, formData).subscribe(
+        formData.append('title', post.title);
+        formData.append('content', post.content);
+        formData.append('user_id', this.user_id);
+        this.http.put('http://localhost:3000/dashboard/edit-message/' + id, formData).subscribe(
           (response: {message: string}) => {
             resolve(response);
           },
@@ -89,7 +90,7 @@ export class PostsService {
 
   deletePost(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/dashboard/messages' + id).subscribe(
+      this.http.delete('http://localhost:3000/dashboard/messages/' + id).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -99,24 +100,5 @@ export class PostsService {
       );
     });
   }
-
-  likePost(id: string, like: boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/message/' + id + '/like',
-      {
-        user_id: sessionStorage.getItem('user_id'),
-        like: like ? 1 : 0
-      })
-      .subscribe(
-        (like: {message: string}) => {
-          resolve(like);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }
-
 
 }

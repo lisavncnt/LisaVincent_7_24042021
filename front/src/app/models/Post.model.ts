@@ -3,6 +3,8 @@ export class Post {
     user_id: string;
     title: string;
     content: string;
-    created_at: Date;
-    updated_at: Date;
+    user :any;
+    comments: any[];
+    createdAt: Date;
+    updatedAt: Date;
 }

@@ -7,7 +7,6 @@ import { User } from '../models/user.model';
 import { CommentService } from '../services/comment.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-list',
@@ -21,6 +20,7 @@ export class PostListComponent implements OnInit {
   commentSub: Subscription;
   commentForm: FormGroup;
   posts: Post[];
+  comments: Comment[];
   user: User;
   loading: boolean;
   errorMsg: string;
@@ -28,12 +28,11 @@ export class PostListComponent implements OnInit {
   id: string;
   content: string;
   user_id: string;
-  post_id = (sessionStorage.getItem('post_id'));
+  likes = 0;
 
   constructor(private post: PostsService,
               private router: Router,
               private comment: CommentService,
-              private http: HttpClient,
               private formBuilder: FormBuilder,
               private profil: ProfilService) { }
 
@@ -41,19 +40,26 @@ export class PostListComponent implements OnInit {
     this.loading = true;
     this.postSub = this.post.posts$.subscribe(
       (posts) => {
-
-        console.log(Object.values(posts));
         this.posts = posts;
-
         this.loading = false;
         this.errorMsg = null;
+        posts.forEach(post => {
+          this.commentSub = this.comment.comments$.subscribe(
+            (comments) => {
+              comments.forEach(comment => {
+                if (post.id === comment.post_id) {
+                  return comment;
+                }
+              });
+            }
+          );
+        });
       },
       (error) => {
         this.errorMsg = JSON.stringify(error);
         this.loading = false;
       }
     );
-
     this.post.getPosts();
 
     this.id = sessionStorage.getItem('user_id');
@@ -64,39 +70,27 @@ export class PostListComponent implements OnInit {
       title: [null, Validators.required],
       content: [null, Validators.required],
       user_id: [sessionStorage.getItem('user_id')],
+      comments: Array
     });
+
+    this.commentForm = this.formBuilder.group({
+      content: [null, Validators.required],
+      user: Array,
+    })
   }
 
-  onModify(id) {
-    let post_id = this.post.getPostById(this.post_id);
-    this.router.navigate(['message/', id]);
+  onModify(id: string) {
+    this.router.navigate(['dashboard/message', id]);
   }
 
-  onDelete() {
-    let post_id = this.post.getPostById(this.post_id);
-    this.router.navigate(['message/', this.post_id]);
+  onDelete(id: string) {
+    this.router.navigate(['dashboard/message', id]);
     this.post.deletePost(this.id);
     window.location.reload();
   }
 
   onViewPost(id: string) {
-    this.router.navigate(['messages/', id]);
-  }
-
-  onAddComment() {
-    const content = this.commentForm.get('content').value;
-    const user_id = sessionStorage.getItem('user_id');
-    const post_id = this.post_id;
-    this.comment.createComment(content, user_id, post_id)
-    .then(
-      (response: {message: string}) => {
-        console.log(response.message);
-        window.location.reload();
-      }
-    ).catch((error) => {
-      console.log(error);
-      this.errorMsg = error.message;
-    })
+    this.router.navigate(['dashboard/message', id]);
   }
 
 }

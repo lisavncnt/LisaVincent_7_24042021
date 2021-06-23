@@ -5,7 +5,7 @@ export class User {
   password: string;
   image_url: string;
   totalLiked: number;
-  is_admin: number;
+  is_admin: boolean;
   created_at: Date;
   updated_at: Date;
 }

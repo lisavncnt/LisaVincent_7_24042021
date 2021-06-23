@@ -1,8 +1,9 @@
-<form (ngSubmit)="onSubmit(); commentForm.reset();" #commentForm="ngForm">
-  <input type="text"
-    id="body"
-    name="body"
-    placeholder="Commentaire"
-    required
-    #body="ngModel"
-    [(ngModel)]="model.body" />
+<form [formGroup]="commentForm">
+  <div class="form-group">
+    <label for="content">Your comment:</label>
+    <input type="text" id="content" class="form-control" formControlName="content">
+  </div>
+
+  <button class="btn btn-sm btn-primary" (click)="onSubmit()" [disabled]="commentForm.invalid">Submit</button>
+  <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>

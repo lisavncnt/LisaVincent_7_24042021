@@ -26,6 +26,7 @@ const Img = database.define('images',{
     modelName: 'Img',
     underscored: true,
     paranoid: false,
+    orderBy: [["created_at", "DESC"]],
 });
 
 module.exports = Img;

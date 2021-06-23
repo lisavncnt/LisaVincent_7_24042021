@@ -34,10 +34,13 @@ const appRoutes: Routes = [
   {path: 'dashboard/messages', canActivate: [AuthGuardService], component: PostListComponent},
   {path: 'dashboard/messages/add', canActivate:[AuthGuardService], component: PostFormComponent},
   {path: 'dashboard/message/:id', canActivate:[AuthGuardService], component: SinglePostComponent},
+  {path: 'dashboard/edit-message/:id', canActivate: [AuthGuardService], component: PostFormComponent},
 
   {path: 'dashboard/images', canActivate: [AuthGuardService], component: ImgListComponent},
   {path: 'dashboard/images/add', canActivate:[AuthGuardService], component: ImgFormComponent},
   {path: 'dashboard/image/:id', canActivate:[AuthGuardService], component:SingleImgComponent},
+
+  {path: 'dashboard/messages', canActivate: [AuthGuardService], component: CommentComponent},
 
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
   {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},
@@ -63,7 +66,7 @@ const appRoutes: Routes = [
     SingleImgComponent,
     ProfilFormComponent,
     CommentComponent,
-    DateAgoPipe
+    DateAgoPipe,
   ],
   imports: [
     BrowserModule,

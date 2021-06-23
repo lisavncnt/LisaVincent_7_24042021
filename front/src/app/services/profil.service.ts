@@ -38,10 +38,10 @@ export class ProfilService {
     });
   }
 
-  modifyUser(id: string, user: User, image: string | File) {
+  modifyUser(id: string, user: User, image: File) {
     return new Promise((resolve, reject) => {
       if (typeof image === 'string') {
-        this.http.put('http://localhost:3000/modify/users/' + id, user).subscribe(
+        this.http.put('http://localhost:3000/modify-user/' + user.id, user).subscribe(
           (response: {message: string }) => {
             console.log('user update work');
             resolve(response);
@@ -50,13 +50,29 @@ export class ProfilService {
             reject(error);
           }
         );
+      } else {
+        const formData = new FormData();
+        formData.append('pseudo', user.pseudo);
+        formData.append('email', user.email);
+        formData.append('image_url', image);
+        this.http.put('http://localhost:3000/modify-user/' + id, formData).subscribe(
+          (response: { message: string}) => {
+            resolve(response);
+          },
+          (error) => {
+            reject(error);
+            console.error(error);
+          }
+        );
       }
     });
   }
 
-  modifyPassword(id: string, password: string) {
+  modifyPassword(id: string, user:User) {
+    const formData = new FormData();
+    formData.append('password', user.password);
     return new Promise((resolve, reject) => {
-      this.http.put('http://localhost:3000/modify/password/' + id, password).subscribe(
+      this.http.put('http://localhost:3000/modify-password/' + id, formData).subscribe(
         (response) => {
           console.log('password update');
           resolve(response)

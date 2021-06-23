@@ -4,9 +4,18 @@ User.hasMany(Post, {
   foreignKey: { as: 'id', constraints: false },
   onDelete: 'cascade',
 });
+User.hasMany(Comment, {
+  foreignKey: { as: 'id', constraints: false},
+  onDelete: 'cascade',
+});
+User.hasMany(Img, {
+  foreignKey: { as: 'id', constraints: false },
+  onDelete: 'cascade',
+})
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
@@ -82,20 +91,25 @@ exports.modifyUser = (req, res) => {
   const userId = decodedToken.user_id;
 
   if(id === userId) {
+    console.log('>> id: ' + id);
+    console.log('>> userId: ' + userId);
     User.findOne({
-      where: {id: req.params.id}
+      where: {
+        id: id
+      }
     }).then(
       user => {
         if (req.file) {
+          console.log('>> req.file: ' + req.file);
+          console.log('>> user.image_url: ' + user.image_url);
           if (user.image_url !== null) {
             const fileName = user.image_url.split('/images/')[1]
-            false.unlink(`images/${fileName}`, (err => {
+            fs.unlink(`images/${fileName}`, (err => {
               if (err) {console.log(err)};
             }))
           }
           req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         }
-        delete(req.body.is_admin);
         console.log(req.body);
         user.update({
           ...req.body,

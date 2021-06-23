@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PasswordFormComponent implements OnInit {
 
   url: string;
-  userForm: FormGroup;
+  passwordForm: FormGroup;
   mode: string;
   loading: boolean;
   user: User;
@@ -31,7 +31,6 @@ export class PasswordFormComponent implements OnInit {
     this.loading = true;
     this.route.params.subscribe(
       (params) => {
-          this.mode = "edit";
           this.profil.getUserById(params.id).then(
             (user: User) => {
               this.user = user;
@@ -48,28 +47,29 @@ export class PasswordFormComponent implements OnInit {
   }
 
   initModifyForm(user: User) {
-    this.userForm = this.fb.group({
-      password: [null, Validators.required],
+    this.passwordForm = this.fb.group({
+      password: [this.user.password, Validators.required],
     });
-    this.imagePreview = this.user.image_url;
   };
 
   onSubmit() {
     this.loading = true;
     const newUser = new User();
-    newUser.password = this.userForm.get('password').value;
-    this.profil.modifyPassword(this.user.id, this.user.password).then(
-      (response: { message: string}) => {
-        console.log(response.message);
-        this.loading = false;
-        this.router.navigate(['/user/' + this.user.id]);
-      }
-    ).catch(
-      (error) => {
-        console.error(error);
-        this.loading = false;
-        this.errorMsg = error.message;
-      }
-    );
+    newUser.password = this.passwordForm.get('password').value;
+    if (this.mode === "edit") {
+      this.profil.modifyPassword(this.user_id, newUser).then(
+        (response: { message: string}) => {
+          console.log(response.message);
+          this.loading = false;
+          this.router.navigate(['/user/' + this.user.id]);
+        }
+      ).catch(
+        (error) => {
+          console.error(error);
+          this.loading = false;
+          this.errorMsg = error.message;
+        }
+      );
+    }
   }
 }

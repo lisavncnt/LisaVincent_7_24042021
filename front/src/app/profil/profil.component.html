@@ -1,4 +1,3 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
 <div class="container" *ngIf="!loading">
   <img [src]="user.image_url" alt="">
   <label class="image-upload-container btn btn-bwm">
@@ -18,9 +17,9 @@
 
     <div class="control-buttons">
       <button class="btn btn-success" (click)="onBack()">Return to my dashboard messages</button>
-      <button class="btn btn-primary" (click)="onModify()" *ngIf="user_id === user.id">Modify my profile</button>
-      <button class="btn btn-primary" (click)="onModifyPassword()" *ngIf="user_id === user.id">Modify my password</button>
-      <button class="btn btn-danger" (click)="onDelete()" *ngIf="user_id === user.id">Delete all my posts and my profile</button>
+      <button class="btn btn-primary" (click)="onModify(user.id)" *ngIf="user_id === user.id">Modify my profile</button>
+      <button class="btn btn-primary" (click)="onModifyPassword(user.id)" *ngIf="user_id === user.id">Modify my password</button>
+      <button class="btn btn-danger" (click)="onDelete()" *ngIf="user_id === user.id || user.is_admin === true">Delete all my posts and my profile</button>
     </div>
   </div>
 </div>

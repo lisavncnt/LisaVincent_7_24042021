@@ -70,30 +70,17 @@ export class ProfilFormComponent implements OnInit {
     this.imagePreview = this.user.image_url;
   };
 
-  onSelectFile(event) {
-    if (event.targer.files && event.target.files[0]) {
-      var reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]);
-
-      reader.onload = (event) => {
-        var url = event.target.result;
-        return url;
-      }
-    }
-  };
-
   onSubmit() {
     this.loading = true;
     const newUser = new User();
     newUser.pseudo = this.userForm.get('pseudo').value;
     newUser.email = this.userForm.get('email').value;
-
-      this.profil.modifyUser(this.user.id, this.user ,this.userForm.get('image_url').value).then(
-        (response: { message: string}) => {
-          console.log(response.message);
+    if (this.mode === "edit") {
+      this.profil.modifyUser(this.user_id, newUser ,this.userForm.get('image_url').value).then(
+        (user) => {
+          console.log(user);
           this.loading = false;
-          this.router.navigate(['/user/' + this.user.id]);
+          this.router.navigate(['dashboard/messages']);
         }
       ).catch(
         (error) => {
@@ -102,7 +89,7 @@ export class ProfilFormComponent implements OnInit {
           this.errorMsg = error.message;
         }
       );
-
+    }
   }
 
   onFileAdded(event: Event) {

@@ -15,12 +15,14 @@
     margin: 5px;
 }
 
-.card-header{
+.card-header {
     display: flex;
     border-bottom: 1px solid #BDBDBD;
+    background-image: linear-gradient(to bottom, #1f2f48, #2c3854, #3a4160, #484b6c, #575478, #615a80, #6c6187, #77678f, #7f6c95, #88719a, #9076a0, #997ba5);
+    color: #f9b2d8;
 }
 
-.card-header h4{
+.card-header h4, .pseudo{
     margin: 25px 25px 0 25px;
 }
 
@@ -46,30 +48,33 @@
 }
 
 .btn-add {
-  background-color: rgba(209,86,94,.2);
-  color: #1f2f48;
-  opacity: 0.7;
+  color: #f9b2d8;
   width: max-content;
+  font-weight: bold;
 }
 .btn-add:hover {
-  background-color: rgba(209,86,94,.6);
-  color: #1f2f48;
+  text-decoration: underline #f9b2d8;
 }
 
 .user_info {
-  width: 80%;
+    width: 80%;
 }
 
 .card-footer {
     border-top: 1px solid #BDBDBD;
+    background-image: linear-gradient(to top, #1f2f48, #2c3854, #3a4160, #484b6c, #575478, #615a80, #6c6187, #77678f, #7f6c95, #88719a, #9076a0, #997ba5);
+    color: #f9b2d8;
 }
 
 label {
     width: 25%;
     font-weight: 500;
+    align-self: center;
 }
 input {
-    width: 75%;
+    width: 70%;
+    height: max-content;
+    align-self: center;
 }
 
 .btn {
@@ -82,9 +87,37 @@ input {
   height: 70px;
   object-fit: cover;
   border-radius: 50%;
+  box-shadow: 1px 1px 1px 0.8px rgba(249,178,216,0.96);
 }
 
 .pseudo {
   text-transform: uppercase;
   color: #1f2f48;
+}
+
+.text-muted {
+  margin-top: 20px;
+  height: max-content;
+}
+
+.form-control {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 1000px) {
+
+  .card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card {
+    width: 47%;
+    margin: 10px;
+  }
+  label {
+    display: none;
+  }
 }

@@ -3,40 +3,40 @@ import { PostsService } from '../../services/posts.service';
 import { Post } from '../../models/Post.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { User } from 'src/app/models/user.model';
+import { ProfilService } from 'src/app/services/profil.service';
 
 @Component({
   selector: 'app-single-post',
   templateUrl: './single-post.component.html',
   styleUrls: ['./single-post.component.css']
 })
+
 export class SinglePostComponent implements OnInit {
 
-  user_id: string;
   post: Post;
   likePending: boolean;
   likes: boolean;
   loading: boolean;
   errorMsg: string;
-  post_id = sessionStorage.getItem('post_id');
-
+  user_id: string;
 
   constructor(private service: PostsService,
               private route: ActivatedRoute,
               private auth: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private profil: ProfilService) { }
 
   ngOnInit(): void {
     this.user_id = sessionStorage.getItem('user_id');
     this.loading = true;
     this.route.params.subscribe(
       (params) => {
-        console.log(params.id);
-
-        this.service.getPostById(this.post_id).then(
+        this.service.getPostById(params.id).then(
           (post: Post) => {
             this.post = post;
-            console.log(post);
             this.loading = false;
+            console.log(post)
           }
         );
       }
@@ -48,9 +48,8 @@ export class SinglePostComponent implements OnInit {
     this.router.navigate(['dashboard/messages']);
   }
 
-  onModify() {
-    this.service.modifyPost(this.post.id, this.post);
-    this.router.navigate(['user/:id', this.user_id]);
+  onModify(id: string) {
+    this.router.navigate(['dashboard/edit-message/' + id]);
   }
 
   onDelete() {
@@ -58,7 +57,7 @@ export class SinglePostComponent implements OnInit {
     this.service.deletePost(this.post.id).then(
       (response: { message: string }) => {
         console.log(response.message);
-        this.loading =false;
+        this.loading = false;
         this.router.navigate(['/dashboard/messages'])
       }
     ).catch(

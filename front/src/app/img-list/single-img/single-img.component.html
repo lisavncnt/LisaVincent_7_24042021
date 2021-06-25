@@ -1,22 +1,22 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <img [src]="image.user.image_url">
-      <h1>{{ image.user.pseudo }}</h1>
+      <img [src]="image?.user?.image_url">
+      <h1>{{ image?.user?.pseudo }}</h1>
     </div>
 
     <div class="card-body">
-      <h2>{{ image.title }}</h2>
-      <img [src]="image.image_url">
+      <h2>{{ image?.title }}</h2>
+      <img [src]="image?.image_url">
     </div>
 
     <div class="card-footer">
-      <p>{{ image.createdAt | dateAgo }}</p>
+      <p>{{ image?.createdAt | dateAgo }}</p>
     </div>
   </div>
 
-  <div *ngFor="let comment of image.comments">
+  <div *ngFor="let comment of image?.comments">
     <h5>Your comment:</h5>
-    <p>1: {{post.comment.content}}</p>
+    <p>1: {{comment?.content}}</p>
   </div>
 </div>

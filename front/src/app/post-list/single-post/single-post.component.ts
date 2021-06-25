@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from 'src/app/models/user.model';
 import { ProfilService } from 'src/app/services/profil.service';
+import { Subscription } from 'rxjs';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-single-post',
@@ -20,12 +22,14 @@ export class SinglePostComponent implements OnInit {
   loading: boolean;
   errorMsg: string;
   user_id: string;
+  commentSub: Subscription;
 
   constructor(private service: PostsService,
               private route: ActivatedRoute,
               private auth: AuthService,
               private router: Router,
-              private profil: ProfilService) { }
+              private profil: ProfilService,
+              private comment: CommentService) { }
 
   ngOnInit(): void {
     this.user_id = sessionStorage.getItem('user_id');
@@ -36,7 +40,15 @@ export class SinglePostComponent implements OnInit {
           (post: Post) => {
             this.post = post;
             this.loading = false;
-            console.log(post)
+            this.commentSub = this.comment.comments$.subscribe(
+              (comments) => {
+                comments.forEach(comment => {
+                  if(post.id === comment.post_id) {
+                    return comment;
+                  }
+                });
+              }
+            );
           }
         );
       }

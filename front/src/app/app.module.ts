@@ -40,7 +40,7 @@ const appRoutes: Routes = [
   {path: 'dashboard/images/add', canActivate:[AuthGuardService], component: ImgFormComponent},
   {path: 'dashboard/image/:id', canActivate:[AuthGuardService], component:SingleImgComponent},
 
-  {path: 'dashboard/messages', canActivate: [AuthGuardService], component: CommentComponent},
+  {path: 'dashboard/message/:id/comments/add', canActivate: [AuthGuardService], component: CommentComponent},
 
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
   {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},

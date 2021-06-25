@@ -89,8 +89,8 @@ export class ImgFormComponent implements OnInit {
     newImage.user_id = sessionStorage.getItem('user_id');
     if(this.mode === "new") {
       this.images.createImage(newImage, this.imageForm.get('image_url').value).then(
-        (response: { message: string}) => {
-          console.log(response.message);
+        (image) => {
+          console.log(image);
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }

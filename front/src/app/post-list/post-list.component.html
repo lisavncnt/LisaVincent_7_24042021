@@ -22,15 +22,12 @@
       </div>
     </div>
 
-    <div>
-      <app-comment></app-comment>
-    </div>
-
     <div *ngFor="let comment of post.comments">
       <div>
-        <p class="card-text">{{comment.content}}</p>
+        <p class="card-text">{{comment?.content}}</p>
       </div>
       <div class="card_info">
+        <h5>-- {{ comment?.user?.pseudo }} --</h5>
       </div>
     </div>
 

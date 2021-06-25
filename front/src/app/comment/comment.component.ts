@@ -11,6 +11,7 @@ import { ProfilService } from '../services/profil.service';
 import { AuthService } from '../services/auth.service';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-comment',
@@ -22,7 +23,9 @@ export class CommentComponent implements OnInit {
   loading: boolean;
   errorMsg: string;
 
-  commentForm: FormGroup;
+  commentForm = new FormGroup({
+    content: new FormControl(),
+  });
   user: User;
   user_id: string;
   post: Post;
@@ -40,24 +43,19 @@ export class CommentComponent implements OnInit {
     this.loading  = true;
     this.route.params.subscribe(
       (params) => {
-        if (!params.id) {
-          this.mode = 'new';
-          this.initEmptyForm();
-          this.loading = false;
-        } else {
-          this.mode = 'edit';
-          this.servComment.createComment(params.id).then(
-            (comment: Comment) => {
-              this.comment = comment;
-              this.initModifyForm(comment);
-              this.loading = false;
-            }
-          ).catch(
-            (error) => {
-              this.errorMsg = error.message;
-            }
-          );
-        }
+        this.servPost.getPostById(params.id).then(
+          (post: Post) => {
+            this.post = post;
+            this.post_id = post.id;
+            this.mode = 'new';
+            this.initEmptyForm();
+            this.loading = false;
+          }
+        ).catch(
+          (error) => {
+            this.errorMsg = error.message;
+          }
+        );
       }
     );
   };
@@ -65,9 +63,9 @@ export class CommentComponent implements OnInit {
   initEmptyForm() {
     this.commentForm = this.formBuilder.group({
       content: [null, Validators.required],
-      user_id: [null],
-      post_id: [null]
-    })
+      user_id: [sessionStorage.getItem('user_id'), Validators.required],
+      post_id: [this.post_id, Validators.required]
+    });
   };
 
   initModifyForm(comment: Comment) {
@@ -87,7 +85,7 @@ export class CommentComponent implements OnInit {
       this.servComment.createComment(newComment).then(
         (response: {message: string}) => {
           this.loading = false;
-          window.location.reload();
+          this.router.navigate(['dashboard/messages' + this.post.id]);
         }
       ).catch(
         (error) => {

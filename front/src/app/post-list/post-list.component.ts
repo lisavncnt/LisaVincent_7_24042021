@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Post } from '../models/Post.model';
 import { User } from '../models/user.model';
 import { CommentService } from '../services/comment.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -28,13 +28,16 @@ export class PostListComponent implements OnInit {
   id: string;
   content: string;
   user_id: string;
-  likes = 0;
+  post_id: string;
+
+  showComments: boolean = true;
 
   constructor(private post: PostsService,
               private router: Router,
               private comment: CommentService,
               private formBuilder: FormBuilder,
-              private profil: ProfilService) { }
+              private profil: ProfilService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -77,16 +80,6 @@ export class PostListComponent implements OnInit {
       content: [null, Validators.required],
       user: Array,
     })
-  }
-
-  onModify(id: string) {
-    this.router.navigate(['dashboard/message', id]);
-  }
-
-  onDelete(id: string) {
-    this.router.navigate(['dashboard/message', id]);
-    this.post.deletePost(this.id);
-    window.location.reload();
   }
 
   onViewPost(id: string) {

@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { Img } from '../models/Img.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommentService } from '../services/comment.service';
 import { User } from '../models/user.model';
+import { CommentService } from '../services/comment.service';
 import { ProfilService } from '../services/profil.service';
 
 @Component({
@@ -16,10 +16,11 @@ import { ProfilService } from '../services/profil.service';
 export class ImgListComponent implements OnInit {
 
   imageSub: Subscription;
+  imageForm: FormGroup;
   commentSub: Subscription;
   commentForm: FormGroup;
-  imageForm: FormGroup;
   images: Img[];
+  comments: Comment[];
   loading: boolean;
   errorMsg: string;
   Image: Img;
@@ -38,22 +39,20 @@ export class ImgListComponent implements OnInit {
     this.loading = true;
     this.imageSub = this.image.images$.subscribe(
       (images) => {
-        console.log(Object.values(images));
         this.images = images;
         this.loading = false;
         this.errorMsg = null;
         images.forEach(image => {
-          let image_id = image.id;
           this.commentSub = this.comment.comments$.subscribe(
             (comments) => {
               comments.forEach(comment => {
-                if (image_id === comment.image_id) {
-                  console.log('image_id: ' + image_id + ' //comment.image_id: ' + comment.image_id);
+                if (image.id === comment.image_id) {
+                  return comment;
                 }
-              })
+              });
             }
-          )
-        })
+          );
+        });
       },
       (error) => {
         this.errorMsg = JSON.stringify(error);
@@ -61,7 +60,6 @@ export class ImgListComponent implements OnInit {
       }
     );
     this.image.getImages();
-    this.comment.getComments();
 
     this.id = sessionStorage.getItem('user_id');
     this.loading = true;
@@ -71,7 +69,7 @@ export class ImgListComponent implements OnInit {
       title: [null, Validators.required],
       image_url: [null, Validators.required],
       user_id: [sessionStorage.getItem('user_id')],
-      comments: [null]
+      comments: Array
 
     });
 
@@ -81,32 +79,8 @@ export class ImgListComponent implements OnInit {
     })
   }
 
-  onModify(id: string) {
-    this.router.navigate(['dashboard/image', id]);
-  }
-
-  onDelete(id: string) {
-    this.router.navigate(['dashboard/image', id]);
-  }
-
   onViewImage(id: string) {
     this.router.navigate(['dashboard/image', id]);
-  }
-
-  onAddComment(comment) {
-    const content = this.commentForm.get('content').value;
-    const user_id = sessionStorage.getItem('user_id');
-    const image_id = comment.image_id;
-    this.comment.createComment(comment)
-    .then(
-      (response: {message: string}) => {
-        console.log(response.message);
-        window.location.reload();
-      }
-    ).catch((error) => {
-      console.log(error);
-      this.errorMsg = error.message;
-    })
   }
 
 }

@@ -21,8 +21,15 @@
     </div>
   </div>
 
-  <div *ngFor="let comment of post?.comments">
-    <h5>Your comment:</h5>
-    <p>{{comment?.content}}</p>
+  <div>
+    <h5>All comments:</h5>
+    <a routerLink="comments/add">Add a comment</a>
+
+    <div *ngFor="let comment of post?.comments">
+      <p>{{comment?.content}}</p>
+      <h5>__ {{ post.comment?.user?.pseudo }} __</h5>
+      <p>{{ comment?.createdAt | dateAgo }}</p>
+    </div>
   </div>
+
 </div>

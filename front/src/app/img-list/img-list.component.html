@@ -5,29 +5,33 @@
 <div class="card-container">
   <div class="card text-left" *ngFor="let image of images">
     <div class="card-header">
-      <span class="img_user"><img [src]="image.user.image_url"></span>
+      <span class="img_user"><img [src]="image?.user?.image_url"></span>
 
       <div class="user_info">
-        <h4 class="text-center">by {{image.user.pseudo}}</h4>
-    <p class="text-center">{{ image.createdAt | dateAgo }}</p>
+        <h4 class="text-center">by {{image?.user?.pseudo}}</h4>
+    <p class="text-center">{{ image?.createdAt | dateAgo }}</p>
       </div>
 
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ image.title }}</h5>
+      <h5 class="card-title">{{ image?.title }}</h5>
 
       <span class="card-img">
-        <img [src]="image.image_url" alt="" class="image-post">
+        <img [src]="image?.image_url" alt="" class="image-post">
       </span>
 
       <div class="text-muted">
-        <a (click)="onViewImage(image.id)">View Post here</a>
+        <a (click)="onViewImage(image?.id)">View Post here</a>
       </div>
     </div>
 
-    <div *ngFor="let comment of post.comments">
+    <div>
+      <app-comment></app-comment>
+    </div>
+
+    <div *ngFor="let comment of image?.comments">
       <div>
-        <p class="card-text">{{comment.content}}</p>
+        <p class="card-text">{{comment?.content}}</p>
       </div>
     </div>
 

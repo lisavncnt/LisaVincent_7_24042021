@@ -1,0 +1,11 @@
+div.card {
+  -webkit-box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
+  box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
+  margin-bottom: 25px;
+}
+
+.card-header {
+ display: flex;
+ flex-direction: column;
+ flex-wrap: wrap;
+}

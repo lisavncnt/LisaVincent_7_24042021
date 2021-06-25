@@ -23,6 +23,8 @@ export class SinglePostComponent implements OnInit {
   errorMsg: string;
   user_id: string;
   commentSub: Subscription;
+  is_admin: boolean = false;
+  numberOfComment = 0;
 
   constructor(private service: PostsService,
               private route: ActivatedRoute,
@@ -33,6 +35,7 @@ export class SinglePostComponent implements OnInit {
 
   ngOnInit(): void {
     this.user_id = sessionStorage.getItem('user_id');
+    this.userIsAdmin();
     this.loading = true;
     this.route.params.subscribe(
       (params) => {
@@ -40,20 +43,31 @@ export class SinglePostComponent implements OnInit {
           (post: Post) => {
             this.post = post;
             this.loading = false;
+            this.numberOfComment = post.comments.length;
             this.commentSub = this.comment.comments$.subscribe(
               (comments) => {
                 comments.forEach(comment => {
                   if(post.id === comment.post_id) {
+                    comment.user = this.profil.getUserById(comment.user_id);
                     return comment;
                   }
                 });
               }
-            );
+            )
           }
         );
       }
     );
     this.user_id = sessionStorage.getItem('user_id');
+  }
+
+  userIsAdmin() {
+    let admin = this.auth.getAdmin();
+    if (admin === "true") {
+      this.is_admin = true;
+    } else {
+      this.is_admin = false;
+    }
   }
 
   onBack() {

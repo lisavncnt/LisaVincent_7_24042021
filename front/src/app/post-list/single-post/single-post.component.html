@@ -6,8 +6,8 @@
         <h1>{{ post?.user?.pseudo }}</h1>
       </div>
       <div>
-        <button class="btn btn-primary" *ngIf="post?.user?.is_admin === true || user_id === post?.user_id" (click)="onModify(post?.id)">Modify post</button>
-        <button class="btn btn-danger" (click)="onDelete()">Delete post and all comments</button>
+        <button class="btn btn-primary" *ngIf="user_id === post?.user_id" (click)="onModify(post?.id)"><i class="far fa-edit"></i>Edit</button>
+        <button class="btn btn-danger" *ngIf="user_id === post?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
       </div>
     </div>
 
@@ -18,6 +18,7 @@
 
     <div class="card-footer">
       <p>{{ post?.createdAt | dateAgo }}</p>
+      <p>Number of comments: {{ post?.comments?.length }}</p>
     </div>
   </div>
 
@@ -26,8 +27,9 @@
     <a routerLink="comments/add">Add a comment</a>
 
     <div *ngFor="let comment of post?.comments">
-      <p>{{comment?.content}}</p>
-      <h5>__ {{ post.comment?.user?.pseudo }} __</h5>
+      <img [src]=" comment?.user?.image_url" alt="photo de profil">
+      <p>{{comment?.content}} -- by {{ comment.user?.pseudo }}</p>
+
       <p>{{ comment?.createdAt | dateAgo }}</p>
     </div>
   </div>

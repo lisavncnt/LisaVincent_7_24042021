@@ -15,6 +15,7 @@ export class AuthService {
 
   private authToken: string;
   user_id: string;
+  is_admin: string;
 
   constructor(private http: HttpClient,
               private router: Router) { }
@@ -61,7 +62,12 @@ export class AuthService {
     return token;
   }
 
-  getUserId(id: string) {
+  getAdmin() {
+    let is_admin = sessionStorage.getItem('is_admin');
+    return is_admin;
+  }
+
+  getUserId() {
     this.user_id = sessionStorage.getItem('user_id');
     return this.user_id;
   }
@@ -78,11 +84,13 @@ export class AuthService {
       this.http.post('http://localhost:3000/auth/signin',
       {email:email, password:password})
       .subscribe(
-        (response: {user_id: string, token: string}) => {
+        (response: {user_id: string, token: string, is_admin: string}) => {
           this.user_id = response.user_id;
           sessionStorage.setItem('user_id', response.user_id);
           this.authToken = response.token;
           sessionStorage.setItem('token', response.token);
+          this.is_admin = response.is_admin;
+          sessionStorage.setItem('is_admin', response.is_admin)
           this.isAuth$.next(true);
           resolve(response);
         },

@@ -10,11 +10,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  signinForm: FormGroup;
   isAuth: boolean;
   errorMsg: string;
   token: string;
   user_id = sessionStorage.getItem('user_id');
+
+  signinForm = new FormGroup({
+    email: new FormControl(),
+    password: new FormControl()
+  });
 
   constructor(private formBuilder: FormBuilder,
               private auth: AuthService,
@@ -25,14 +29,9 @@ export class SigninComponent implements OnInit {
     if (this.auth.getToken()) {
       this.router.navigate(['dashboard/', 'messages']);
     } else {
-      // this.signinForm = this.formBuilder.group({
-      //   email: [null, [Validators.required, Validators.email]],
-      //   password: [null, [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
-      // })
-
-      this.signinForm = new FormGroup({
-        email: new FormControl(),
-        password: new FormControl()
+      this.signinForm = this.formBuilder.group({
+        email: [null, [Validators.required, Validators.email]],
+        password: [null, [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
       });
     }
   }

@@ -19,15 +19,7 @@
       <p class="card-text">{{ post.content }}</p>
       <div class="text-muted">
         <a (click)="onViewPost(post.id)">View Post here</a>
-      </div>
-    </div>
-
-    <div *ngFor="let comment of post.comments">
-      <div>
-        <p class="card-text">{{comment?.content}}</p>
-      </div>
-      <div class="card_info">
-        <h5>-- {{ comment?.user?.pseudo }} --</h5>
+        <p>Number of comments: {{ post.comments.length }}</p>
       </div>
     </div>
 

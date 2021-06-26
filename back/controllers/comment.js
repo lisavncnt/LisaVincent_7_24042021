@@ -20,32 +20,6 @@ exports.createComment = (req, res) => {
     }).then(
         (comment) => {
         res.status(200).json({ message: "Comment created !"})
-        Post.findOne({
-            where: { id: comment.post_id }
-        }).then(
-            (post) => {
-                post.update({
-                    comment_id: comment.id
-                })
-            }
-        ).catch(
-            (error) => {
-                res.status(400).json({error});
-            }
-        );
-        User.findOne({
-            where: { id: req.params.id }
-        }).then(
-            (user) => {
-                user.update({
-                    comment_id: comment.id
-                })
-            }
-        ).catch(
-            (error) => {
-                res.status(400).json({error});
-            }
-        );
     }).catch(
         error => res.status(400).json({error})
     );
@@ -54,8 +28,9 @@ exports.createComment = (req, res) => {
 exports.getAllComments = (req, res, next) => {
     Comment.findAll({
         include: [
-            { model: User}
-        ]
+            { model: User, attributes: ['pseudo', 'image_url']}
+        ],
+        order: [['created_at', 'DESC']]
     })
     .then((comments) => res.status(200).json(comments))
     .catch(error => res.status(400).json({error}));
@@ -68,7 +43,7 @@ exports.getComment = (req, res, next) => {
         },
         include: [
             { model: User}
-        ]
+        ],
     })
     .then((comment) => res.status(200).json(comment))
     .catch(error => res.status(404).json({ error: error }));
@@ -80,8 +55,8 @@ exports.modifyComment = (req, res, next) => {
             id: req.params.id
         }
     }).then(
-        () => {
-            Comment.update({
+        (comment) => {
+            comment.update({
                 ...req.body,
                 where: {
                     id: req.params.id

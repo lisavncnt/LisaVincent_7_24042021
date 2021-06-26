@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user.model';
 import { ProfilService } from 'src/app/services/profil.service';
 import { Subscription } from 'rxjs';
 import { CommentService } from 'src/app/services/comment.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-single-post',
@@ -17,14 +18,13 @@ import { CommentService } from 'src/app/services/comment.service';
 export class SinglePostComponent implements OnInit {
 
   post: Post;
-  likePending: boolean;
-  likes: boolean;
   loading: boolean;
   errorMsg: string;
   user_id: string;
   commentSub: Subscription;
   is_admin: boolean = false;
   numberOfComment = 0;
+  comment_id: string;
 
   constructor(private service: PostsService,
               private route: ActivatedRoute,
@@ -48,17 +48,16 @@ export class SinglePostComponent implements OnInit {
               (comments) => {
                 comments.forEach(comment => {
                   if(post.id === comment.post_id) {
-                    comment.user = this.profil.getUserById(comment.user_id);
+                    this.comment_id = comment.id;
                     return comment;
                   }
                 });
               }
-            )
+            );
           }
         );
       }
     );
-    this.user_id = sessionStorage.getItem('user_id');
   }
 
   userIsAdmin() {
@@ -82,7 +81,6 @@ export class SinglePostComponent implements OnInit {
     this.loading = true;
     this.service.deletePost(this.post.id).then(
       (response: { message: string }) => {
-        console.log(response.message);
         this.loading = false;
         this.router.navigate(['/dashboard/messages'])
       }
@@ -90,9 +88,16 @@ export class SinglePostComponent implements OnInit {
       (error) => {
         this.loading = false;
         this.errorMsg = error.message;
-        console.error(error);
       }
     );
+  }
+
+  onModifyComment(id: string) {
+    this.router.navigate(['dashboard/message/' + this.post.id + '/edit-comment/' + id]);
+  }
+
+  onDeleteComment() {
+    this.loading = true;
   }
 
 }

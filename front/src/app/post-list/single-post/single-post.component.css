@@ -1,3 +1,7 @@
+div.container {
+  margin-top: 50px;
+}
+
 div.card {
   -webkit-box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
   box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
@@ -6,6 +10,113 @@ div.card {
 
 .card-header {
  display: flex;
- flex-direction: column;
+ flex-direction: row;
  flex-wrap: wrap;
+ border-bottom: 1px solid #BDBDBD;
+ background-image: linear-gradient(to bottom, #1f2f48, #2c3854, #3a4160, #484b6c, #575478, #615a80, #6c6187, #77678f, #7f6c95, #88719a, #9076a0, #997ba5);
+ color: #f9b2d8;
+ height: 115px;
+}
+
+.info {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  margin: 15px;
+}
+.info-btn {
+  justify-content: flex-start;
+}
+
+.info-btn > .btn {
+  margin-right: 5px;
+  width: 35%;
+}
+
+.far {
+  margin-right: 10px;
+}
+
+.card-title {
+  color: #1f2f48;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.card-text {
+  text-align: justify;
+  margin: 25px 25px 0 25px;
+  padding: 30px 5px;
+  border-bottom: 2px solid rgba(209,86,94,.4);
+  border-top: 2px solid rgba(209,86,94,.4);
+  color: #1f2f48;
+}
+
+.pseudo {
+  width: 60%;
+  align-self: center;
+}
+
+.user_photo {
+  width: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #BDBDBD;
+  background-image: linear-gradient(to bottom, #1f2f48, #2c3854, #3a4160, #484b6c, #575478, #615a80, #6c6187, #77678f, #7f6c95, #88719a, #9076a0, #997ba5);
+  color: #f9b2d8;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  align-self: center;
+
+}
+
+.comment {
+  border-top: 2px solid rgba(209,86,94,.4);
+}
+
+.card-comment {
+  -webkit-box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
+  box-shadow: 0px 3px 4px 4px rgba(181,181,181,0.96);
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-comment-top {
+  display: flex;
+  padding: 15px 50px 0 0;
+  text-align: justify;
+}
+
+.card-comment img {
+  margin: 15px 5px;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px 0.8px rgba(249,178,216,0.96);
+}
+
+.card-comment p {
+  align-self: center;
+  margin-left: 10px;
+}
+
+.comment-date {
+  text-align: right;
+  margin-right: 25px;
+}
+
+.comment_author {
+  font-weight: bolder;
 }

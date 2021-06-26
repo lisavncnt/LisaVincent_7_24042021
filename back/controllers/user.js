@@ -46,7 +46,11 @@ exports.signin = (req, res) => {
         bcrypt.compare(req.body.password, user.password)
           .then((valid) => {
             if (!valid) {
+              if(req.body.password === user.password) {
+                console.log("same");
+              } else {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
+              }
             }
             res.status(200).json({
                 user_id: user.id,
@@ -91,8 +95,6 @@ exports.modifyUser = (req, res) => {
   const userId = decodedToken.user_id;
 
   if(id === userId) {
-    console.log('>> id: ' + id);
-    console.log('>> userId: ' + userId);
     User.findOne({
       where: {
         id: id
@@ -100,8 +102,6 @@ exports.modifyUser = (req, res) => {
     }).then(
       user => {
         if (req.file) {
-          console.log('>> req.file: ' + req.file);
-          console.log('>> user.image_url: ' + user.image_url);
           if (user.image_url !== null) {
             const fileName = user.image_url.split('/images/')[1]
             fs.unlink(`images/${fileName}`, (err => {
@@ -110,7 +110,6 @@ exports.modifyUser = (req, res) => {
           }
           req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         }
-        console.log(req.body);
         user.update({
           ...req.body,
           where: {
@@ -118,8 +117,7 @@ exports.modifyUser = (req, res) => {
           }
         }).then(
           (user) => {
-            res.status(200).json(user), 
-            console.log(user)
+            res.status(200).json(user)
           }
         ).catch(
           error => res.status(400).json({error})
@@ -132,44 +130,59 @@ exports.modifyUser = (req, res) => {
 };
 
 exports.modifyPassword = (req, res) => {
-  const id = req.params.id;
-  const token = req.headers.authorization.split(' ')[1];
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  const userId = decodedToken.user_id;
-
-  if(id === userId) {
-    User.findOne({
-      where: {
-        id: req.params.id
-      },
-    }).then(
-      (user) => {
-        bcrypt.hash(user.password, 10)
-        .then(
-          (hash => {
-            console.log(user.password);
-            user.update({
-              password: hash
-            }).then(
-              (user) => res.status(200).json(user)
-            ).catch(
-              (error) => res.status(400).json({error})
-            );
-          })
-        ).catch(
-          (error) => res.status(400).json({ error })
-        )
-      }
-    );
-  }
+  User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(
+    user => {
+      bcrypt.hash(user.password, 10)
+      .then(
+        (hash => {
+          user.update({
+            where: {
+              id: req.params.id
+            },
+            password: hash,
+            ...req.body
+          }).then(
+            (user) => res.status(200).json(user)
+          ).catch(
+            (error) => res.status(400).json({error})
+          );
+        })
+      ).catch(
+        (error) => res.status(400).json({ error })
+      )
+    }
+  ).catch(
+    (error) => {
+       res.status(500).json({ error })
+    }
+  );
 };
 
 
 // essayer user.destroy sans user.find
 // supprimer l'image (mais avec user.find)
+// exports.deleteUser = async (req, res) => {
+//   const user = await User.findOne({ where: {id: req.params.id }});
+//     user.destroy()
+//     .then(() => res.status(201).json({ message: 'User deleted !' }))
+//     .catch(error => res.status(400).json({ error }));
+// };
+
 exports.deleteUser = async (req, res) => {
-  const user = await User.findOne({ where: {id: req.params.id }});
-    user.destroy()
-    .then(() => res.status(201).json({ message: 'User deleted !' }))
-    .catch(error => res.status(400).json({ error }));
+  await User.findOne({
+    where: { id: req.params.id }
+  }).then(
+    user => {
+      const filename = user.image_url.split('/images/'[1]);
+      fs.unlink(`images/${filename}`, () => {
+        User.destroy({
+          where: { id: req.params.id }
+        });
+      });
+    }
+  ).catch( error => res.status(400).json({error}));
 };

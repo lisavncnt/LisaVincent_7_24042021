@@ -64,10 +64,10 @@ export class ProfilComponent {
   onDelete() {
     this.loading = true;
     this.profil.deleteUser(this.user_id).then(
-      (response: { message: string }) => {
-        console.log(response.message);
-        this.loading =false;
-        this.router.navigate(['/dashboard/messages'])
+      (response) => {
+        this.loading = false;
+        this.router.navigate(['/dashboard/messages']);
+        return response;
       }
     ).catch(
       (error) => {

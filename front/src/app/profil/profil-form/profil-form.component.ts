@@ -78,7 +78,7 @@ export class ProfilFormComponent implements OnInit {
     if (this.mode === "edit") {
       this.profil.modifyUser(this.user_id, newUser ,this.userForm.get('image_url').value).then(
         (user) => {
-          console.log(user);
+          (user);
           this.loading = false;
           this.router.navigate(['dashboard/messages']);
         }

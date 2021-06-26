@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
     const userId = decodedToken.user_id;
       next()
   } catch (error) {
-    console.log(error);
     res.status(418).json({ error: 'Requête non authentifiée !'});
   }
 };

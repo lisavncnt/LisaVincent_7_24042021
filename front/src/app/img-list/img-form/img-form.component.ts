@@ -90,7 +90,6 @@ export class ImgFormComponent implements OnInit {
     if(this.mode === "new") {
       this.images.createImage(newImage, this.imageForm.get('image_url').value).then(
         (image) => {
-          console.log(image);
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }
@@ -104,7 +103,6 @@ export class ImgFormComponent implements OnInit {
     } else if (this.mode === 'edit') {
       this.images.modifyImage(this.image.id, newImage, this.imageForm.get('image_url').value).then(
         (response: { message: string}) => {
-          console.log(response.message);
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }

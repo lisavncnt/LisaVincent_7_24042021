@@ -11,16 +11,13 @@ const Comment = database.define('comments', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false
-    },
-    likes: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-    },
+    }
 }, {
     Sequelize,
     modelName: 'Comment',
     underscored: true,
     paranoid: false,
+    orderBy: [["createdAt", "DESC"]],
 });
 
 module.exports = Comment;

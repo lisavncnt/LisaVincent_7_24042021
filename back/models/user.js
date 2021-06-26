@@ -27,13 +27,7 @@ const User = database.define('users', {
         unique: true
     },
     is_admin: {
-        type:DataTypes.BOOLEAN,
-        defaultValue:0
-    },
-    likes: {
-        type: DataTypes.INTEGER,
-        required: false,
-        allowNull: true,
+        type: DataTypes.BOOLEAN,
         defaultValue: 0
     }
 }, {
@@ -41,7 +35,6 @@ const User = database.define('users', {
     modelName: 'User',
     underscored: true,
     paranoid: false,
-    
 });
 
 module.exports = User;

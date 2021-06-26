@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
   getAuth() {
     if (this.authToken) {
-      console.log(this.authToken);
+      (this.authToken);
       this.isAuth = true;
     } else {
       this.isAuth = false;

@@ -1,19 +1,21 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <div>
-        <img [src]="post?.user?.image_url" alt="photo de profil">
-        <h1>{{ post?.user?.pseudo }}</h1>
+      <div class="info">
+        <img [src]="post?.user?.image_url" alt="photo de profil" class="user_photo">
+        <h1 class="pseudo">{{ post?.user?.pseudo }}</h1>
       </div>
-      <div>
-        <button class="btn btn-primary" *ngIf="user_id === post?.user_id" (click)="onModify(post?.id)"><i class="far fa-edit"></i>Edit</button>
-        <button class="btn btn-danger" *ngIf="user_id === post?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
-      </div>
+
     </div>
 
     <div class="card-body">
-      <h2>{{ post?.title }}</h2>
-      <p>{{ post?.content }}</p>
+      <h2 class="card-title">{{ post?.title }}</h2>
+      <p class="card-text">{{ post?.content }}</p>
+
+      <div class="info info-btn">
+        <button class="btn btn-primary" *ngIf="user_id === post?.user_id" (click)="onModify(post?.id)"><i class="far fa-edit"></i>Edit</button>
+        <button class="btn btn-danger" *ngIf="user_id === post?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
+      </div>
     </div>
 
     <div class="card-footer">
@@ -22,15 +24,26 @@
     </div>
   </div>
 
-  <div>
-    <h5>All comments:</h5>
-    <a routerLink="comments/add">Add a comment</a>
+  <div class="comment-container">
+    <div class="comment-header">
+      <h5>All comments:</h5>
+      <a routerLink="comments/add" class="btn btn-primary">Add a comment</a>
+    </div>
 
-    <div *ngFor="let comment of post?.comments">
-      <img [src]=" comment?.user?.image_url" alt="photo de profil">
-      <p>{{comment?.content}} -- by {{ comment.user?.pseudo }}</p>
-
-      <p>{{ comment?.createdAt | dateAgo }}</p>
+    <div *ngFor="let comment of post?.comments" class="comment">
+      <div class="card-comment">
+        <div class="card-comment-top">
+          <img [src]=" comment?.user?.image_url" alt="photo de profil">
+          <p>{{comment?.content}} <span class="comment_author">-- by {{ comment?.user?.pseudo }}</span></p>
+        </div>
+        <div class="comment-date">
+          <div class="info info-btn">
+            <button class="btn btn-primary" *ngIf="user_id === comment?.user_id" (click)="onModifyComment(comment?.id)"><i class="far fa-edit"></i>Edit</button>
+            <button class="btn btn-danger" *ngIf="user_id === comment?.user_id || is_admin === true " (click)="onDeleteComment()"><i class="far fa-trash-alt"></i>Delete</button>
+          </div>
+          <p>{{ comment?.createdAt | dateAgo }}</p>
+        </div>
+    </div>
     </div>
   </div>
 

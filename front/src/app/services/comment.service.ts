@@ -73,8 +73,9 @@ export class CommentService {
       );
       const formData = new FormData();
       formData.append('content', comment.content);
-      formData.append('user_id', comment.user.id);
-      formData.append('post_id', comment.post.id);
+      formData.append('user_id', comment.user_id);
+      formData.append('post_id', comment.post_id);
+      formData.append('image_id', comment.image_id);
       this.http.put('http://localhost:3000/dashboard/comments/' + id, formData).subscribe(
         (response: {message: string}) => {
           resolve(response);

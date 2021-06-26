@@ -12,7 +12,7 @@ export class ImagesService {
 
   images$ = new Subject<Img[]>();
   isloggin = this.auth.isLoggin();
-  d = sessionStorage.getItem('post_id');
+  id = sessionStorage.getItem('post_id');
   user_id = sessionStorage.getItem('user_id')
   user: User;
 
@@ -103,23 +103,4 @@ export class ImagesService {
       );
     });
   }
-
-  likeImage(id:string, like:boolean) {
-    return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/dashboard/images/' + id + '/like',
-      {
-        user_id: sessionStorage.getItem('user_id'),
-        like: like ? 1 : 0
-      })
-      .subscribe(
-        (like: {message: string}) => {
-          resolve(like);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  }
-
 }

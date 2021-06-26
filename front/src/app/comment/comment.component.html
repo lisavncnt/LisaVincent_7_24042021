@@ -1,3 +1,6 @@
+<div *ngIf="showTitle() === true">Add a comment</div>
+<div *ngIf="showTitle() === false">Modify a comment</div>
+
 <form [formGroup]="commentForm">
   <div class="form-group">
     <label for="content">Your comment:</label>

@@ -39,8 +39,13 @@ const appRoutes: Routes = [
   {path: 'dashboard/images', canActivate: [AuthGuardService], component: ImgListComponent},
   {path: 'dashboard/images/add', canActivate:[AuthGuardService], component: ImgFormComponent},
   {path: 'dashboard/image/:id', canActivate:[AuthGuardService], component:SingleImgComponent},
+  {path: 'dashboard/edit-image/:id', canActivate: [AuthGuardService], component: ImgFormComponent},
 
   {path: 'dashboard/message/:id/comments/add', canActivate: [AuthGuardService], component: CommentComponent},
+  {path: 'dashboard/message/:id/edit-comment/:id', canActivate: [AuthGuardService], component: CommentComponent},
+
+  {path: 'dashboard/image/:id/comments/add', canActivate: [AuthGuardService], component: CommentComponent},
+  {path: 'dashboard/image/:id/edit-comment/:id', canActivate: [AuthGuardService], component: CommentComponent},
 
   {path: 'user/:id', canActivate:[AuthGuardService], component: ProfilComponent},
   {path: 'modify/user/:id', canActivate: [AuthGuardService], component: ProfilFormComponent},

@@ -56,20 +56,17 @@ export class PasswordFormComponent implements OnInit {
     this.loading = true;
     const newUser = new User();
     newUser.password = this.passwordForm.get('password').value;
-    if (this.mode === "edit") {
-      this.profil.modifyPassword(this.user_id, newUser).then(
-        (response: { message: string}) => {
-          console.log(response.message);
-          this.loading = false;
-          this.router.navigate(['/user/' + this.user.id]);
-        }
-      ).catch(
-        (error) => {
-          console.error(error);
-          this.loading = false;
-          this.errorMsg = error.message;
-        }
-      );
-    }
+    this.profil.modifyPassword(this.user_id, newUser).then(
+      (response: { message: string}) => {
+        this.loading = false;
+        this.router.navigate(['/user/' + this.user.id]);
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 }

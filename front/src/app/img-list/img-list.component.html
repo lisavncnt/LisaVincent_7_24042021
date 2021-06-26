@@ -15,23 +15,12 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ image?.title }}</h5>
-
       <span class="card-img">
         <img [src]="image?.image_url" alt="" class="image-post">
       </span>
-
       <div class="text-muted">
         <a (click)="onViewImage(image?.id)">View Post here</a>
-      </div>
-    </div>
-
-    <div>
-      <app-comment></app-comment>
-    </div>
-
-    <div *ngFor="let comment of image?.comments">
-      <div>
-        <p class="card-text">{{comment?.content}}</p>
+        <p>Number of comments: {{ image.comments.length }}</p>
       </div>
     </div>
 

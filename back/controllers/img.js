@@ -29,17 +29,7 @@ exports.createImg = (req, res, next) => {
         res.status(200).json(image);
         User.findOne({
             where: { id: req.params.id }
-        }).then(
-            (user) => {
-                user.update({
-                    image_id: image.id
-                })
-            }
-        ).catch(
-            (error) => {
-                res.status(404).json({error});
-            }
-        )
+        })
     }).catch(error => res.status(400).json({error}));
 }
 
@@ -49,8 +39,7 @@ exports.getAllImg = (req, res) => {
     Img.findAll({
         include: [
             { 
-                model: User,
-                attributes: ['id', 'pseudo', 'image_url']
+                model: User
             },
             {
                 model: Comment
@@ -71,8 +60,13 @@ exports.getImg = (req, res) => {
         },
         include: [
             {
-                model: User,
-                attributes: ['id', 'pseudo', 'image_url']
+                model: User
+            },
+            { model: Comment,
+                include: [{
+                    model: User
+                }],
+                order: [['created_at', 'DESC']]
             }
         ]
     })
@@ -110,8 +104,8 @@ exports.updateImg = (req, res) => {
   }
 };
 
-exports.deleteImg = (req, res) => {
-    Img.find({
+exports.deleteImg = async (req, res) => {
+    await Img.findOne({
         where: {
             id: req.params.id
         }
@@ -124,6 +118,5 @@ exports.deleteImg = (req, res) => {
             })
         });
     })
-    .then(() => res.status(200).json({ message: 'Image deleted !'}))
     .catch(error => res.status(400).json({error}));
 };

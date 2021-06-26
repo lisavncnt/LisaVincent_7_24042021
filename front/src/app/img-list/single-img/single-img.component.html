@@ -6,17 +6,40 @@
     </div>
 
     <div class="card-body">
-      <h2>{{ image?.title }}</h2>
-      <img [src]="image?.image_url">
+      <h2 class="card-title">{{ image?.title }}</h2>
+      <img class="card-image" [src]="image?.image_url">
     </div>
 
     <div class="card-footer">
       <p>{{ image?.createdAt | dateAgo }}</p>
     </div>
+
+    <div class="info info-btn">
+      <button class="btn btn-primary" *ngIf="user_id === image?.user_id" (click)="onModify(post?.id)"><i class="far fa-edit"></i>Edit</button>
+      <button class="btn btn-danger" *ngIf="user_id === image?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
+    </div>
   </div>
 
-  <div *ngFor="let comment of image?.comments">
-    <h5>Your comment:</h5>
-    <p>1: {{comment?.content}}</p>
+  <div class="comment-container">
+    <div class="comment-header">
+      <h5>All comments:</h5>
+      <a routerLink="comments/add" class="btn btn-primary">Add a comment</a>
+    </div>
+
+    <div *ngFor="let comment of image?.comments" class="comment">
+      <div class="card-comment">
+        <div class="card-comment-top">
+          <img [src]=" comment?.user?.image_url" alt="photo de profil">
+          <p>{{comment?.content}} <span class="comment_author">-- by {{ comment?.user?.pseudo }}</span></p>
+        </div>
+        <div class="comment-date">
+          <div class="info info-btn">
+            <button class="btn btn-primary" *ngIf="user_id === comment?.user_id" (click)="onModifyComment(comment?.id)"><i class="far fa-edit"></i></button>
+            <button class="btn btn-danger" *ngIf="user_id === comment?.user_id || is_admin === true " (click)="onDeleteComment()"><i class="far fa-trash-alt"></i></button>
+          </div>
+          <p>{{ comment?.createdAt | dateAgo }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

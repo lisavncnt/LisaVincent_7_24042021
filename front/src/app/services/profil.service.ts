@@ -43,7 +43,6 @@ export class ProfilService {
       if (typeof image === 'string') {
         this.http.put('http://localhost:3000/modify-user/' + user.id, user).subscribe(
           (response: {message: string }) => {
-            console.log('user update work');
             resolve(response);
           },
           (error) => {
@@ -74,7 +73,6 @@ export class ProfilService {
     return new Promise((resolve, reject) => {
       this.http.put('http://localhost:3000/modify-password/' + id, formData).subscribe(
         (response) => {
-          console.log('password update');
           resolve(response)
         },
         (error) => {

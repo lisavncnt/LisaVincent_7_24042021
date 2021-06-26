@@ -1,12 +1,5 @@
 <div class="container" *ngIf="!loading">
   <img [src]="user.image_url" alt="">
-  <label class="image-upload-container btn btn-bwm">
-    <span>Select Image</span>
-    <input #imageInput
-           type="file"
-           accept="image/*"
-           (change)="processFile(imageInput)">
-  </label>
 
   <div class="info">
     <p>Pseudo :</p>

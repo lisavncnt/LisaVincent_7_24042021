@@ -24,15 +24,6 @@ exports.createPost = (req, res) => {
     }).then(
         (post) => {
             res.status(200).json(post);
-            User.findOne({
-                where: { id: req.params.id }
-            }).then(
-                (user) => {
-                    user.update({
-                        post_id: post.id
-                    })
-                }
-            ).catch((error) => res.status(404).json({error: "cannot find user associate"}))
         }
     ).catch(
         (error) => {
@@ -45,7 +36,9 @@ exports.getAllPosts = (req, res) => {
     Post.findAll({
         include: [
             { model: User },
-            { model: Comment }
+            { 
+                model: Comment
+            }
         ],
         order: [['created_at', 'DESC']]
     })
@@ -64,7 +57,12 @@ exports.getPost = (req, res) => {
         },
         include: [
             { model: User },
-            { model: Comment }
+            { model: Comment,
+                include: [{
+                    model: User
+                }],
+                order: [['created_at', 'DESC']]
+            }
         ]
     })
     .then((post) => res.status(200).json(post))
@@ -75,11 +73,9 @@ exports.getPost = (req, res) => {
 
 exports.updatePost = (req, res) => {
     const post_id = req.params.id;
-    console.log(post_id);
 
     Post.findOne({ where: {id: post_id }})
         .then(post => {
-            console.log(post);
             post.update( {...req.body, id : req.params.id})
             .then(() => res.status(200).json({ message: 'Votre post a bien été modifié !'}))
             .catch(error => res.status(400).json({error}));

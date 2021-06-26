@@ -70,7 +70,7 @@ export class SingleImgComponent implements OnInit {
   }
 
   onModify(id: string) {
-    this.router.navigate(['edit-image', id]);
+    this.router.navigate(['dashboard/edit-image/' + id]);
   }
 
   onDelete(id: string) {

@@ -1,3 +1,10 @@
+<div class="jumbotron text-center" *ngIf='showTitle() === true'>
+  Add a Post
+</div>
+<div class="jumbotron text-center" *ngIf='showTitle() === false'>
+  Modify my Post
+</div>
+
 <form [formGroup]="imageForm" *ngIf="!loading">
   <div class="form-group">
     <label for="title">Title</label>
@@ -12,3 +19,4 @@
   <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="imageForm.invalid">SUBMIT</button>
 
 </form>
+

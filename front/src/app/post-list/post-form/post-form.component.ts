@@ -105,7 +105,7 @@ export class PostFormComponent implements OnInit {
   }
 
   showTitle() {
-    if (this.router.url === '/messages/add') {
+    if (this.router.url.includes('messages/add')) {
       return true;
     } else {
       return false;

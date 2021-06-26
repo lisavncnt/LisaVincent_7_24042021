@@ -64,7 +64,7 @@ export class ImagesService {
     });
   }
 
-  modifyImage(id: string, image: Img, image_url: string | File) {
+  modifyImage(id: string, image: Img, image_url: File) {
     return new Promise((resolve, reject) => {
       if (typeof image_url === 'string') {
         this.http.put('http://localhost:3000/dashboard/images/' + id, image).subscribe(
@@ -77,9 +77,9 @@ export class ImagesService {
         );
       } else {
         const formData = new FormData();
-        formData.append('images', JSON.stringify(image));
-        formData.append('image', image_url);
-        this.http.put('http:localhost:3000/dashboard/images/' + id, formData).subscribe(
+        formData.append('title', image.title);
+        formData.append('image_url', image_url);
+        this.http.put('http://localhost:3000/dashboard/images/' + id, formData).subscribe(
           (response: { message: string }) => {
             resolve(response);
           },

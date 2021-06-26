@@ -15,7 +15,7 @@
     </div>
 
     <div class="info info-btn">
-      <button class="btn btn-primary" *ngIf="user_id === image?.user_id" (click)="onModify(post?.id)"><i class="far fa-edit"></i>Edit</button>
+      <button class="btn btn-primary" *ngIf="user_id === image?.user_id" (click)="onModify(image?.id)"><i class="far fa-edit"></i>Edit</button>
       <button class="btn btn-danger" *ngIf="user_id === image?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
     </div>
   </div>

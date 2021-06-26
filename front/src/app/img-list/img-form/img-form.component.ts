@@ -20,6 +20,7 @@ export class ImgFormComponent implements OnInit {
   image: Img;
   errorMsg: string;
   imagePreview: string;
+  image_id: string;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -40,6 +41,7 @@ export class ImgFormComponent implements OnInit {
           this.images.getImagesById(params.id).then(
             (image: Img) => {
               this.image = image;
+              this.image_id = image.id;
               this.initModifyForm(image);
               this.loading = false;
             }
@@ -57,14 +59,13 @@ export class ImgFormComponent implements OnInit {
     this.imageForm = this.formBuilder.group({
       title: [null, Validators.required],
       image_url: [null, Validators.required],
-      user_id: null,
     });
   }
 
   initModifyForm(image: Img) {
     this.imageForm = this.formBuilder.group({
-      title: [null, Validators.required],
-      image_url: [null, Validators.required],
+      title: image.title,
+      image_url: image.image_url,
     });
     this.imagePreview = this.image.image_url;
   }
@@ -86,10 +87,9 @@ export class ImgFormComponent implements OnInit {
     this.loading = true;
     const newImage = new Img();
     newImage.title = this.imageForm.get('title').value;
-    newImage.user_id = sessionStorage.getItem('user_id');
     if(this.mode === "new") {
       this.images.createImage(newImage, this.imageForm.get('image_url').value).then(
-        (image) => {
+        () => {
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }
@@ -101,8 +101,8 @@ export class ImgFormComponent implements OnInit {
         }
       );
     } else if (this.mode === 'edit') {
-      this.images.modifyImage(this.image.id, newImage, this.imageForm.get('image_url').value).then(
-        (response: { message: string}) => {
+      this.images.modifyImage(this.image_id, newImage, this.imageForm.get('image_url').value).then(
+        () => {
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }
@@ -126,6 +126,14 @@ export class ImgFormComponent implements OnInit {
       this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  showTitle() {
+    if (this.router.url.includes('images/add')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

@@ -45,12 +45,10 @@ exports.signin = (req, res) => {
         }
         bcrypt.compare(req.body.password, user.password)
           .then((valid) => {
+            console.log('>> req.body.password: ' + req.body.password);
+            console.log('>> user password hash: ' + user.password);
             if (!valid) {
-              if(req.body.password === user.password) {
-                console.log("same");
-              } else {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
-              }
             }
             res.status(200).json({
                 user_id: user.id,
@@ -60,7 +58,7 @@ exports.signin = (req, res) => {
                     process.env.JWT_SECRET_KEY,
                     { expiresIn: '24h' }
                 )});  
-          }).catch((error) => res.status(401).json({ error }))
+          }).catch((error) => res.status(400).json({ error }))
       }).catch((error) => res.status(500).json({ error }));
 };
 
@@ -130,38 +128,38 @@ exports.modifyUser = (req, res) => {
 };
 
 exports.modifyPassword = (req, res) => {
-  User.findOne({
-    where: {
-      id: req.params.id
-    }
-  }).then(
-    user => {
-      bcrypt.hash(user.password, 10)
-      .then(
-        (hash => {
-          user.update({
-            where: {
-              id: req.params.id
-            },
-            password: hash,
-            ...req.body
-          }).then(
-            (user) => res.status(200).json(user)
-          ).catch(
-            (error) => res.status(400).json({error})
-          );
-        })
-      ).catch(
-        (error) => res.status(400).json({ error })
-      )
-    }
-  ).catch(
-    (error) => {
-       res.status(500).json({ error })
-    }
-  );
-};
+  const id = req.params.id;
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const userId = decodedToken.user_id;
 
+  if(id === userId) {
+    User.findOne({
+      where: {
+        id: req.params.id
+      },
+    }).then(
+      (user) => {
+        console.log('>> old password hash: ' + user.password);
+        bcrypt.hash(user.password, 10)
+        .then(
+          (hash => {
+            console.log('>> new password hash: ' + hash);
+            user.update({
+              password: hash
+            }).then(
+              (user) => res.status(200).json(user)
+            ).catch(
+              (error) => res.status(400).json({error})
+            );
+          })
+        ).catch(
+          (error) => res.status(400).json({ error })
+        )
+      }
+    );
+  }
+};
 
 // essayer user.destroy sans user.find
 // supprimer l'image (mais avec user.find)

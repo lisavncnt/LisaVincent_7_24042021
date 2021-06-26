@@ -18,7 +18,6 @@ exports.createImg = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const userId = decodedToken.user_id;
-
     Img.create({
         ...req.body,
         user_id: userId,
@@ -27,9 +26,6 @@ exports.createImg = (req, res, next) => {
     })
     .then((image) => {
         res.status(200).json(image);
-        User.findOne({
-            where: { id: req.params.id }
-        })
     }).catch(error => res.status(400).json({error}));
 }
 
@@ -75,15 +71,11 @@ exports.getImg = (req, res) => {
 };
 
 exports.updateImg = (req, res) => {
-    const id = JSON.parse(req.params.id)
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const userId = decodedToken.user_id;
-    if(id === userId) {
-        Img.findOne({ where: { id: id } })
+    Img.findOne({ where: { id: req.params.id } })
             .then(img => {
                 if (req.file) {
-                    if (img.image !== null){
+                    console.log(req.file);
+                    if (img.image_url !== null){
                         const fileName = img.image.split('/images/')[1]
                         fs.unlink(`images/${fileName}`, (err => {
                             if (err) console.log(err);
@@ -97,11 +89,7 @@ exports.updateImg = (req, res) => {
         img.update( {...req.body, id: req.params.id} )
         .then(() => res.status(200).json({ message: 'Votre post est modifié !' }))
         .catch(error => res.status(400).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  } else {
-    return res.status(401).json({ error: "vous n'avez pas l'autorisation nécessaire !" });
-  }
+    }).catch(error => res.status(500).json({ error }));  
 };
 
 exports.deleteImg = async (req, res) => {

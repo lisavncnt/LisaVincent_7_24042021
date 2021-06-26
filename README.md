@@ -10,7 +10,7 @@ Pour le bon fonctionnnement de l'application veuillez suivre attentivement les i
 ## Commencer par cloner le projet entier :
 
 - Cloner l'application entière grâce au terminal de commande : 
-    > git clone https://github.com/OpenClassrooms-Student-Center/dwj-projet6.git frontend
+    > https://github.com/lisavncnt/LisaVincent_7_240421.git
 
 ## Lancer l'application : 
 

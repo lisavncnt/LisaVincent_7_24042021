@@ -23,4 +23,4 @@ Si vous voyez apparaître **"Compiled successfully"** vous pouvez lancer l'appli
     > npm install
     > npm install -g nodemon
     > nodemon server
-Si la connexion réussie vous devez voir apparaître : **"Listening on port 3000"** et **"Connexion à MongoDB réussie"**.
+Si la connexion réussie vous devez voir apparaître : **"Listening on port 3000"** et **"Connexion à la base de donnée réussie"**.

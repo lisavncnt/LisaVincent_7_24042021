@@ -67,7 +67,7 @@ export class ImagesService {
   modifyImage(id: string, image: Img, image_url: File) {
     return new Promise((resolve, reject) => {
       if (typeof image_url === 'string') {
-        this.http.put('http://localhost:3000/dashboard/edit-image/' + id, image).subscribe(
+        this.http.put('http://localhost:3000/dashboard/edit-image/' + image.id, image).subscribe(
           (response: { message:string }) => {
             resolve(response);
           },
@@ -76,14 +76,18 @@ export class ImagesService {
           }
         );
       } else {
+        console.log('in else');
         const formData = new FormData();
         formData.append('title', image.title);
         formData.append('image_url', image_url);
-        this.http.put('http://localhost:3000/dashboard/edit-image/' + id, formData).subscribe(
+        this.http.put('http://localhost:3000/dashboard/image/' + id, formData).subscribe(
           (response: { message: string }) => {
+            console.log('put ok');
             resolve(response);
           },
           (error) => {
+            console.log('the error is here');
+            console.error(error);
             reject(error);
           }
         );

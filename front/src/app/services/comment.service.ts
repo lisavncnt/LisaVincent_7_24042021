@@ -50,7 +50,7 @@ export class CommentService {
 
   getCommentById(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/dashboard/comments/' + id).subscribe(
+      this.http.get('http://localhost:3000/dashboard/comment/' + id).subscribe(
         (response) => {
           resolve(response);
         },
@@ -63,7 +63,7 @@ export class CommentService {
 
   modifyComment(id: string, comment: Comment) {
     return new Promise((resolve, reject) => {
-      this.http.put('http://localhost:3000/dashboard/comments/' + id, comment).subscribe(
+      this.http.put('http://localhost:3000/dashboard/edit-comment/' + id, comment).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -76,7 +76,7 @@ export class CommentService {
       formData.append('user_id', comment.user_id);
       formData.append('post_id', comment.post_id);
       formData.append('image_id', comment.image_id);
-      this.http.put('http://localhost:3000/dashboard/comments/' + id, formData).subscribe(
+      this.http.put('http://localhost:3000/dashboard/edit-comment/' + id, formData).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },
@@ -89,7 +89,7 @@ export class CommentService {
 
   deleteComment(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/dashboard/comments/' + id).subscribe(
+      this.http.delete('http://localhost:3000/dashboard/comment/' + id).subscribe(
         (response: {message: string}) => {
           resolve(response);
         },

@@ -92,8 +92,19 @@ export class SingleImgComponent implements OnInit {
     this.router.navigate(['dashboard/image/' + this.image.id + '/edit-comment/' + id]);
   }
 
-  onDeleteComment() {
+  onDeleteComment(id: string) {
     this.loading = true;
+    this.comment.deleteComment(id).then(
+      (response: { message: string}) => {
+        this.loading = false;
+        this.router.navigate(['dashboard/images']);
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 
 }

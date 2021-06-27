@@ -67,7 +67,7 @@ export class ImgFormComponent implements OnInit {
       title: image.title,
       image_url: image.image_url,
     });
-    this.imagePreview = this.image.image_url;
+    this.imagePreview = image.image_url;
   }
 
   onSubmit() {
@@ -82,23 +82,19 @@ export class ImgFormComponent implements OnInit {
         }
       ).catch(
         (error) => {
-          console.error(error);
           this.loading = false;
           this.errorMsg = error.message;
         }
       );
     } else if (this.mode === 'edit') {
-      console.log('edit');
       this.images.modifyImage(this.image_id, newImage, this.imageForm.get('image_url').value).then(
         (image) => {
-          console.log('new image: ' + image);
+          console.log(image);
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }
       ).catch(
         (error) => {
-          console.log('error can not modify');
-          console.error(error);
           this.loading = false;
           this.errorMsg = error.message;
         }

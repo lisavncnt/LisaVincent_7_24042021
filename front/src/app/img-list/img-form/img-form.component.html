@@ -16,7 +16,7 @@
     <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
   </div>
 
-  <button class="btn btn-primary" (click)="onSubmit()" [disabled]="imageForm.invalid">Submit</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="imageForm.invalid">Submit</button>
 
 </form>
 

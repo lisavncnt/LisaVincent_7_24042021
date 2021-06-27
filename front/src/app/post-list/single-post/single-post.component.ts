@@ -96,8 +96,19 @@ export class SinglePostComponent implements OnInit {
     this.router.navigate(['dashboard/message/' + this.post.id + '/edit-comment/' + id]);
   }
 
-  onDeleteComment() {
+  onDeleteComment(id: string) {
     this.loading = true;
+    this.comment.deleteComment(id).then(
+      (response: { message: string}) => {
+        this.loading = false;
+        this.router.navigate(['dashboard/messages']);
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
   }
 
 }

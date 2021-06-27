@@ -70,7 +70,7 @@ export class ProfilFormComponent implements OnInit {
     this.imagePreview = this.user.image_url;
   };
 
-  onSubmit() {
+  onSubmit(id: string) {
     this.loading = true;
     const newUser = new User();
     newUser.pseudo = this.userForm.get('pseudo').value;

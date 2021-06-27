@@ -39,7 +39,7 @@
         <div class="comment-date">
           <div class="info info-btn">
             <button class="btn btn-primary" *ngIf="user_id === comment?.user_id" (click)="onModifyComment(comment?.id)"><i class="far fa-edit"></i>Edit</button>
-            <button class="btn btn-danger" *ngIf="user_id === comment?.user_id || is_admin === true " (click)="onDeleteComment()"><i class="far fa-trash-alt"></i>Delete</button>
+            <button class="btn btn-danger" *ngIf="user_id === comment?.user_id || is_admin === true " (click)="onDeleteComment(comment?.id)"><i class="far fa-trash-alt"></i>Delete</button>
           </div>
           <p>{{ comment?.createdAt | dateAgo }}</p>
         </div>

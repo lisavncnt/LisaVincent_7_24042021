@@ -12,7 +12,9 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PasswordFormComponent implements OnInit {
 
-  passwordForm: FormGroup;
+  form = new FormGroup({
+    content: new FormControl(null, Validators.required)
+  });
   mode: string;
   loading: boolean;
   user: User;
@@ -24,9 +26,7 @@ export class PasswordFormComponent implements OnInit {
               private router: Router,
               private auth: AuthService,
               private profil: ProfilService) {
-                this.passwordForm = new FormGroup({
-                  password: new FormControl()
-                });
+
                }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class PasswordFormComponent implements OnInit {
           this.profil.getUserById(params.id).then(
             (user: User) => {
               this.user = user;
-              this.initModifyForm(user);
+              this.initModifyForm(user.id);
               this.loading = false;
             }
           ).catch(
@@ -48,16 +48,16 @@ export class PasswordFormComponent implements OnInit {
     );
   }
 
-  initModifyForm(user: User) {
-    this.passwordForm = this.fb.group({
-      password: [null, Validators.required]
+  initModifyForm(id: string) {
+    this.form = this.fb.group({
+      password: ['', Validators.required]
     });
   };
 
-  onSubmit() {
+  onSubmit(id: string) {
     this.loading = true;
     const newUser = new User();
-    newUser.password = this.passwordForm.get('password').value;
+    newUser.password = this.form.get('password').value;
     console.log(newUser.password);
     newUser.id = this.user_id;
     this.profil.modifyPassword(this.user_id, newUser)

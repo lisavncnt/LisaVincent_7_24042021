@@ -36,7 +36,7 @@ export class ImagesService {
 
   getImagesById(id: string){
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:3000/dashboard/images/' + id).subscribe(
+      this.http.get('http://localhost:3000/dashboard/image/' + id).subscribe(
         (image: Img) => {
           resolve(image);
         },
@@ -67,7 +67,7 @@ export class ImagesService {
   modifyImage(id: string, image: Img, image_url: File) {
     return new Promise((resolve, reject) => {
       if (typeof image_url === 'string') {
-        this.http.put('http://localhost:3000/dashboard/images/' + id, image).subscribe(
+        this.http.put('http://localhost:3000/dashboard/edit-image/' + id, image).subscribe(
           (response: { message:string }) => {
             resolve(response);
           },
@@ -79,7 +79,7 @@ export class ImagesService {
         const formData = new FormData();
         formData.append('title', image.title);
         formData.append('image_url', image_url);
-        this.http.put('http://localhost:3000/dashboard/images/' + id, formData).subscribe(
+        this.http.put('http://localhost:3000/dashboard/edit-image/' + id, formData).subscribe(
           (response: { message: string }) => {
             resolve(response);
           },
@@ -93,7 +93,7 @@ export class ImagesService {
 
   deleteImage(id: string) {
     return new Promise((resolve, reject) => {
-      this.http.delete('http://localhost:3000/dashboard/images/' + id).subscribe(
+      this.http.delete('http://localhost:3000/dashboard/image/' + id).subscribe(
         (response: { message: string}) => {
           resolve(response);
         },

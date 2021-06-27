@@ -71,25 +71,42 @@ exports.getImg = (req, res) => {
 };
 
 exports.updateImg = (req, res) => {
-    Img.findOne({ where: { id: req.params.id } })
-            .then(img => {
+    const id = req.params.id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decodedToken.user_id;
+
+    if (id === userId) {
+        Img.findOne({
+            where: { id: id }
+        }).then(
+            (image) => {
                 if (req.file) {
-                    console.log(req.file);
-                    if (img.image_url !== null){
-                        const fileName = img.image.split('/images/')[1]
-                        fs.unlink(`images/${fileName}`, (err => {
-                            if (err) console.log(err);
-                else {
-                  console.log("Image supprimée: " + fileName);
+                    if (image.image_url !== null) {
+                        const filename = image.image_url.split('/images/')[1];
+                        fs.unlink(`images/${filename}`, (err => {
+                            if (err) {console.log(error)};
+                        }));
+                    }
+                    req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 }
-            }))
-          }
-          req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-        }
-        img.update( {...req.body, id: req.params.id} )
-        .then(() => res.status(200).json({ message: 'Votre post est modifié !' }))
-        .catch(error => res.status(400).json({ error }));
-    }).catch(error => res.status(500).json({ error }));  
+                image.update({
+                    ...req.body,
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(
+                    (image) => {
+                        res.status(200).json(image)
+                    }
+                ).catch(
+                    error => res.status(400).json({error})
+                )
+            }
+        ).catch(
+            error => res.status(404).json({ error })
+        );
+    } 
 };
 
 exports.deleteImg = async (req, res) => {

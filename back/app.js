@@ -25,8 +25,8 @@ app.use(express.json());
 
 app.use('/', user_routes);
 app.use('/dashboard', post_routes);
-app.use('/dashboard/images', img_routes);
-app.use('/dashboard/comments', comment_routes);
+app.use('/dashboard', img_routes);
+app.use('/dashboard', comment_routes);
 
 // database.sync({force: true});
 

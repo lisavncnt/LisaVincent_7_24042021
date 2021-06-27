@@ -68,12 +68,21 @@ export class ProfilService {
   }
 
   modifyPassword(id: string, user:User) {
-    const formData = new FormData();
-    formData.append('password', user.password);
     return new Promise((resolve, reject) => {
-      this.http.put('http://localhost:3000/modify-password/' + id, formData).subscribe(
-        (response) => {
-          resolve(response)
+      this.http.put('http://localhost:3000/modify-password/' + user.id, user).subscribe(
+        (response : {message: string}) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+      const formData = new FormData();
+      formData.append('password', user.password);
+      formData.append('id', this.user_id);
+      this.http.put('http://localhost:3000/modify-password/' + user.id, formData).subscribe(
+        (response: {message: string}) => {
+          resolve(response);
         },
         (error) => {
           reject(error);

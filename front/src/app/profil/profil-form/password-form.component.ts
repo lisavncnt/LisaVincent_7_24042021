@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilService } from 'src/app/services/profil.service';
 import { User } from 'src/app/models/user.model';
@@ -12,20 +12,22 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PasswordFormComponent implements OnInit {
 
-  url: string;
   passwordForm: FormGroup;
   mode: string;
   loading: boolean;
   user: User;
   errorMsg: string;
-  imagePreview: string;
   user_id = sessionStorage.getItem('user_id');
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private auth: AuthService,
-              private profil: ProfilService) { }
+              private profil: ProfilService) {
+                this.passwordForm = new FormGroup({
+                  password: new FormControl()
+                });
+               }
 
   ngOnInit(): void {
     this.loading = true;
@@ -48,7 +50,7 @@ export class PasswordFormComponent implements OnInit {
 
   initModifyForm(user: User) {
     this.passwordForm = this.fb.group({
-      password: [this.user.password, Validators.required],
+      password: [null, Validators.required]
     });
   };
 
@@ -56,12 +58,15 @@ export class PasswordFormComponent implements OnInit {
     this.loading = true;
     const newUser = new User();
     newUser.password = this.passwordForm.get('password').value;
-    this.profil.modifyPassword(this.user_id, newUser).then(
-      (response: { message: string}) => {
+    console.log(newUser.password);
+    newUser.id = this.user_id;
+    this.profil.modifyPassword(this.user_id, newUser)
+    .then(
+      () => {
         this.loading = false;
         this.router.navigate(['/user/' + this.user.id]);
-      }
-    ).catch(
+      })
+    .catch(
       (error) => {
         console.error(error);
         this.loading = false;

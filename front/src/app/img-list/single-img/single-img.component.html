@@ -1,8 +1,10 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <img [src]="image?.user?.image_url">
-      <h1>{{ image?.user?.pseudo }}</h1>
+      <div class="info">
+        <img [src]="image?.user?.image_url" class="user_photo">
+        <h1 class="pseudo">{{ image?.user?.pseudo }}</h1>
+      </div>
     </div>
 
     <div class="card-body">
@@ -10,13 +12,12 @@
       <img class="card-image" [src]="image?.image_url">
     </div>
 
-    <div class="card-footer">
-      <p>{{ image?.createdAt | dateAgo }}</p>
-    </div>
-
     <div class="info info-btn">
       <button class="btn btn-primary" *ngIf="user_id === image?.user_id" (click)="onModify(image?.id)"><i class="far fa-edit"></i>Edit</button>
       <button class="btn btn-danger" *ngIf="user_id === image?.user_id || is_admin === true " (click)="onDelete()"><i class="far fa-trash-alt"></i>Delete</button>
+    </div>
+    <div class="card-footer">
+      <p>{{ image?.createdAt | dateAgo }}</p>
     </div>
   </div>
 

@@ -94,7 +94,6 @@ exports.updateImg = (req, res) => {
                     }
                 }).then(
                     (image) => {
-                        console.log('image updated');
                         res.status(200).json(image)
                     }
                 ).catch(
@@ -106,29 +105,11 @@ exports.updateImg = (req, res) => {
         );
 };
 
-// exports.deleteImg = (req, res) => {
-//     Img.findOne({
-//         where: {
-//             id: req.params.id
-//         }
-//     })
-//     .then(img => {
-//         const filename = img.image_url.split('/images/')[1];
-//         fs.unlink(`images/${filename}`, () => {
-//             Img.destroy({
-//                 where: {id: req.params.id}
-//             })
-//         });
-//     })
-//     .catch(error => res.status(400).json({error}));
-// };
-
 exports.deleteImg = (req, res) => {
     Img.findOne({
         where: { id: req.params.id }
     }).then(
         (image) => {
-            console.log('req.params.id:' + req.params.id);
             if (image.image_url) {
                 const filename = image.image_url.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
@@ -138,10 +119,6 @@ exports.deleteImg = (req, res) => {
                     .catch((error) => res.status(400).json({error}))
                 });
             }
-            // Img.destroy({
-            //     where: { id: req.params.id }
-            // }).then(() => res.status(200).json({ message: 'Image deleted'}))
-            // .catch((error) => res.status(400).json({error}))
         }
     ).catch(
         (error) => {

@@ -89,7 +89,6 @@ export class ImgFormComponent implements OnInit {
     } else if (this.mode === 'edit') {
       this.images.modifyImage(this.image_id, newImage, this.imageForm.get('image_url').value).then(
         (image) => {
-          console.log(image);
           this.loading = false;
           this.router.navigate(['/dashboard/images']);
         }

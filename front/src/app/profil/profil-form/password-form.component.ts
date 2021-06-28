@@ -58,7 +58,6 @@ export class PasswordFormComponent implements OnInit {
     this.loading = true;
     const newUser = new User();
     newUser.password = this.form.get('password').value;
-    console.log(newUser.password);
     newUser.id = this.user_id;
     this.profil.modifyPassword(this.user_id, newUser)
     .then(

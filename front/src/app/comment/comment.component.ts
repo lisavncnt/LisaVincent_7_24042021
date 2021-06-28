@@ -64,7 +64,7 @@ ngOnInit(): void {
             this.mode = 'edit';
             this.servComment.getCommentById(params.id).then(
               (comment: Comment) => {
-                console.log(comment);
+                (comment);
                 this.comment = comment;
                 this.comment_id = comment.id;
                 this.initModifyForm(comment);
@@ -156,7 +156,6 @@ ngOnInit(): void {
         }
       )
     } else if (this.mode === 'edit') {
-      console.log('edit' + this.comment_id)
       this.servComment.modifyComment(this.comment_id, newComment).then(
         (response: { message: string}) => {
           this.loading = false;

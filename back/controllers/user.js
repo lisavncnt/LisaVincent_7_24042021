@@ -45,8 +45,6 @@ exports.signin = (req, res) => {
         }
         bcrypt.compare(req.body.password, user.password)
           .then((valid) => {
-            console.log('>> req.body.password: ' + req.body.password);
-            console.log('>> user password hash: ' + user.password);
             if (!valid) {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
@@ -138,8 +136,6 @@ exports.modifyPassword = (req, res) => {
       where: { id: req.params.id },
     }).then(
       (user) => {
-        console.log(req.body);
-        console.log(user);
         bcrypt.hash(req.body.password, 10)
         .then(
           (hash => {
@@ -162,15 +158,6 @@ exports.modifyPassword = (req, res) => {
     )
   }
 };
-
-// essayer user.destroy sans user.find
-// supprimer l'image (mais avec user.find)
-// exports.deleteUser = async (req, res) => {
-//   const user = await User.findOne({ where: {id: req.params.id }});
-//     user.destroy()
-//     .then(() => res.status(201).json({ message: 'User deleted !' }))
-//     .catch(error => res.status(400).json({ error }));
-// };
 
 exports.deleteUser = async (req, res) => {
   await User.findOne({

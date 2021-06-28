@@ -76,17 +76,14 @@ export class ImagesService {
           }
         );
       } else {
-        console.log('in else');
         const formData = new FormData();
         formData.append('title', image.title);
         formData.append('image_url', image_url);
         this.http.put('http://localhost:3000/dashboard/image/' + id, formData).subscribe(
           (response: { message: string }) => {
-            console.log('put ok');
             resolve(response);
           },
           (error) => {
-            console.log('the error is here');
             console.error(error);
             reject(error);
           }

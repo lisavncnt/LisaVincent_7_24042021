@@ -23,10 +23,6 @@ export class HeaderComponent implements OnInit {
     this.getAuth();
   }
 
-  getProfil() {
-    // this.profil.getProfil;
-  }
-
   onSignout() {
     this.auth.signout;
     sessionStorage.clear();

@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
       this.signupForm = this.formBuilder.group({
         pseudo: [null, Validators.required],
         email: [null, [Validators.required, Validators.email]],
-        password: [null, Validators.required],
+        password: [null, [ Validators.required,, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
         image_url: [null, Validators.required],
 
       });

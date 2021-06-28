@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilService } from 'src/app/services/profil.service';
 import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profil-form',
@@ -12,7 +11,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfilFormComponent implements OnInit {
 
-  url: string;
   userForm: FormGroup;
   mode: string;
   loading: boolean;
@@ -24,7 +22,6 @@ export class ProfilFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private auth: AuthService,
               private profil: ProfilService) { }
 
   ngOnInit(): void {

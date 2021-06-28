@@ -159,17 +159,12 @@ exports.modifyPassword = (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
-  await User.findOne({
-    where: { id: req.params.id }
-  }).then(
-    user => {
-      const filename = user.image_url.split('/images/'[1]);
-      fs.unlink(`images/${filename}`, () => {
-        User.destroy({
-          where: { id: req.params.id }
-        });
-      });
-    }
-  ).catch( error => res.status(400).json({error}));
+exports.deleteUser = async (req, res, next) => {
+  await User.destroy({
+      where: {
+          id: req.params.id
+      }
+  })
+  .then(() => res.status(201).json({ message: 'User deleted !' }))
+  .catch(error => res.status(400).json({ error }));
 };

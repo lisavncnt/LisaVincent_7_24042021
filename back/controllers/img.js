@@ -82,7 +82,9 @@ exports.updateImg = (req, res) => {
                     if (image.image_url !== null) {
                         const filename = image.image_url.split('/images/')[1];
                         fs.unlink(`images/${filename}`, (err => {
-                            if (err) {console.log(error)};
+                            if (err) {
+                                console.log(error)
+                            };
                         }));
                     }
                     req.body.image_url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;

@@ -16,13 +16,13 @@ import { ProfilComponent } from './profil/profil.component';
 import { PostFormComponent } from './post-list/post-form/post-form.component';
 import { SinglePostComponent } from './post-list/single-post/single-post.component';
 import { ImgListComponent } from './img-list/img-list.component';
-import { ImgFormComponent } from './img-list//img-form/img-form.component';
+import { ImgFormComponent } from './img-list/img-form/img-form.component';
 import { SingleImgComponent } from './img-list/single-img/single-img.component';
 import { ProfilService } from './services/profil.service';
 import { PostsService } from './services/posts.service';
 import { ImagesService } from './services/images.service';
 import { ProfilFormComponent } from './profil/profil-form/profil-form.component';
-import { PasswordFormComponent } from './profil/profil-form/password-form.component';
+import { PasswordFormComponent } from './profil/profil-form/password-form/password-form.component';
 import { AuthInterceptor } from './interceptors/auth-interceptors';
 import { CommentComponent } from './comment/comment.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
@@ -72,6 +72,7 @@ const appRoutes: Routes = [
     ProfilFormComponent,
     CommentComponent,
     DateAgoPipe,
+    PasswordFormComponent,
   ],
   imports: [
     BrowserModule,

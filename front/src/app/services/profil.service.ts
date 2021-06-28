@@ -77,17 +77,6 @@ export class ProfilService {
           reject(error);
         }
       );
-      const formData = new FormData();
-      formData.append('password', user.password);
-      formData.append('id', this.user_id);
-      this.http.put('http://localhost:3000/modify-password/' + id, formData).subscribe(
-        (response: {message: string}) => {
-          resolve(response);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
     });
   };
 
